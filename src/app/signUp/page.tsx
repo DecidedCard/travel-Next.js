@@ -1,3 +1,5 @@
+"use client";
+
 import { signUp } from "@/hook/authService";
 import React, { useState } from "react";
 
@@ -5,7 +7,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSingUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -17,7 +19,7 @@ const SignUp = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSingUp}>
       <input
         type="email"
         placeholder="Email"
@@ -32,7 +34,7 @@ const SignUp = () => {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <button type="submit">Sign Up</button>
+      <button type="submit">회원가입</button>
     </form>
   );
 };
