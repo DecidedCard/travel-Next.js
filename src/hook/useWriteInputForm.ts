@@ -8,8 +8,7 @@ const useWriteInputForm = () => {
   const [endDate, onChangeEndDate, setEndDate] = useInput();
   const [travelPlace, onChangeTravelPlace, setTravelPlace] = useInput();
   const [content, onChangeContent, setContent] = useInput();
-  const [postMainContent, onChangePostMainContent, setPostMainContent] =
-    useInput();
+  useInput();
 
   const inputValue = {
     title,
@@ -17,7 +16,6 @@ const useWriteInputForm = () => {
     endDate,
     travelPlace,
     content,
-    postMainContent,
   };
   const inputOnChange = {
     onChangeTitle,
@@ -25,7 +23,6 @@ const useWriteInputForm = () => {
     onChangeEndDate,
     onChangeTravelPlace,
     onChangeContent,
-    onChangePostMainContent,
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +32,6 @@ const useWriteInputForm = () => {
     setEndDate("");
     setTravelPlace("");
     setContent("");
-    setPostMainContent("");
   };
 
   return { inputValue, inputOnChange, onSubmit };
