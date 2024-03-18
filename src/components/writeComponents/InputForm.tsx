@@ -1,3 +1,5 @@
+"use client";
+
 import useWriteInputForm from "../../hook/useWriteInputForm";
 import { Input, Textarea } from "@nextui-org/react";
 import QuillEditor from "./QuillEditor";

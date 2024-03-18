@@ -4,15 +4,16 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Image,
+  Image as NextUiImg,
   User,
 } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 
 const Home: React.FC = () => {
   return (
     <div>
-      <img src={mainImage} alt="Main" className="w-full h-[396px] block" />
+      <Image src={mainImage} alt="Main" className="w-full h-[396px] block" />
       <div className="mt-10 flex">
         <Button color="primary" className="ml-5 mr-5">
           최신 순
@@ -22,7 +23,7 @@ const Home: React.FC = () => {
       <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
         <Card className="py-4">
           <CardBody className="overflow-visible py-2">
-            <Image
+            <NextUiImg
               isZoomed
               alt="Card background"
               className="object-cover rounded-xl"
