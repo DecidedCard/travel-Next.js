@@ -23,6 +23,12 @@ const Home: React.FC = () => {
           />
         </div>
       </div>
+      <div className="mt-10 flex">
+        <Button color="primary" className="ml-5 mr-5">
+          최신 순
+        </Button>
+        <Button color="default">댓글 순</Button>
+      </div>
       <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
         <Card className="py-4">
           <CardBody className="overflow-visible py-2">
