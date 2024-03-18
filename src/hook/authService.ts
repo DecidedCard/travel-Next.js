@@ -13,7 +13,7 @@ export const signUp = async (email: string, password: string) => {
       throw error;
     }
 
-    return data.user?.id;
+    return data;
   } catch (error) {
     throw error;
   }

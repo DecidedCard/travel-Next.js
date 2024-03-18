@@ -1,3 +1,4 @@
+import { signUp } from "@/hook/authService";
 import React, { useState } from "react";
 
 const SignUp = () => {
@@ -6,6 +7,13 @@ const SignUp = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    try {
+      const data = await signUp(email, password);
+      console.log("User signed up:", data.user?.id);
+    } catch (error) {
+      console.error("Sign up error:", error);
+    }
   };
 
   return (
