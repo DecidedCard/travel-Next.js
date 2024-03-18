@@ -1,3 +1,5 @@
+"use client";
+
 import useInput from "./useInput";
 
 const useWriteInputForm = () => {
