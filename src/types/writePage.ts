@@ -10,11 +10,6 @@ export type post = {
   postBasicImage: string;
 };
 
-export type writePostStore = {
-  writePost: post | null;
-  setWritePost: (arg: post) => void;
-};
-
 export type PostBasicImageStore = {
   postBasicImage: string;
   setPostBasicImage: (arg: string) => void;
