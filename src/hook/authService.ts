@@ -1,12 +1,5 @@
+import { User } from "@/types";
 import { supabase } from "@/util/supabase";
-
-interface User {
-  id: string;
-  email: string;
-  avatar: string | null;
-  nickname: string;
-  password: string;
-}
 
 export const signUp = async (
   email: string,

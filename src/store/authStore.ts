@@ -1,12 +1,5 @@
+import { User } from "@/types";
 import { create } from "zustand";
-
-interface User {
-  id: string;
-  email: string;
-  avatar: string | null;
-  nickname: string;
-  password: string;
-}
 
 interface AuthState {
   user: User | null;
