@@ -30,7 +30,7 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div className="mt-10 flex">
-        <Button color="primary" className="ml-5 mr-5">
+        <Button color="primary" className="ml-5 mr-2">
           최신 순
         </Button>
         <Button color="default">댓글 순</Button>
