@@ -41,9 +41,22 @@ const useWriteInputForm = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (
+      !title ||
+      !content ||
+      !startDate ||
+      !endDate ||
+      !travelPlace ||
+      !postMainContent
+    ) {
+      alert("내용을 입력해주세요");
+      return;
+    }
     const newPost: post = {
+      title,
       content,
       travelDate: `${startDate} ~ ${endDate}`,
+      travelPlace,
       userId: crypto.randomUUID(),
       userName: crypto.randomUUID(),
       userProfile: crypto.randomUUID(),

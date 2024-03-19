@@ -1,8 +1,10 @@
 export type post = {
   id?: string;
+  title: string;
   content: string;
   postDate?: Date;
   travelDate: string;
+  travelPlace: string;
   userId: string;
   userName: string;
   userProfile: string;
