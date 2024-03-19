@@ -1,10 +1,15 @@
 "use client";
 
 import imageHandler from "@/util/quillImageHandler";
+import { ImageActions } from "@xeger/quill-image-actions";
+import { ImageFormats } from "@xeger/quill-image-formats";
 import { useMemo, useRef } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 
 import "react-quill/dist/quill.snow.css";
+
+Quill.register("modules/imageActions", ImageActions);
+Quill.register("modules/imageFormats", ImageFormats);
 
 export const formats = [
   "header",
@@ -23,8 +28,9 @@ export const formats = [
   "color",
   "link",
   "image",
-  "video",
+  "float",
   "width",
+  "height",
 ];
 
 const toolbarOptions = [
@@ -41,27 +47,32 @@ const toolbarOptions = [
 const QuillEditor = ({
   postMainContent,
   onChangePostMainContent,
+  postBasicImage,
+  setPostBasicImage,
 }: {
   postMainContent: string;
   onChangePostMainContent: (arg: string) => void;
+  postBasicImage: string;
+  setPostBasicImage: (arg: string) => void;
 }) => {
   const quillRef = useRef(null);
-  const modules = useMemo(
-    () => ({
+  const modules = useMemo(() => {
+    return {
       toolbar: {
         container: toolbarOptions,
         handlers: {
-          image: () => imageHandler(quillRef),
+          image: () =>
+            imageHandler(quillRef, postBasicImage, setPostBasicImage),
         },
       },
-    }),
-    []
-  );
-  console.log(postMainContent);
+      imageActions: {},
+      imageFormats: {},
+    };
+  }, [postBasicImage, setPostBasicImage]);
 
   return (
     <ReactQuill
-      className="h-96"
+      className="h-96 w-[900px] mx-auto"
       modules={modules}
       formats={formats}
       value={postMainContent}
