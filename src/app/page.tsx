@@ -1,3 +1,5 @@
+"use client"
+
 import mainImage from "../assets/mainimage.jpg";
 import {
   Button,
@@ -11,11 +13,11 @@ import {
 import Image from "next/image";
 import { useUserInfo } from "@/hook/useUserInfo";
 
-const Home: React.FC = () => {
-  // const { data: userInfo, isLoading, error } = useUserInfo();
+const Home = () => {
+  const { data: userInfo, isLoading, error } = useUserInfo();
 
-  // if (isLoading) return <div>Loading...</div>;
-  // if (error) return <div>Error: {error.message}</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div>

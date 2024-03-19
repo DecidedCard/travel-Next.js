@@ -1,11 +1,13 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { supabase } from '../util/supabase';
-import type { UserInfo } from '../types';
+"use client"
+
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from "@/util/supabase";
+import type { UserInfo } from '@/types';
 
 const fetchUserInfo = async (): Promise<UserInfo[]> => {
-    const { data, error } = await supabase
-      .from('userinfo')
-      .select('id, nickname, avatar');
+  const { data, error } = await supabase
+    .from('users') 
+    .select('id, nickname, avatar');
 
   if (error) {
     throw new Error(error.message);
@@ -14,9 +16,9 @@ const fetchUserInfo = async (): Promise<UserInfo[]> => {
   return data;
 };
 
-export const useUserInfo = (): UseQueryResult<UserInfo[]> => {
-    return useQuery<UserInfo[]>({
-      queryKey: ['userinfo'],
-      queryFn: fetchUserInfo,
-    });
-  };
+export const useUserInfo = () => {
+  return useQuery<UserInfo[]>({
+    queryKey: ['userInfo'], 
+    queryFn: fetchUserInfo,
+});
+};
