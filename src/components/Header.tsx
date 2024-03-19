@@ -39,12 +39,20 @@ const Header = () => {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user.email}</p>
               </DropdownItem>
-              <DropdownItem textValue="글쓰기">
-                <Link href="/write">글쓰기</Link>
-                </DropdownItem>
-                <DropdownItem textValue="마이페이지">
-                <Link href="/userProfile">마이페이지</Link>
-                </DropdownItem>
+              <DropdownItem 
+              as={Link}
+              href='/write'
+              textValue="글쓰기"
+              >
+              글쓰기
+              </DropdownItem>
+              <DropdownItem
+              as={Link}
+              href='/userProfile'
+              textValue="마이페이지"
+              >
+              마이페이지
+              </DropdownItem>
               <DropdownItem key="logout" color="danger" onClick={() => authLogout()} textValue="로그아웃">
                 로그아웃
               </DropdownItem>
