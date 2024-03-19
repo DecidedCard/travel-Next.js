@@ -1,3 +1,4 @@
+import { post } from "@/types/writePage";
 import { supabase } from "../supabase";
 
 const path = crypto.randomUUID();
@@ -19,4 +20,18 @@ export const uploadFile = async (file: File) => {
 export const getUrlImage = (arg: string) => {
   const { data } = supabase.storage.from("postImage").getPublicUrl(arg);
   return data;
+};
+
+export const insertWriting = async (newWrite: post) => {
+  const { data, error } = await supabase
+    .from("posts")
+    .insert([newWrite])
+    .select();
+  if (error) {
+    alert("글을 저장하지 못 했습니다.");
+    console.error(error);
+    return error;
+  } else {
+    return data;
+  }
 };

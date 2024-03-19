@@ -2,12 +2,13 @@
 
 import { post } from "@/types/writePage";
 import useInput from "./useInput";
-import usePostTestStore from "@/store/postTestStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import usePostBasicImageStore from "@/store/postBasicImageStore";
+import { insertWriting } from "@/util/writeSupaBase/writeSupaBase";
 
 const useWriteInputForm = () => {
-  const { setWritePost } = usePostTestStore();
+  const { postBasicImage } = usePostBasicImageStore();
   const [title, onChangeTitle, setTitle] = useInput();
   const [startDate, onChangeStartDate, setStartDate] = useInput();
   const [endDate, onChangeEndDate, setEndDate] = useInput();
@@ -38,26 +39,25 @@ const useWriteInputForm = () => {
     onChangePostMainContent,
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newPost: post = {
-      id: crypto.randomUUID(),
       content,
-      postDate: new Date(),
       travelDate: `${startDate} ~ ${endDate}`,
       userId: crypto.randomUUID(),
       userName: crypto.randomUUID(),
       userProfile: crypto.randomUUID(),
       postMainContent,
+      postBasicImage,
     };
-    setWritePost(newPost);
+    const addWrite: any = await insertWriting(newPost);
     setTitle("");
     setStartDate("");
     setEndDate("");
     setTravelPlace("");
     setContent("");
     setPostMainContent("");
-    router.push("/detail");
+    router.push(`/detail/${addWrite[0].id}`);
   };
 
   return { inputValue, inputOnChange, onSubmit };
