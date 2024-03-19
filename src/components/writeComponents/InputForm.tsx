@@ -4,10 +4,10 @@ import usePostBasicImageStore from "@/store/postBasicImageStore";
 import useWriteInputForm from "../../hook/useWriteInputForm";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import dynamic from "next/dynamic";
-const QuillEditor = dynamic(
-  () => import("@/components/writeComponents/QuillEditor"),
-  { ssr: false }
-);
+const QuillEditor = dynamic(() => import("./QuillEditor"), {
+  loading: () => <p>로딩중입니다.</p>,
+  ssr: false,
+});
 
 const InputForm = () => {
   const { inputValue, inputOnChange, onSubmit } = useWriteInputForm();
