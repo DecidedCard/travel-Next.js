@@ -6,7 +6,7 @@ import {
   CardBody,
   Image as NextUiImg,
   User,
-  Input,
+  ScrollShadow,
 } from "@nextui-org/react";
 import Image from "next/image";
 
@@ -29,6 +29,7 @@ const Home: React.FC = () => {
         </Button>
         <Button color="default">댓글 순</Button>
       </div>
+      <ScrollShadow className="w-[full] h-[300px]">
       <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
         <Card className="py-4">
           <CardBody className="overflow-visible py-2">
@@ -52,6 +53,7 @@ const Home: React.FC = () => {
           </CardHeader>
         </Card>
       </div>
+      </ScrollShadow>
     </div>
   );
 };
