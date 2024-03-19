@@ -1,7 +1,6 @@
 "use client";
 
 import { getUrlImage, uploadFile } from "./writeSupaBase/writeSupaBase";
-import usePostBasicImageStore from "@/store/postBasicImageStore";
 
 const imageHandler = (
   quillRef: any,
