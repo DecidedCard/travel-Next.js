@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../public/logo.png';
 import useAuthStore from '../store/authStore'; 
+import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar} from "@nextui-org/react";
 
 const Header = () => {
   const { isLoggedIn, logout } = useAuthStore();
@@ -21,17 +22,39 @@ const Header = () => {
         </div>
         <Link href="/community" className="hover:text-blue-200 text-lg">커뮤니티</Link>
       </div>
-      <ul className="flex space-x-4">
-        {isLoggedIn ? (
-          <>
-            <li><a onClick={logout} className="cursor-pointer hover:text-blue-200">로그아웃</a></li>
-            <li><Link href="/write" className="hover:text-blue-200">글쓰기</Link></li>
-            <li><Link href="/userProfile" className="hover:text-blue-200">마이페이지</Link></li>
-          </>
-        ) : (
-          <li className='mr-4'><Link href="/login" className="hover:text-blue-200">로그인</Link></li>
-        )}
-      </ul>
+      {isLoggedIn ? (
+        <Dropdown placement="bottom-end">
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              className="transition-transform"
+              color="secondary"
+              size="sm"
+              src=""
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+          <DropdownItem key="profile" className="h-14 gap-2 pointer-events-none">
+              <p className="font-semibold">Signed in as</p>
+              <p className="font-semibold">zoey@example.com</p>
+            </DropdownItem>
+            <DropdownItem>
+              <Link href="/write">글쓰기</Link>
+            </DropdownItem>
+            <DropdownItem>
+              <Link href="/userProfile">마이페이지</Link>
+            </DropdownItem>
+            <DropdownItem key="logout" color="danger" onClick={() => logout()}>
+              로그아웃
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      ) : (
+        <ul className="flex space-x-4">
+        <li className='mr-4'><Link href="/login" className="hover:text-blue-200">로그인</Link></li>
+        </ul>
+      )}
     </nav>
   );
 };
