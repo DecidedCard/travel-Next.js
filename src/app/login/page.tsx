@@ -2,9 +2,11 @@
 
 import { signIn } from "@/hook/authService";
 import useAuthStore from "@/store/authStore";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Login = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuthStore();
@@ -16,6 +18,7 @@ const Login = () => {
       console.log("User signIn:", userData);
       login(userData);
       alert("로그인 성공");
+      router.push("/");
     } catch (error) {
       console.log(error);
     }

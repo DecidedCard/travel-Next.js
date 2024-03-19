@@ -68,3 +68,6 @@ export const signIn = async (
     throw error;
   }
 };
+
+// 로그아웃
+export const logOut = async () => {};
