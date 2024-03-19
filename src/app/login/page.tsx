@@ -9,14 +9,14 @@ const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuthStore();
+  const { authLogin } = useAuthStore();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const userData = await signIn(email, password);
       console.log("User signIn:", userData);
-      login(userData);
+      authLogin(userData);
       alert("로그인 성공");
       router.push("/");
     } catch (error) {

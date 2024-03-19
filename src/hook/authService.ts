@@ -70,4 +70,13 @@ export const signIn = async (
 };
 
 // 로그아웃
-export const logOut = async () => {};
+export const logout = async () => {
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
