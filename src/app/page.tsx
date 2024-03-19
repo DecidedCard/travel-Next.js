@@ -9,8 +9,14 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import Image from "next/image";
+import { useUserInfo } from "@/hook/useUserInfo";
 
 const Home: React.FC = () => {
+  // const { data: userInfo, isLoading, error } = useUserInfo();
+
+  // if (isLoading) return <div>Loading...</div>;
+  // if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div>
       <div className="relative w-full h-[396px]">
@@ -29,7 +35,7 @@ const Home: React.FC = () => {
         </Button>
         <Button color="default">댓글 순</Button>
       </div>
-      <ScrollShadow className="w-[full] h-[300px]">
+      <ScrollShadow className="w-[full] h-[300px] mt-3">
       <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
         <Card className="py-4">
           <CardBody className="overflow-visible py-2">
@@ -43,9 +49,9 @@ const Home: React.FC = () => {
           </CardBody>
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
             <User
-              name="Jane Doe"
+              name= "Jane"
               avatarProps={{
-                src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+                src:"https://i.pravatar.cc/150?u=a04258114e29026702d",
               }}
             />
             <h1 className="uppercase font-bold mt-3">아마도 여행 날짜</h1>
