@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,7 +20,7 @@ const Header = () => {
           <span className="text-sm font-light">good travel & good experience</span>
         </div>
       </div>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 mr-3">
       <Link href="/community" className="hover:text-blue-200 text-lg">커뮤니티</Link>
         {isLoggedIn && isLoggedIn && user && user.avatar ? (
           <Dropdown placement="bottom-end">
@@ -27,7 +28,7 @@ const Header = () => {
               <Avatar
                 isBordered
                 as="button"
-                className="transition-transform mr-2"
+                className="transition-transform"
                 color="secondary"
                 size="md"
                 src={user.avatar}
