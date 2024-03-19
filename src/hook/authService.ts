@@ -16,6 +16,9 @@ export const signUp = async (
     if (error) {
       throw error;
     }
+    // 세션 저장
+    localStorage.setItem("user", JSON.stringify(data.user));
+
     // "users"테이블에 사용자 데이터 추가
     const { data: userData, error: userDataError } = await supabase
       .from("users")
@@ -50,6 +53,8 @@ export const signIn = async (
 
     const user = data.user;
 
+    localStorage.setItem("user", JSON.stringify(user));
+
     // 사용자의 ID를 사용하여 데이터베이스에서 사용자 데이터를 가져오기
     const { data: userData, error: fetchError } = await supabase
       .from("users")
@@ -76,6 +81,9 @@ export const logout = async () => {
     if (error) {
       throw error;
     }
+
+    // 세션 제거
+    localStorage.removeItem("user");
   } catch (error) {
     console.log(error);
   }

@@ -8,9 +8,14 @@ interface AuthState {
   authLogout: () => void;
 }
 
+const getUserFromStorage = (): User | null => {
+  const userString = localStorage.getItem("user");
+  return userString ? JSON.parse(userString) : null;
+};
+
 const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  isLoggedIn: false,
+  user: getUserFromStorage(),
+  isLoggedIn: !!getUserFromStorage(),
   authLogin: (user) =>
     set((state) => ({
       user,

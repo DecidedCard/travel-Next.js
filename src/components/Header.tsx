@@ -13,10 +13,9 @@ const Header = () => {
     try {
       await logout();
       authLogout();
-      console.log("상태 확인", isLoggedIn);
+      alert("로그아웃");
     } catch (error) {
       console.error("Logout error:", error);
-      // Handle logout error
     }
   };
 
