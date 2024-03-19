@@ -1,21 +1,16 @@
-import dynamic from "next/dynamic";
+"use client";
 
-const ReactQuill = dynamic(() => import("react-quill"), {
-  ssr: false,
-});
+import imageHandler from "@/util/quillImageHandler";
+import { ImageActions } from "@xeger/quill-image-actions";
+import { ImageFormats } from "@xeger/quill-image-formats";
+import { useMemo, useRef } from "react";
+import ReactQuill, { Quill } from "react-quill";
+
 import "react-quill/dist/quill.snow.css";
 
-const toolbarOptions = [
-  ["link", "image", "video"],
-  [{ header: [1, 2, 3, false] }],
-  ["bold", "italic", "underline", "strike"],
-  ["blockquote"],
-  [{ list: "ordered" }, { list: "bullet" }],
-  [{ color: [] }, { background: [] }],
-  [{ align: [] }],
-];
+Quill.register("modules/imageActions", ImageActions);
+Quill.register("modules/imageFormats", ImageFormats);
 
-// 옵션에 상응하는 포맷, 추가해주지 않으면 text editor에 적용된 스타일을 볼수 없음
 export const formats = [
   "header",
   "font",
@@ -33,18 +28,58 @@ export const formats = [
   "color",
   "link",
   "image",
-  "video",
+  "float",
   "width",
+  "height",
 ];
 
-const modules = {
-  toolbar: {
-    container: toolbarOptions,
-  },
-};
+const toolbarOptions = [
+  [{ header: "1" }, { header: "2" }],
+  [{ size: [] }],
+  ["bold", "italic", "underline", "strike"],
+  ["blockquote"],
+  [{ list: "ordered" }, { list: "bullet" }],
+  [{ color: [] }, { background: [] }],
+  [{ align: [] }],
+  ["link", "image", "video"],
+];
 
-const QuillEditor = () => {
-  return <ReactQuill className="h-96" modules={modules} formats={formats} />;
+const QuillEditor = ({
+  postMainContent,
+  onChangePostMainContent,
+  postBasicImage,
+  setPostBasicImage,
+}: {
+  postMainContent: string;
+  onChangePostMainContent: (arg: string) => void;
+  postBasicImage: string;
+  setPostBasicImage: (arg: string) => void;
+}) => {
+  const quillRef = useRef(null);
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: toolbarOptions,
+        handlers: {
+          image: () =>
+            imageHandler(quillRef, postBasicImage, setPostBasicImage),
+        },
+      },
+      imageActions: {},
+      imageFormats: {},
+    };
+  }, [postBasicImage, setPostBasicImage]);
+
+  return (
+    <ReactQuill
+      className="h-96 w-[900px] mx-auto"
+      modules={modules}
+      formats={formats}
+      value={postMainContent}
+      onChange={onChangePostMainContent}
+      ref={quillRef}
+    />
+  );
 };
 
 export default QuillEditor;
