@@ -1,5 +1,6 @@
 "use client";
 
+import usePostBasicImageStore from "@/store/postBasicImageStore";
 import useWriteInputForm from "../../hook/useWriteInputForm";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import dynamic from "next/dynamic";
@@ -10,6 +11,7 @@ const QuillEditor = dynamic(
 
 const InputForm = () => {
   const { inputValue, inputOnChange, onSubmit } = useWriteInputForm();
+  const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
   return (
     <form className="w-5/6 mx-auto" onSubmit={onSubmit}>
       <Input
@@ -54,6 +56,8 @@ const InputForm = () => {
       <QuillEditor
         postMainContent={inputValue.postMainContent}
         onChangePostMainContent={inputOnChange.onChangePostMainContent}
+        postBasicImage={postBasicImage}
+        setPostBasicImage={setPostBasicImage}
       />
       <div className="flex justify-center">
         <Button type="submit">등록하기</Button>

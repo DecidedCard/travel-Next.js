@@ -1,7 +1,13 @@
-import { QuillOptions } from "react-quill";
-import { getUrlImage, uploadFile } from "./writeSupaBase/writeSupaBase";
+"use client";
 
-const imageHandler = (quillRef: any) => {
+import { getUrlImage, uploadFile } from "./writeSupaBase/writeSupaBase";
+import usePostBasicImageStore from "@/store/postBasicImageStore";
+
+const imageHandler = (
+  quillRef: any,
+  postBasicImage: string,
+  setPostBasicImage: (arg: string) => void
+) => {
   const input = document.createElement("input");
   input.setAttribute("type", "file");
   input.setAttribute("accept", "image/*");
@@ -14,9 +20,15 @@ const imageHandler = (quillRef: any) => {
     try {
       const dataPath = await uploadFile(file);
       const imgUrl = getUrlImage(dataPath!.path);
+      if (!postBasicImage) {
+        setPostBasicImage(imgUrl.publicUrl);
+      }
       editor.insertEmbed(range.index, "image", imgUrl.publicUrl);
       editor.setSelection(range.index + 1);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      alert("이미지를 저장하는데 실패했습니다.");
+    }
   });
 };
 
