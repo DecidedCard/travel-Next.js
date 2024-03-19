@@ -22,7 +22,7 @@ const Header = () => {
       </div>
       <div className="flex items-center space-x-4 mr-3">
       <Link href="/community" className="hover:text-blue-200 text-lg">커뮤니티</Link>
-        {isLoggedIn && isLoggedIn && user && user.avatar ? (
+        {isLoggedIn && user && user.avatar ? (
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar
@@ -41,10 +41,10 @@ const Header = () => {
               </DropdownItem>
               <DropdownItem textValue="글쓰기">
                 <Link href="/write">글쓰기</Link>
-              </DropdownItem>
-              <DropdownItem textValue="마이페이지">
+                </DropdownItem>
+                <DropdownItem textValue="마이페이지">
                 <Link href="/userProfile">마이페이지</Link>
-              </DropdownItem>
+                </DropdownItem>
               <DropdownItem key="logout" color="danger" onClick={() => authLogout()} textValue="로그아웃">
                 로그아웃
               </DropdownItem>
