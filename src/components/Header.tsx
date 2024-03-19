@@ -1,5 +1,4 @@
 'use client';
-
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,24 +34,24 @@ const Header = () => {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-          <DropdownItem key="profile" className="h-14 gap-2 pointer-events-none">
+            <DropdownItem key="profile" className="h-14 gap-2 pointer-events-none" textValue="Signed in as">
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">zoey@example.com</p>
             </DropdownItem>
-            <DropdownItem>
+            <DropdownItem textValue="글쓰기">
               <Link href="/write">글쓰기</Link>
             </DropdownItem>
-            <DropdownItem>
+            <DropdownItem textValue="마이페이지">
               <Link href="/userProfile">마이페이지</Link>
             </DropdownItem>
-            <DropdownItem key="logout" color="danger" onClick={() => authLogout()}>
+            <DropdownItem key="logout" color="danger" onClick={() => authLogout()} textValue="로그아웃">
               로그아웃
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       ) : (
         <ul className="flex space-x-4">
-        <li className='mr-4'><Link href="/login" className="hover:text-blue-200">로그인</Link></li>
+          <li className='mr-4'><Link href="/login" className="hover:text-blue-200">로그인</Link></li>
         </ul>
       )}
     </nav>
