@@ -1,18 +1,24 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCameraSearch } from "react-icons/tb";
 import { Input } from "@nextui-org/react";
 import defaultUser from "../../assets/defaultUser.png";
 import { supabase } from "@/util/supabase";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+interface Profile {
+  profileUrl: string;
+}
 
 const Profile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
-  const [nickName, setNickName] = useState("");
+  // const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
+  // const [nickName, setNickName] = useState("");
   const [newNickName, setNewNickName] = useState("");
   const [isEditingNickName, setIsEditingNickName] = useState(false);
 
+  const fileInput = useRef(null);
   // 프로필
   const imgSelectehandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFile = e.target.files?.[0];
@@ -21,16 +27,41 @@ const Profile = () => {
     }
   };
 
-  const imgUploadHandler = async () => {
+  const { data, error, isLoading } = useQuery(["profile"], async () => {
+    const { data, error } = await supabase.from("profiles").select("*");
+    if (error) throw error;
+    return data;
+  });
+
+  const [mutateProfile, { isLoading: isMutating }] = useMutation(
+    async (newProfile: Profile) => {
+      const { data, error } = await supabase
+        .from("userProfile")
+        .update(newProfile);
+      if (error) throw error;
+      return data;
+    },
+    {
+      onSuccess: () => {
+        // 로컬 상태 업데이트
+      },
+    }
+  );
+
+  const imgUploadHandler = async (file: File) => {
     if (!selectedFile) return;
 
     const { data, error } = await supabase.storage
       .from("userProfile")
-      .upload(`images/${selectedFile.name}`, selectedFile);
+      .upload(file.name, file);
+    if (error) throw error;
 
-    if (error) {
-      console.error("Error uploading image:", error.message);
-    }
+    const updatedProfile = {
+      ...data,
+      profileUrl: data.url,
+    };
+
+    await mutateProfile(updatedProfile);
   };
 
   // 닉네임
@@ -55,16 +86,16 @@ const Profile = () => {
       <p className="text-xl/6 font-bold ">안녕하세요 여행한탕 님 :D</p>
       <div>
         <Image
-          src={defaultUser}
+          src={data.profileUrl ?? defaultUser}
           alt="유저프로필"
           className="w-20 h-20 rounded-full"
         />
         <input
           type="file"
           id="file"
+          style={{ display: "none" }}
           accept="image/jpg,image/png,image/jpeg"
           onChange={imgSelectehandler}
-          style={{ display: "none" }}
         />
         <TbCameraSearch
           size={25}
@@ -93,7 +124,11 @@ const Profile = () => {
       ) : (
         <div className="flex">
           <p>여행한탕</p>
-          <PiPencilSimpleLineBold size={25} onClick={nickNameOnClickHandler} />
+          <PiPencilSimpleLineBold
+            className="cursor-pointer"
+            size={25}
+            onClick={nickNameOnClickHandler}
+          />
         </div>
       )}
       <p>asd123@gmail.com</p>
