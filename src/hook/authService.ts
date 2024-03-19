@@ -23,7 +23,7 @@ export const signUp = async (
     if (error) {
       throw error;
     }
-    // 사용자 데이터 추가
+    // "users"테이블에 사용자 데이터 추가
     const { data: userData, error: userDataError } = await supabase
       .from("users")
       .insert({ id: data.user?.id, email, nickname });
