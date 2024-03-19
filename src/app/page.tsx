@@ -11,14 +11,8 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import Image from "next/image";
-import { useUserInfo } from "@/hook/useUserInfo";
 
 const Home = () => {
-  const { data: userInfo, isLoading, error } = useUserInfo();
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
     <div>
       <div className="relative w-full h-[396px]">
