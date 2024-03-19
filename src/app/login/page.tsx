@@ -1,20 +1,21 @@
 "use client";
 
 import { signIn } from "@/hook/authService";
-import { useAuthStore } from "@/store/authStore";
+import useAuthStore from "@/store/authStore";
 import React, { useState } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const setUser = useAuthStore((state) => state.setUser);
+  const { login } = useAuthStore();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const data = await signIn(email, password);
-      console.log("User signIn:", data);
-      alert("성공");
+      const userData = await signIn(email, password);
+      console.log("User signIn:", userData);
+      login(userData);
+      alert("로그인 성공");
     } catch (error) {
       console.log(error);
     }

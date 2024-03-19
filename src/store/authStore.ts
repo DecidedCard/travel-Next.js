@@ -1,18 +1,33 @@
 import { create } from "zustand";
 
 interface User {
-  email: string;
   id: string;
+  email: string;
+  avatar: string | null;
+  nickname: string;
+  password: string;
 }
 
-interface AuthStore {
+interface AuthState {
   user: User | null;
-  setUser: (user: User) => void;
+  isLoggedIn: boolean;
+  login: (user: User) => void;
+  logout: () => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
+const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  setUser: (user: User) => {
-    set({ user: user });
-  },
+  isLoggedIn: false,
+  login: (user) =>
+    set((state) => ({
+      user,
+      isLoggedIn: true,
+    })),
+  logout: () =>
+    set((state) => ({
+      user: null,
+      isLoggedIn: false,
+    })),
 }));
+
+export default useAuthStore;
