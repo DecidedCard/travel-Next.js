@@ -1,13 +1,17 @@
 "use client";
 
 import useWriteInputForm from "../../hook/useWriteInputForm";
-import { Input, Textarea } from "@nextui-org/react";
-import QuillEditor from "./QuillEditor";
+import { Button, Input, Textarea } from "@nextui-org/react";
+import dynamic from "next/dynamic";
+const QuillEditor = dynamic(
+  () => import("@/components/writeComponents/QuillEditor"),
+  { ssr: false }
+);
 
 const InputForm = () => {
-  const { inputValue, inputOnChange } = useWriteInputForm();
+  const { inputValue, inputOnChange, onSubmit } = useWriteInputForm();
   return (
-    <form className="w-5/6 mx-auto">
+    <form className="w-5/6 mx-auto" onSubmit={onSubmit}>
       <Input
         type="text"
         label="제목을 입력해주세요"
@@ -47,7 +51,13 @@ const InputForm = () => {
           onChange={inputOnChange.onChangeContent}
         />
       </div>
-      <QuillEditor />
+      <QuillEditor
+        postMainContent={inputValue.postMainContent}
+        onChangePostMainContent={inputOnChange.onChangePostMainContent}
+      />
+      <div className="flex justify-center">
+        <Button type="submit">등록하기</Button>
+      </div>
     </form>
   );
 };
