@@ -8,7 +8,7 @@ import useAuthStore from '../store/authStore';
 import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar} from "@nextui-org/react";
 
 const Header = () => {
-  const { isLoggedIn, logout } = useAuthStore();
+  const { isLoggedIn, authLogout } = useAuthStore();
 
   return (
     <nav className="bg-blue-500 text-white px-4 py-2 flex justify-between items-center">
@@ -45,7 +45,7 @@ const Header = () => {
             <DropdownItem>
               <Link href="/userProfile">마이페이지</Link>
             </DropdownItem>
-            <DropdownItem key="logout" color="danger" onClick={() => logout()}>
+            <DropdownItem key="logout" color="danger" onClick={() => authLogout()}>
               로그아웃
             </DropdownItem>
           </DropdownMenu>

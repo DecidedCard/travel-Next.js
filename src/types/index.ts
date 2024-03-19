@@ -3,8 +3,12 @@ export type Store = {
   inc: () => void;
 };
 
-export type UserInfo = {
+export type User = {
   id: string;
+  email: string;
+  avatar: string | null;
   nickname: string;
-  avatar: string | null; 
-}
+  password: string;
+};
+
+

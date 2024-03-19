@@ -14,6 +14,7 @@ const SignUp = () => {
     try {
       const data = await signUp(email, password, nickname);
       console.log("User signed up:", data.user?.id);
+      alert("회원가입 성공");
     } catch (error) {
       console.error("Sign up error:", error);
     }
