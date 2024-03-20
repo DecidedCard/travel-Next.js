@@ -2,7 +2,7 @@ import { supabase } from "../supabase";
 
 import type { PostComment } from "@/types/writePage";
 
-export const getComment = async () => {
+export const getComment = async (): Promise<PostComment[]> => {
   const { data: postComment, error } = await supabase
     .from("postComment")
     .select("*");

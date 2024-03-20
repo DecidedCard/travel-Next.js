@@ -8,9 +8,11 @@ import useInput from "../useInput";
 
 import type { PostComment } from "@/types/writePage";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const useComment = (id: string) => {
   const [comment, onChangeCommentHandler, setComment] = useInput();
+  const [editForm, setEditForm] = useState(false);
   const commentQueryKey = ["detail/comment"];
 
   const {
@@ -29,11 +31,6 @@ const useComment = (id: string) => {
     commentQueryKey
   );
 
-  const { mutate: deleteMutate } = useSetMutation(
-    deleteComment,
-    commentQueryKey
-  );
-
   const onSubmitInsertHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newComment: PostComment = {
@@ -47,6 +44,15 @@ const useComment = (id: string) => {
     alert("성공적으로 저장 되었습니다.");
   };
 
+  const onClickEditFormToggle = () => {
+    setEditForm(!editForm);
+  };
+
+  const { mutate: deleteMutate } = useSetMutation(
+    deleteComment,
+    commentQueryKey
+  );
+
   return {
     comment,
     onChangeCommentHandler,
@@ -55,6 +61,8 @@ const useComment = (id: string) => {
     isError,
     isLoading,
     deleteMutate,
+    editForm,
+    onClickEditFormToggle,
   };
 };
 
