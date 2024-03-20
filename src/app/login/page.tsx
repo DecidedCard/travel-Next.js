@@ -4,12 +4,20 @@ import { signIn } from "@/hook/authService";
 import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import loginImg from "@/assets/loginImg.jpg";
+import { Button, Card, CardBody, Input } from "@nextui-org/react";
+import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
+import EyeFilledIcon from "./EyeFilledIcon";
+import Image from "next/image";
 
 const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { authLogin } = useAuthStore();
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,23 +33,69 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">로그인</button>
-    </form>
+    <div className="flex relative">
+      <div>
+        <Image src={loginImg} alt="LoginBackgroundImg" className="absolute" />
+      </div>
+      <div className="flex absolute px-28 py-20">
+        <Card className="flex w-[560px] h-[620px]">
+          <CardBody className="flex flex-col items-center justify-between px-8 py-16">
+            <h1 className="text-4xl font-bold mb-10">여행한탕</h1>
+            <h1 className="text-2xl font-bold mb-4">로그인</h1>
+            <form onSubmit={handleLogin} className="w-full">
+              <div className="flex flex-col gap-5">
+                <Input
+                  type="email"
+                  label="이메일"
+                  variant="flat"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Input
+                  label="비밀번호"
+                  variant="flat"
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
+                    >
+                      {isVisible ? (
+                        <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  }
+                  type={isVisible ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <Button
+                type="submit"
+                color="primary"
+                style={{ width: "100%" }}
+                className="mt-5 h-[56px] text-lg"
+              >
+                로그인
+              </Button>
+            </form>
+            <div className="flex flex-row items-center gap-4 mt-5">
+              <p className="text-default-400 ">회원이 아니신가요?</p>
+              <button
+                onClick={() => {
+                  router.push("/signup");
+                }}
+                style={{ textDecoration: "underline" }}
+              >
+                회원가입
+              </button>
+            </div>
+          </CardBody>
+        </Card>
+      </div>
+    </div>
   );
 };
 
