@@ -2,19 +2,33 @@
 
 import useDetailPost from "@/hook/detail-write-hook/useDetailPost";
 import React from "react";
+import InputForm from "../writeComponents/InputForm";
 
 const PostDetail = ({ id }: { id: string }) => {
-  const { post, isLoading, onClickDeleteHandler } = useDetailPost(id);
+  const {
+    post,
+    isLoading,
+    onClickDeleteHandler,
+    editForm,
+    onClickEditFormToggleHandler,
+    onClickCancelHandler,
+  } = useDetailPost(id);
+
   if (isLoading) {
     return <div>로딩중입니다.</div>;
   }
 
-  return (
-    <main className="border border-solid border-slate-950 max-w-7xl min-w-[800px] min-h-96 mx-auto">
+  return editForm ? (
+    <InputForm post={post!} onClickCancelHandler={onClickCancelHandler} />
+  ) : (
+    <main className="max-w-7xl min-w-[800px] min-h-96 mx-auto">
       <section className="flex justify-between items-center m-2 py-4 border-b border-solid border-gray-700">
         <h2 className="text-4xl font-bold">{post!.title}</h2>
         <div>
-          <button className="border-r border-solid border-gray-700 w-14">
+          <button
+            className="border-r border-solid border-gray-700 w-14"
+            onClick={onClickEditFormToggleHandler}
+          >
             수정
           </button>
           <button className="w-14" onClick={onClickDeleteHandler}>
