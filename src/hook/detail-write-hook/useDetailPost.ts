@@ -4,14 +4,11 @@ import useSetMutation from "../useSetMutation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import type { Post } from "@/types/writePage";
-
-const useDetailPost = (id?: string) => {
+const useDetailPost = (id: string) => {
   const router = useRouter();
   const [editForm, setEditForm] = useState(false);
-  const { post, isLoading } = useDetailQuery(id!);
+  const { post, isLoading } = useDetailQuery(id);
   const { mutate: deleteMutate } = useSetMutation(deleteWrite, postQueryKey);
-  const { mutate: updateMutate } = useSetMutation(updateWrite, postQueryKey);
 
   const onClickEditFormToggleHandler = () => {
     setEditForm(!editForm);
@@ -41,7 +38,6 @@ const useDetailPost = (id?: string) => {
     editForm,
     onClickEditFormToggleHandler,
     onClickCancelHandler,
-    updateMutate,
   };
 };
 

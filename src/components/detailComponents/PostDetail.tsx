@@ -13,6 +13,7 @@ const PostDetail = ({ id }: { id: string }) => {
     onClickEditFormToggleHandler,
     onClickCancelHandler,
   } = useDetailPost(id);
+
   if (isLoading) {
     return <div>로딩중입니다.</div>;
   }

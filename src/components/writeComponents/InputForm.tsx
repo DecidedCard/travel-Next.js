@@ -17,7 +17,8 @@ const InputForm = ({
   post: Post;
   onClickCancelHandler: () => void;
 }) => {
-  const { inputValue, inputOnChange, onSubmit } = useWriteInputForm(post);
+  const { inputValue, inputOnChange, onSubmit, onClickUpdateHandler } =
+    useWriteInputForm(post);
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
 
   return (
@@ -73,7 +74,12 @@ const InputForm = ({
             <Button type="button" onClick={onClickCancelHandler}>
               취소
             </Button>
-            <Button type="button">수정하기</Button>
+            <Button
+              type="button"
+              onClick={() => onClickUpdateHandler(post.id!)}
+            >
+              수정하기
+            </Button>
           </div>
         ) : (
           <Button type="submit">등록하기</Button>
