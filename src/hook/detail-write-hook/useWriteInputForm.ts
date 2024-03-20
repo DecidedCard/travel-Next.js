@@ -8,6 +8,7 @@ import usePostBasicImageStore from "@/store/postBasicImageStore";
 import { insertWriting, updateWrite } from "@/util/writeSupaBase/writeSupaBase";
 import useSetMutation from "../useSetMutation";
 import { postQueryKey } from "./useDetailQuery";
+import useDetailPost from "./useDetailPost";
 
 const useWriteInputForm = (post?: Post | null) => {
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
@@ -86,6 +87,7 @@ const useWriteInputForm = (post?: Post | null) => {
         postBasicImage,
       };
       updateMutate({ id, post });
+      router.push("/");
     }
   };
 

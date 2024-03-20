@@ -21,7 +21,7 @@ const PostDetail = ({ id }: { id: string }) => {
   return editForm ? (
     <InputForm post={post!} onClickCancelHandler={onClickCancelHandler} />
   ) : (
-    <main className="border border-solid border-slate-950 max-w-7xl min-w-[800px] min-h-96 mx-auto">
+    <main className="max-w-7xl min-w-[800px] min-h-96 mx-auto">
       <section className="flex justify-between items-center m-2 py-4 border-b border-solid border-gray-700">
         <h2 className="text-4xl font-bold">{post!.title}</h2>
         <div>
