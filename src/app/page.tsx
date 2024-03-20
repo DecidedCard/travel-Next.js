@@ -10,6 +10,7 @@ import {
   User,
   ScrollShadow,
   CardFooter,
+  Tab,
 } from "@nextui-org/react";
 import Image from "next/image";
 import { usePosts } from "@/hook/usePostData";
@@ -69,10 +70,9 @@ const Home = () => {
                   <NextUiImg
                     isZoomed
                     alt="Card background"
-                    className="object-cover rounded-xl"
-                    src={post.postBasicImage ? post.postBasicImage : "https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"}  
-                    width={380}
-                    height={300} 
+                    className="object-cover rounded-xl h-80"
+                    src={post.postBasicImage ? post.postBasicImage : "https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"}
+                    width={460}  
                   />
                   <div className="absolute top-2 left-0 z-10">
                   <CardFooter className="bg-white/80 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
