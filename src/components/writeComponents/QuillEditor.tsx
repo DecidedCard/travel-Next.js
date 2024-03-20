@@ -3,7 +3,7 @@
 import imageHandler from "@/util/quillImageHandler";
 import { ImageActions } from "@xeger/quill-image-actions";
 import { ImageFormats } from "@xeger/quill-image-formats";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import ReactQuill, { Quill } from "react-quill";
 
 import "react-quill/dist/quill.snow.css";
@@ -55,20 +55,27 @@ const QuillEditor = ({
   postBasicImage: string;
   setPostBasicImage: (arg: string) => void;
 }) => {
+  let dataPath: any = useRef();
+  let imgUrl = useRef({ publicUrl: "" });
   const quillRef = useRef(null);
   const modules = useMemo(() => {
     return {
       toolbar: {
         container: toolbarOptions,
         handlers: {
-          image: () =>
-            imageHandler(quillRef, postBasicImage, setPostBasicImage),
+          image: () => imageHandler(quillRef, dataPath, imgUrl),
         },
       },
       imageActions: {},
       imageFormats: {},
     };
-  }, [postBasicImage, setPostBasicImage]);
+  }, []);
+
+  useEffect(() => {
+    if (!postBasicImage && imgUrl.current.publicUrl) {
+      setPostBasicImage(imgUrl.current.publicUrl);
+    }
+  }, [postBasicImage, setPostBasicImage, imgUrl.current.publicUrl]);
 
   return (
     <ReactQuill
