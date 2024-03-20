@@ -2,7 +2,7 @@ import { supabase } from "@/util/supabase";
 import { create } from "zustand";
 
 interface CommunityContent {
-  id: number;
+  id: string;
   communityContent: string;
   created_at: Date;
   // user_nickname: string;
@@ -12,6 +12,7 @@ interface CommunityStore {
   communityContent: CommunityContent[];
   fetchCommunity: () => Promise<void>;
   addCommunityContent: (content: string) => Promise<void>;
+  deleteCommunityContent: (postId: string) => Promise<void>;
 }
 
 const useCommunityStore = create<CommunityStore>((set) => ({
@@ -31,6 +32,14 @@ const useCommunityStore = create<CommunityStore>((set) => ({
       await fetchCommunity();
     } else {
       console.error("Error inserting community:", response.error.message);
+    }
+  },
+  deleteCommunityContent: async (postId) => {
+    const response = await supabase.from("community").delete().eq("id", postId);
+    if (!response.error) {
+      console.log("Post deleted successfully:", postId);
+    } else {
+      console.error("Error deleting post:", response.error.message);
     }
   },
 }));
