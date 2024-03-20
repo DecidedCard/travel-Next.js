@@ -9,8 +9,11 @@ interface AuthState {
 }
 
 const getUserFromStorage = (): User | null => {
-  const userString = localStorage.getItem("user");
-  return userString ? JSON.parse(userString) : null;
+  let userString = null;
+  if (typeof window !== "undefined") {
+    userString = JSON.parse(localStorage.getItem("user")!);
+  }
+  return userString;
 };
 
 const useAuthStore = create<AuthState>((set) => ({
