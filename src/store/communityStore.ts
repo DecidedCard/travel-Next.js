@@ -13,6 +13,7 @@ interface CommunityStore {
   fetchCommunity: () => Promise<void>;
   addCommunityContent: (content: string) => Promise<void>;
   deleteCommunityContent: (postId: string) => Promise<void>;
+  updateCommunityContent: (postId: string, content: string) => Promise<void>;
 }
 
 const useCommunityStore = create<CommunityStore>((set) => ({
@@ -50,6 +51,17 @@ const useCommunityStore = create<CommunityStore>((set) => ({
       console.log("Post deleted successfully:", postId);
     } else {
       console.error("Error deleting post:", response.error.message);
+    }
+  },
+  updateCommunityContent: async (postId, content) => {
+    const response = await supabase
+      .from("community")
+      .update({ communityContent: content })
+      .eq("id", postId);
+    if (!response.error) {
+      console.log("Post updated successfully:", postId);
+    } else {
+      console.error("Error updating post:", response.error.message);
     }
   },
 }));
