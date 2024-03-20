@@ -1,7 +1,7 @@
 "use client";
 
-import { post } from "@/types/writePage";
-import useInput from "./useInput";
+import { Post } from "@/types/writePage";
+import useInput from "../useInput";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import usePostBasicImageStore from "@/store/postBasicImageStore";
@@ -52,7 +52,7 @@ const useWriteInputForm = () => {
       alert("내용을 입력해주세요");
       return;
     }
-    const newPost: post = {
+    const newPost: Post = {
       title,
       content,
       travelDate: `${startDate} ~ ${endDate}`,
