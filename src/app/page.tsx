@@ -13,13 +13,29 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import { usePosts } from "@/hook/usePostData";
+import { usePostSort } from "@/hook/useSortPosts";
 
 const Home = () => {
   const { data: posts, isLoading, isError } = usePosts();
+  const { sortOrder, sortByLatest, sortByOldest } = usePostSort()
+
+  const getSortedPosts = () => {
+    if (posts && posts.length > 0) {
+      if (sortOrder === 'latest') {
+        // 최신순 정렬
+        return posts.sort((a, b) => new Date(b.postDate).getTime() - new Date(a.postDate).getTime());
+      } else {
+        // 오래된 순 정렬
+        return posts.sort((a, b) => new Date(a.postDate).getTime() - new Date(b.postDate).getTime());
+      }
+    }
+    return []; // 유효한 posts가 없는 경우 빈 배열 반환
+  };
+  
 
   if (isLoading) return <div>로딩중...</div>;
   if (isError) return <div>패칭 에러</div>;
-  
+
   return (
     <div>
       <div className="relative w-full h-[396px]">
@@ -33,14 +49,19 @@ const Home = () => {
         </div>
       </div>
       <div className="mt-10 flex">
-        <Button color="primary" className="ml-5 mr-2">
-          최신 순
+        <Button color="primary" className="ml-5 mr-2" onClick={sortByLatest}>
+        최신 순
         </Button>
-        <Button color="default">댓글 순</Button>
+        <Button color="warning" className="mr-2" onClick={sortByOldest}>
+        오래된 순
+        </Button>  
+        <Button color="default">
+        댓글 순
+        </Button>
       </div>
       <ScrollShadow className="w-[full] h-[400px] mt-3">
       <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
-      {posts && posts.map((post) => (
+      {getSortedPosts().map((post) => (
             <Card key={post.id} className="py-4">
               <CardBody className="overflow-visible py-2">
               <h1 className="text-lg font-bold mb-2">🛫&nbsp;&nbsp;여행 기간</h1>
