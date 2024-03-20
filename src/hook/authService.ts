@@ -53,9 +53,6 @@ export const signIn = async (
 
     const user = data.user;
 
-    localStorage.setItem("user", JSON.stringify(user));
-
-    // 사용자의 ID를 사용하여 데이터베이스에서 사용자 데이터를 가져오기
     const { data: userData, error: fetchError } = await supabase
       .from("users")
       .select("*")
@@ -68,6 +65,8 @@ export const signIn = async (
       throw new Error("User data not found in database");
     }
 
+    // 로컬스토리지 user에 user 정보 저장
+    localStorage.setItem("user", JSON.stringify(userData));
     return userData;
   } catch (error) {
     throw error;
