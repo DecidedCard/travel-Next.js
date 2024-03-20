@@ -88,8 +88,8 @@ const Home = () => {
                     src: post.userProfile, 
                   }}
                 />
-                <h1 className="uppercase font-bold mt-3">{post.title}</h1>
-                <p className="text-default-500 mt-3">{post.content}</p>
+                <h1 className="uppercase font-bold mt-3">{post.title.length > 20 ? `${post.title.substring(0, 20)}...` : post.title}</h1>
+                <p className="text-default-500 mt-3">{post.content.length > 50 ? `${post.content.substring(0, 50)}...` : post.content}</p>
               </CardHeader>
             </Card>
           ))}      
