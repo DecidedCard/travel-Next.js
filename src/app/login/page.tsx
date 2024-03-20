@@ -4,6 +4,7 @@ import { signIn } from "@/hook/authService";
 import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import loginImg from "@/assets/loginImg.jpg";
 
 const Login = () => {
   const router = useRouter();
@@ -25,23 +26,34 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">로그인</button>
-    </form>
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        backgroundImage: `url(${loginImg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="bg-cover bg-center w-full h-full">
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit">로그인</button>
+        </form>
+      </div>
+    </div>
   );
 };
 
