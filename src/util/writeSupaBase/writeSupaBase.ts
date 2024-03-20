@@ -6,7 +6,7 @@ const path = crypto.randomUUID();
 export const uploadFile = async (file: File) => {
   const { data, error } = await supabase.storage
     .from("postImage")
-    .upload(`${path}/${file.lastModified}`, file, {
+    .upload(`text/${path}/${file.lastModified}`, file, {
       upsert: true,
     });
   if (error) {
@@ -37,14 +37,19 @@ export const insertWriting = async (newWrite: Post) => {
 };
 
 export const getWrite = async (id: string) => {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("id", `${id}`);
+  const { data, error } = await supabase.from("posts").select("*").eq("id", id);
   if (error) {
     console.error(error);
     return Promise.reject(error);
   } else {
     return data[0] as Post;
+  }
+};
+
+export const deleteWrite = async (id: string) => {
+  const { error } = await supabase.from("posts").delete().eq("id", id);
+  if (error) {
+    console.error(error);
+    return Promise.reject(error);
   }
 };
