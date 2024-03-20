@@ -1,5 +1,6 @@
 import { Post } from "@/types/writePage";
 import { supabase } from "../supabase";
+import { MutateFunction } from "@tanstack/react-query";
 
 const path = crypto.randomUUID();
 
@@ -43,6 +44,14 @@ export const getWrite = async (id: string) => {
     return Promise.reject(error);
   } else {
     return data[0] as Post;
+  }
+};
+
+export const updateWrite = async ({ id, post }: { id: string; post: Post }) => {
+  const { error } = await supabase.from("posts").update(post).eq("id", id);
+  if (error) {
+    console.error(error);
+    return Promise.reject(error);
   }
 };
 
