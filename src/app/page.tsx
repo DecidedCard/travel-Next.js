@@ -32,7 +32,6 @@ const Home = () => {
     return []; // 유효한 posts가 없는 경우 빈 배열 반환
   };
   
-
   if (isLoading) return <div>로딩중...</div>;
   if (isError) return <div>패칭 에러</div>;
 
@@ -71,8 +70,8 @@ const Home = () => {
                     isZoomed
                     alt="Card background"
                     className="object-cover rounded-xl"
-                    src="https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"  
-                    width={380}
+                    src={post.postBasicImage ? post.postBasicImage : "https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"}  
+                    width={380} 
                   />
                   <div className="absolute top-2 left-0 z-10">
                   <CardFooter className="bg-white/80 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
