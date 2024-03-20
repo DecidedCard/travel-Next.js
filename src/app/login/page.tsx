@@ -8,6 +8,7 @@ import loginImg from "@/assets/loginImg.jpg";
 import { Button, Card, CardBody, Input } from "@nextui-org/react";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 import EyeFilledIcon from "./EyeFilledIcon";
+import Image from "next/image";
 
 const Login = () => {
   const router = useRouter();
@@ -34,7 +35,7 @@ const Login = () => {
   return (
     <div className="flex relative">
       <div>
-        <img src={loginImg.src} alt="LoginBackgroundImg" className="absolute" />
+        <Image src={loginImg} alt="LoginBackgroundImg" className="absolute" />
       </div>
       <div className="flex absolute px-28 py-20">
         <Card className="flex w-[560px] h-[620px]">

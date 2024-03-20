@@ -7,6 +7,7 @@ import loginImg from "@/assets/loginImg.jpg";
 import { EyeSlashFilledIcon } from "../login/EyeSlashFilledIcon";
 import EyeFilledIcon from "../login/EyeFilledIcon";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const SignUp = () => {
   const router = useRouter();
@@ -88,7 +89,7 @@ const SignUp = () => {
   return (
     <div className="flex relative">
       <div>
-        <img src={loginImg.src} alt="LoginBackgroundImg" className="absolute" />
+        <Image src={loginImg} alt="LoginBackgroundImg" className="absolute" />
       </div>
       <div className="flex absolute px-28 py-20">
         <Card className="flex w-[560px] h-[620px]">
