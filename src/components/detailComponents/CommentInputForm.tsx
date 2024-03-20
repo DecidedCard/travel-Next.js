@@ -5,9 +5,14 @@ import { Button, Input } from "@nextui-org/react";
 import React from "react";
 
 const CommentInputForm = ({ id }: { id: string }) => {
-  const { comment, onChangeCommentHandler, onSubmitInsertHandler } =
-    useComment(id);
-  console.log(comment);
+  const {
+    comment,
+    onChangeCommentHandler,
+    onSubmitInsertHandler,
+    commentData,
+    isError,
+    isLoading,
+  } = useComment(id);
   return (
     <form
       onSubmit={onSubmitInsertHandler}
