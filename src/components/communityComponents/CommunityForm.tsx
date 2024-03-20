@@ -1,4 +1,5 @@
 "use client";
+import useCommunityStore from "@/store/communityStore";
 import { supabase } from "@/util/supabase";
 import React, { useEffect, useState } from "react";
 
@@ -10,22 +11,12 @@ interface CommunityContent {
 
 const CommunityForm = () => {
   const [inputValue, setInputValue] = useState("");
-  const [communityContent, setCommunityContent] = useState<CommunityContent[]>(
-    []
-  );
+  const { communityContent, fetchCommunity, addCommunityContent } =
+    useCommunityStore();
 
   useEffect(() => {
     fetchCommunity();
   }, []);
-
-  const fetchCommunity = async () => {
-    const { data, error } = await supabase.from("community").select("*");
-    if (error) {
-      console.error("Error fetching posts:", error.message);
-    } else {
-      setCommunityContent(data);
-    }
-  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
@@ -38,17 +29,10 @@ const CommunityForm = () => {
       return;
     }
 
-    const { data, error } = await supabase
-      .from("community")
-      .insert([{ communityContent: inputValue, created_at: new Date() }]);
-    if (error) {
-      console.error("Error inserting community:", error.message);
-    } else {
-      console.log("Post inserted successfully:", data);
-      setInputValue("");
-      fetchCommunity();
-    }
+    await addCommunityContent(inputValue);
+    setInputValue("");
   };
+
   return (
     <form
       onSubmit={handleSubmit}
