@@ -5,7 +5,10 @@ import useInput from "../useInput";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import usePostBasicImageStore from "@/store/postBasicImageStore";
-import { insertWriting, updateWrite } from "@/util/writeSupaBase/writeSupaBase";
+import {
+  insertWriting,
+  updateWrite,
+} from "@/util/detail-writeSupaBase/writeSupaBase";
 import useSetMutation from "../useSetMutation";
 import { postQueryKey } from "./useDetailQuery";
 
