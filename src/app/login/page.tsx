@@ -26,14 +26,12 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center"
-      style={{
-        backgroundImage: `url(${loginImg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="min-h-screen flex items-center justify-center">
+      <img
+        src={loginImg.src}
+        alt="LoginBackgroundImg"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
       <div className="bg-cover bg-center w-full h-full">
         <form onSubmit={handleLogin}>
           <input
