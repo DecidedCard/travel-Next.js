@@ -37,7 +37,7 @@ const Login = () => {
         <img src={loginImg.src} alt="LoginBackgroundImg" className="absolute" />
       </div>
       <div className="flex absolute px-28 py-20">
-        <Card className="flex w-[560px] h-[600px]">
+        <Card className="flex w-[560px] h-[620px]">
           <CardBody className="flex flex-col items-center justify-between px-8 py-16">
             <h1 className="text-4xl font-bold mb-10">여행한탕</h1>
             <h1 className="text-2xl font-bold mb-4">로그인</h1>
@@ -45,13 +45,13 @@ const Login = () => {
               <div className="flex flex-col gap-5">
                 <Input
                   type="email"
-                  label="Email"
+                  label="이메일"
                   variant="flat"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
-                  label="Password"
+                  label="비밀번호"
                   variant="flat"
                   endContent={
                     <button
