@@ -38,8 +38,12 @@ const Login = () => {
       </div>
       <div className="absolute">
         <Card className="py-20 w-[560px] h-[682px]">
+          <div>
+            <h3 className="text-3xl font-bold mb-6">로그인</h3>
+          </div>
+
           <form onSubmit={handleLogin}>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5">
               <Input
                 type="email"
                 label="Email"
