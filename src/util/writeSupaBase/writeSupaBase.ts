@@ -1,4 +1,4 @@
-import { post } from "@/types/writePage";
+import { Post } from "@/types/writePage";
 import { supabase } from "../supabase";
 
 const path = crypto.randomUUID();
@@ -22,7 +22,7 @@ export const getUrlImage = (arg: string) => {
   return data;
 };
 
-export const insertWriting = async (newWrite: post) => {
+export const insertWriting = async (newWrite: Post) => {
   const { data, error } = await supabase
     .from("posts")
     .insert([newWrite])
@@ -33,5 +33,18 @@ export const insertWriting = async (newWrite: post) => {
     return error;
   } else {
     return data;
+  }
+};
+
+export const getWrite = async (id: string) => {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("id", `${id}`);
+  if (error) {
+    console.error(error);
+    return Promise.reject(error);
+  } else {
+    return data[0] as Post;
   }
 };
