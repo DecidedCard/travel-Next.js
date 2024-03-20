@@ -50,7 +50,7 @@ export const signIn = async (
     if (!data || !data.user) {
       throw new Error("User data not found in signInWithPassword response");
     }
-
+    localStorage.setItem("user", JSON.stringify(data.user));
     const user = data.user;
 
     const { data: userData, error: fetchError } = await supabase
@@ -83,6 +83,7 @@ export const logout = async () => {
 
     // 세션 제거
     localStorage.removeItem("user");
+    console.log("User data removed from localStorage");
   } catch (error) {
     console.log(error);
   }
