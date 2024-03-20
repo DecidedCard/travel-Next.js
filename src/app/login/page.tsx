@@ -85,7 +85,7 @@ const Login = () => {
               <p className="text-default-400 ">회원이 아니신가요?</p>
               <button
                 onClick={() => {
-                  router.push("/signup");
+                  router.push("/signUp");
                 }}
                 style={{ textDecoration: "underline" }}
               >
