@@ -18,17 +18,46 @@ const SignUp = () => {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  // 이메일 유효성 검사
+  // 유효성 검사 상태 저장
   const [value, setValue] = useState<string>("junior2nextui.org");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
+  const [nicknameError, setNicknameError] = useState<string>("");
 
   const validateEmail = (value: string) =>
     value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 
-  const isInvalid = React.useMemo(() => {
-    if (value === "") return false;
+  const validatePassword = (value: string) =>
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(value);
 
-    return validateEmail(value) ? false : true;
-  }, [value]);
+  const isInvalid = React.useMemo(() => {
+    let invalid = false;
+
+    if (value === "" || !validateEmail(value)) {
+      setValue("유효한 이메일을 입력하세요.");
+      invalid = true;
+    } else {
+      setValue("");
+    }
+
+    if (password === "" || !validatePassword(password)) {
+      setPasswordError(
+        "비밀번호는 최소 6자 이상이어야 하며 영문과 숫자를 포함해야 합니다."
+      );
+      invalid = true;
+    } else {
+      setPasswordError("");
+    }
+
+    return invalid;
+  }, [value, password]);
+
+  // const isInvalid = React.useMemo(() => {
+  //   if (value === "") return false;
+
+  //   return validateEmail(value) ? false : true;
+  //   return validatePassword(passwordError) ? false : true;
+  // }, [value]);
 
   // 회원가입
   const handleSingUp = async (e: React.FormEvent) => {
@@ -40,6 +69,19 @@ const SignUp = () => {
       alert("회원가입을 축하합니다!");
     } catch (error) {
       console.error("Sign up error:", error);
+    }
+
+    if (password.length < 6) {
+      setPasswordError("비밀번호는 6자 이상이어야 합니다.");
+    }
+    if (nickname.length < 2) {
+      setNicknameError("닉네임은 2자 이상이어야 합니다.");
+    }
+
+    if (password !== confirmPassword) {
+      setConfirmPasswordError(
+        "비밀번호가 일치하지 않습니다. 비밀번호를 확인해주세요."
+      );
     }
   };
 
@@ -85,6 +127,9 @@ const SignUp = () => {
                   type={isVisible ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  isInvalid={isInvalid}
+                  color={isInvalid ? "danger" : "default"}
+                  errorMessage={isInvalid && passwordError}
                 />
                 <Input
                   label="비밀번호 확인"
