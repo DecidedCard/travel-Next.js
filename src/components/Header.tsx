@@ -24,7 +24,7 @@ const Header = () => {
         <div className="flex flex-col">
           <h1 className="font-bold text-xl">여행한탕</h1>
           <span className="text-sm font-light">
-            good travel & good experience
+            Good Travel & Good Experience
           </span>
         </div>
       </div>
