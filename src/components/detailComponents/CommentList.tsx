@@ -21,14 +21,14 @@ const CommentList = ({ id }: { id: string }) => {
   return (
     <section>
       {commentData?.map((item) => {
-        return editForm ? (
+        return editForm === item.id ? (
           <CommentEditForm item={item} />
         ) : (
           <div key={item.id} className="flex justify-between">
             <p>{item.comment}</p>
             <div>
               <button
-                onClick={onClickEditFormToggle}
+                onClick={() => onClickEditFormToggle(item.id!)}
                 className="w-14 border-r border-solid border-slate-700"
               >
                 수정

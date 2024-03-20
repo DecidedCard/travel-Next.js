@@ -12,7 +12,8 @@ import { useState } from "react";
 
 const useComment = (id: string) => {
   const [comment, onChangeCommentHandler, setComment] = useInput();
-  const [editForm, setEditForm] = useState(false);
+  const [editForm, setEditForm] = useState("");
+  const [editComment, onChangeEditCommentHandler, setEditComment] = useInput();
   const commentQueryKey = ["detail/comment"];
 
   const {
@@ -44,8 +45,8 @@ const useComment = (id: string) => {
     alert("성공적으로 저장 되었습니다.");
   };
 
-  const onClickEditFormToggle = () => {
-    setEditForm(!editForm);
+  const onClickEditFormToggle = (id: string) => {
+    setEditForm(id);
   };
 
   const { mutate: deleteMutate } = useSetMutation(
@@ -63,6 +64,9 @@ const useComment = (id: string) => {
     deleteMutate,
     editForm,
     onClickEditFormToggle,
+    editComment,
+    onChangeEditCommentHandler,
+    setEditComment,
   };
 };
 
