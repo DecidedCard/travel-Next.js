@@ -3,14 +3,13 @@
 import { Post } from "@/types/writePage";
 import useInput from "../useInput";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import usePostBasicImageStore from "@/store/postBasicImageStore";
 import { insertWriting, updateWrite } from "@/util/writeSupaBase/writeSupaBase";
 import useSetMutation from "../useSetMutation";
 import { postQueryKey } from "./useDetailQuery";
-import useDetailPost from "./useDetailPost";
 
-const useWriteInputForm = (post?: Post | null) => {
+const useWriteInputForm = (post?: Post) => {
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
   const [title, onChangeTitle, setTitle] = useInput();
   const [startDate, onChangeStartDate, setStartDate] = useInput();
@@ -87,7 +86,7 @@ const useWriteInputForm = (post?: Post | null) => {
         postBasicImage,
       };
       updateMutate({ id, post });
-      router.push("/");
+      location.reload();
     }
   };
 
