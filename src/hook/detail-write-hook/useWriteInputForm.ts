@@ -1,7 +1,7 @@
 "use client";
 
-import { post } from "@/types/writePage";
-import useInput from "./useInput";
+import { Post } from "@/types/writePage";
+import useInput from "../useInput";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import usePostBasicImageStore from "@/store/postBasicImageStore";
@@ -41,9 +41,22 @@ const useWriteInputForm = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newPost: post = {
+    if (
+      !title ||
+      !content ||
+      !startDate ||
+      !endDate ||
+      !travelPlace ||
+      !postMainContent
+    ) {
+      alert("내용을 입력해주세요");
+      return;
+    }
+    const newPost: Post = {
+      title,
       content,
       travelDate: `${startDate} ~ ${endDate}`,
+      travelPlace,
       userId: crypto.randomUUID(),
       userName: crypto.randomUUID(),
       userProfile: crypto.randomUUID(),
