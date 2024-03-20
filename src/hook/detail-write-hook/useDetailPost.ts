@@ -1,24 +1,17 @@
-import { deleteWrite } from "@/util/writeSupaBase/writeSupaBase";
+import { deleteWrite, updateWrite } from "@/util/writeSupaBase/writeSupaBase";
 import { postQueryKey, useDetailQuery } from "./useDetailQuery";
 import useSetMutation from "../useSetMutation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const useDetailPost = (id: string) => {
+import type { Post } from "@/types/writePage";
+
+const useDetailPost = (id?: string) => {
   const router = useRouter();
   const [editForm, setEditForm] = useState(false);
-  const { post, isLoading } = useDetailQuery(id);
+  const { post, isLoading } = useDetailQuery(id!);
   const { mutate: deleteMutate } = useSetMutation(deleteWrite, postQueryKey);
-
-  const onClickDeleteHandler = () => {
-    const result = window.confirm("삭제하시겠습니까?");
-    if (result) {
-      router.replace("/");
-      deleteMutate(id);
-    } else {
-      return;
-    }
-  };
+  const { mutate: updateMutate } = useSetMutation(updateWrite, postQueryKey);
 
   const onClickEditFormToggleHandler = () => {
     setEditForm(!editForm);
@@ -31,6 +24,16 @@ const useDetailPost = (id: string) => {
     }
   };
 
+  const onClickDeleteHandler = () => {
+    const result = window.confirm("삭제하시겠습니까?");
+    if (result) {
+      router.replace("/");
+      deleteMutate(id);
+    } else {
+      return;
+    }
+  };
+
   return {
     post,
     isLoading,
@@ -38,6 +41,7 @@ const useDetailPost = (id: string) => {
     editForm,
     onClickEditFormToggleHandler,
     onClickCancelHandler,
+    updateMutate,
   };
 };
 

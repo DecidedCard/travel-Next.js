@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import usePostBasicImageStore from "@/store/postBasicImageStore";
 import { insertWriting } from "@/util/writeSupaBase/writeSupaBase";
+import useDetailPost from "./useDetailPost";
 
 const useWriteInputForm = (post?: Post | null) => {
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
