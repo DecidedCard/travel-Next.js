@@ -15,8 +15,8 @@ const InputForm = ({
   post,
   onClickCancelHandler,
 }: {
-  post: Post;
-  onClickCancelHandler: () => void;
+  post?: Post;
+  onClickCancelHandler?: () => void;
 }) => {
   const { inputValue, inputOnChange, onSubmit, onClickUpdateHandler } =
     useWriteInputForm(post);
