@@ -5,7 +5,7 @@ import useWriteInputForm from "../../hook/detail-write-hook/useWriteInputForm";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 import { Post } from "@/types/writePage";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 const QuillEditor = dynamic(() => import("./QuillEditor"), {
   loading: () => <p>로딩중입니다.</p>,
   ssr: false,
