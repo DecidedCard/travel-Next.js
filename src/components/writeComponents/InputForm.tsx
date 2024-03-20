@@ -4,14 +4,22 @@ import usePostBasicImageStore from "@/store/postBasicImageStore";
 import useWriteInputForm from "../../hook/detail-write-hook/useWriteInputForm";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import dynamic from "next/dynamic";
+import { Post } from "@/types/writePage";
 const QuillEditor = dynamic(() => import("./QuillEditor"), {
   loading: () => <p>로딩중입니다.</p>,
   ssr: false,
 });
 
-const InputForm = () => {
-  const { inputValue, inputOnChange, onSubmit } = useWriteInputForm();
+const InputForm = ({
+  post,
+  onClickCancelHandler,
+}: {
+  post: Post;
+  onClickCancelHandler: () => void;
+}) => {
+  const { inputValue, inputOnChange, onSubmit } = useWriteInputForm(post);
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
+
   return (
     <form className="w-5/6 mx-auto" onSubmit={onSubmit}>
       <Input
@@ -60,7 +68,16 @@ const InputForm = () => {
         setPostBasicImage={setPostBasicImage}
       />
       <div className="flex justify-center">
-        <Button type="submit">등록하기</Button>
+        {post ? (
+          <div>
+            <Button type="button" onClick={onClickCancelHandler}>
+              취소
+            </Button>
+            <Button type="button">수정하기</Button>
+          </div>
+        ) : (
+          <Button type="submit">등록하기</Button>
+        )}
       </div>
     </form>
   );

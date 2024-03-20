@@ -3,18 +3,39 @@
 import { Post } from "@/types/writePage";
 import useInput from "../useInput";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import usePostBasicImageStore from "@/store/postBasicImageStore";
 import { insertWriting } from "@/util/writeSupaBase/writeSupaBase";
 
-const useWriteInputForm = () => {
-  const { postBasicImage } = usePostBasicImageStore();
+const useWriteInputForm = (post?: Post | null) => {
+  const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
   const [title, onChangeTitle, setTitle] = useInput();
   const [startDate, onChangeStartDate, setStartDate] = useInput();
   const [endDate, onChangeEndDate, setEndDate] = useInput();
   const [travelPlace, onChangeTravelPlace, setTravelPlace] = useInput();
   const [content, onChangeContent, setContent] = useInput();
   const [postMainContent, setPostMainContent] = useState("");
+
+  useEffect(() => {
+    if (post) {
+      setTitle(post.title);
+      setStartDate(post.travelDate.slice(0, 10));
+      setEndDate(post.travelDate.slice(13));
+      setContent(post.content);
+      setPostMainContent(post.postMainContent);
+      setTravelPlace(post.travelPlace);
+      setPostBasicImage(post.postBasicImage);
+    }
+  }, [
+    post,
+    setTitle,
+    setStartDate,
+    setEndDate,
+    setContent,
+    setPostMainContent,
+    setTravelPlace,
+    setPostBasicImage,
+  ]);
 
   const onChangePostMainContent = (arg: string) => {
     setPostMainContent(arg);
