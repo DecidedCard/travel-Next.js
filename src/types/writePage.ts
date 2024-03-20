@@ -5,9 +5,9 @@ export type Post = {
   postDate?: Date;
   travelDate: string;
   travelPlace: string;
-  userId: string;
-  userName: string;
-  userProfile: string;
+  userId?: string;
+  userName?: string;
+  userProfile?: string;
   postMainContent: string;
   postBasicImage: string;
 };

@@ -1,7 +1,12 @@
-import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  MutateFunction,
+  QueryKey,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 const useSetMutation = (
-  fc: (id: string) => Promise<undefined>,
+  fc: (arg: any) => Promise<undefined>,
   queryKey: QueryKey
 ) => {
   const queryClient = useQueryClient();
