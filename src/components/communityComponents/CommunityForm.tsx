@@ -27,13 +27,16 @@ const CommunityForm = () => {
     }
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim()) {
+      alert("내용을 입력해주세요!");
+      return;
+    }
 
     const { data, error } = await supabase
       .from("community")
@@ -47,17 +50,19 @@ const CommunityForm = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="max-w-md mx-auto mt-10 p-4 border rounded-lg">
-        <input
-          className="w-full border-2 border-blue-500 rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-500"
-          type="text"
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col items-center h-screen"
+    >
+      <div className="max-w-screen-lg mx-auto mt-10 p-4 border rounded-lg flex flex-col items-center">
+        <textarea
+          className="w-[800px] h-52 border-2 border-blue-500 rounded-xl px-3 py-3 mb-4 focus:outline-none focus:border-blue-500 resize-none"
+          maxLength={200}
           value={inputValue}
           onChange={handleInputChange}
-          placeholder="입력하세요..."
         />
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-auto"
           type="submit"
         >
           등록
