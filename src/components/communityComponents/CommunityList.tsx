@@ -13,7 +13,7 @@ const CommunityList = () => {
   const handleDelete = async (postId: string) => {
     if (window.confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
       await deleteCommunityContent(postId);
-      fetchCommunity(); // 게시물 삭제 후 목록 다시 불러오기
+      fetchCommunity();
     }
   };
 

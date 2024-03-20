@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 interface CommunityContent {
   id: number;
   communityContent: string;
-  created_at: Date;
+  created_at: string;
 }
 
 const CommunityForm = () => {
@@ -24,6 +24,7 @@ const CommunityForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!inputValue.trim()) {
       alert("내용을 입력해주세요!");
       return;
@@ -31,6 +32,7 @@ const CommunityForm = () => {
 
     await addCommunityContent(inputValue);
     setInputValue("");
+    fetchCommunity();
   };
 
   return (
