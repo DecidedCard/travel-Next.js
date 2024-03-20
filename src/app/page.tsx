@@ -12,18 +12,14 @@ import {
   CardFooter,
 } from "@nextui-org/react";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
-import { getAllPosts } from "@/hook/usePostData";
+import { usePosts } from "@/hook/usePostData";
 
 const Home = () => {
-  const { data: posts, isLoading, isError } = useQuery({
-    queryKey: ['posts'],
-    queryFn: getAllPosts,
-  }); 
+  const { data: posts, isLoading, isError } = usePosts();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>로딩중...</div>;
   if (isError) return <div>패칭 에러</div>;
-
+  
   return (
     <div>
       <div className="relative w-full h-[396px]">

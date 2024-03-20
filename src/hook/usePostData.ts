@@ -1,5 +1,5 @@
 import { supabase } from "@/util/supabase";
-import { Post } from "@/types/writePage";
+import { useQuery } from "@tanstack/react-query";
 
 export const getAllPosts = async () => {
     const { data, error } = await supabase.from("posts").select("*");
@@ -9,4 +9,11 @@ export const getAllPosts = async () => {
     } else {
       return data;
     }
+  };
+
+export const usePosts = () => {
+    return useQuery({
+      queryKey: ['posts'],
+      queryFn: getAllPosts,
+    });
   };
