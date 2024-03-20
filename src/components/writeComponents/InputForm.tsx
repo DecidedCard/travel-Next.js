@@ -1,7 +1,7 @@
 "use client";
 
 import usePostBasicImageStore from "@/store/postBasicImageStore";
-import useWriteInputForm from "../../hook/useWriteInputForm";
+import useWriteInputForm from "../../hook/detail-write-hook/useWriteInputForm";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 const QuillEditor = dynamic(() => import("./QuillEditor"), {
