@@ -48,13 +48,13 @@ const Home = () => {
         </div>
       </div>
       <div className="mt-10 flex">
-        <Button color="primary" className="ml-5 mr-2" onClick={sortByLatest}>
+        <Button color="primary" className="ml-5 font-semibold mr-2" onClick={sortByLatest}>
         최신 순
         </Button>
-        <Button color="warning" className="mr-2" onClick={sortByOldest}>
+        <Button color="warning" className="mr-2 font-semibold" onClick={sortByOldest}>
         오래된 순
         </Button>  
-        <Button color="default">
+        <Button color="default" className="font-semibold">
         댓글 순
         </Button>
       </div>
@@ -71,7 +71,8 @@ const Home = () => {
                     alt="Card background"
                     className="object-cover rounded-xl"
                     src={post.postBasicImage ? post.postBasicImage : "https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"}  
-                    width={380} 
+                    width={380}
+                    height={300} 
                   />
                   <div className="absolute top-2 left-0 z-10">
                   <CardFooter className="bg-white/80 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
