@@ -1,14 +1,13 @@
 "use client";
 
-import { useDetailQuery } from "@/hook/useDetailQuery";
+import useDetailPost from "@/hook/detail-write-hook/useDetailPost";
 import React from "react";
 
 const PostDetail = ({ id }: { id: string }) => {
-  const { post, isLoading } = useDetailQuery(id);
+  const { post, isLoading, onClickDeleteHandler } = useDetailPost(id);
   if (isLoading) {
     return <div>로딩중입니다.</div>;
   }
-  console.log(post);
 
   return (
     <main className="border border-solid border-slate-950 max-w-7xl min-w-[800px] min-h-96 mx-auto">
@@ -18,7 +17,9 @@ const PostDetail = ({ id }: { id: string }) => {
           <button className="border-r border-solid border-gray-700 w-14">
             수정
           </button>
-          <button className="w-14">삭제</button>
+          <button className="w-14" onClick={onClickDeleteHandler}>
+            삭제
+          </button>
         </div>
       </section>
       <section className="flex flex-col gap-5 m-2 pb-1 border-b border-solid border-gray-700">
