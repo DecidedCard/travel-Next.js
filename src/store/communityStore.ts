@@ -5,7 +5,7 @@ export interface CommunityContent {
   id: string;
   communityContent: string;
   created_at: Date;
-  // user_nickname: string;
+  nickname: string;
 }
 
 interface CommunityStore {
@@ -23,6 +23,13 @@ const useCommunityStore = create<CommunityStore>((set) => ({
     set({ communityContent: response.data });
   },
   addCommunityContent: async (content) => {
+    const userInfoString = localStorage.getItem("user");
+    if (!userInfoString) {
+      console.error("유저 정보를 찾을 수 없습니다.");
+      return;
+    }
+    const userInfo = JSON.parse(userInfoString);
+    const { nickname } = userInfo;
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, "0");
@@ -36,6 +43,7 @@ const useCommunityStore = create<CommunityStore>((set) => ({
       {
         communityContent: content,
         created_at: timeString,
+        nickname: nickname,
       },
     ]);
   },

@@ -88,7 +88,7 @@ const CommunityList: React.FC = () => {
             ) : (
               <>
                 <p>{post.communityContent}</p>
-                <p>작성자: 임시1234</p>
+                <p>작성자: {post.nickname}</p>
                 <p>작성일: {new Date(post.created_at).toLocaleString()}</p>
                 <button
                   onClick={() => handleEdit(post.id, post.communityContent)}
