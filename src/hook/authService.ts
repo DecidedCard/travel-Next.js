@@ -83,7 +83,6 @@ export const logout = async () => {
 
     // 세션 제거
     localStorage.removeItem("user");
-    console.log("User data removed from localStorage");
   } catch (error) {
     console.log(error);
   }
