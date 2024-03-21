@@ -77,7 +77,7 @@ const Home = () => {
             <Card key={post.id} className="py-4">
               <CardBody className="overflow-visible py-2">
               <h1 className="text-lg font-bold mb-2">🛫&nbsp;&nbsp;여행 기간</h1>
-               <p className="mb-2">{post.travelDate}</p>
+               <p className="mb-2 font-semibold text-blue-500">{post.travelDate}</p>
                <div className="relative">
                   <NextUiImg
                     isZoomed
@@ -87,8 +87,8 @@ const Home = () => {
                     width={460}  
                   />
                   <div className="absolute top-2 left-0 z-10">
-                  <CardFooter className="bg-white/80 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
-                    <p className="text-medium text-#5356FF font-bold">📍{post.travelPlace}</p>
+                  <CardFooter className="bg-white/90 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
+                    <p className="text-medium font-bold text-blue-600">📍{post.travelPlace}</p>
                   </CardFooter>
                   </div>
                 </div>
