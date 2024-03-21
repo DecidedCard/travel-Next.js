@@ -1,7 +1,7 @@
 "use client";
 
-import { Avatar, Button, Input } from "@nextui-org/react";
 import React from "react";
+import { Avatar, Button, Input } from "@nextui-org/react";
 
 import type { CommentInputFormProps } from "@/types/writePage";
 
@@ -31,7 +31,7 @@ const CommentInputForm = ({
       <Button type="submit">등록</Button>
     </form>
   ) : (
-    <div> 로그인 해주시기 바랍니다.</div>
+    <div> 댓글 작성은 로그인 후 이용 가능합니다.</div>
   );
 };
 

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   deleteComment,
   getComments,
@@ -5,12 +8,11 @@ import {
   updateComment,
 } from "@/util/detail-writeSupaBase/detailSupaBase";
 import useSetMutation from "../useSetMutation";
+import useUserInfo from "./useUserInfo";
 import useInput from "../useInput";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import useUserInfo from "./useUserInfo";
 
-import type { PostComment, UserInfo } from "@/types/writePage";
+import type { PostComment } from "@/types/writePage";
 
 const useComment = (id: string) => {
   const { userInfo } = useUserInfo();
@@ -58,9 +60,9 @@ const useComment = (id: string) => {
 
     const newComment: PostComment = {
       postId: id,
-      userId: userInfo.current.id,
-      userProfile: userInfo.current.avatar,
-      userName: userInfo.current.nickname,
+      userId: userInfo.current!.id,
+      userProfile: userInfo.current!.avatar!,
+      userName: userInfo.current!.nickname,
       comment,
     };
     insertCommentMutate({ newComment });

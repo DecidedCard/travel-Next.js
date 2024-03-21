@@ -1,5 +1,4 @@
 import { User } from "@/types";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 const useUserInfo = () => {
