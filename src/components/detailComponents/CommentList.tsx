@@ -15,6 +15,7 @@ const CommentList = ({ id }: { id: string }) => {
     editComment,
     setEditComment,
     onChangeEditCommentHandler,
+    onSubmitUpdateHandler,
   } = useComment(id);
   if (isLoading) {
     return <div>로딩중입니다...</div>;
@@ -34,6 +35,7 @@ const CommentList = ({ id }: { id: string }) => {
                 setEditComment={setEditComment}
                 onChangeEditCommentHandler={onChangeEditCommentHandler}
                 onClickEditingIdSet={onClickEditingIdSet}
+                onSubmitUpdateHandler={onSubmitUpdateHandler}
               />
             ) : (
               <div className="flex justify-between">

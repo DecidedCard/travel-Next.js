@@ -12,23 +12,30 @@ const CommentEditForm = ({
   setEditComment,
   onChangeEditCommentHandler,
   onClickEditingIdSet,
+  onSubmitUpdateHandler,
 }: {
   item: PostComment;
   editComment: string;
   setEditComment: (editComment: string) => void;
   onChangeEditCommentHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClickEditingIdSet: (editComment: string) => void;
+  onSubmitUpdateHandler: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: string
+  ) => void;
 }) => {
   useEffect(() => {
     setEditComment(item.comment);
   }, [setEditComment, item.comment]);
 
   return (
-    <div>
+    <form onSubmit={(e) => onSubmitUpdateHandler(e, item.id!)}>
       <Input value={editComment} onChange={onChangeEditCommentHandler} />
-      <button onClick={() => onClickEditingIdSet("")}>취소</button>
-      <button>수정하기</button>
-    </div>
+      <button type="button" onClick={() => onClickEditingIdSet("")}>
+        취소
+      </button>
+      <button type="submit">수정하기</button>
+    </form>
   );
 };
 
