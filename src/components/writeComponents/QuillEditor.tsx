@@ -1,11 +1,10 @@
 "use client";
 
+import { useEffect, useMemo, useRef } from "react";
 import imageHandler from "@/util/quillImageHandler";
 import { ImageActions } from "@xeger/quill-image-actions";
 import { ImageFormats } from "@xeger/quill-image-formats";
-import { useEffect, useMemo, useRef } from "react";
 import ReactQuill, { Quill } from "react-quill";
-
 import "react-quill/dist/quill.snow.css";
 
 Quill.register("modules/imageActions", ImageActions);
@@ -66,7 +65,7 @@ const QuillEditor = ({
           image: () => imageHandler(quillRef, dataPath, imgUrl),
         },
       },
-      imageActions: {},
+      // imageActions: {},
       imageFormats: {},
     };
   }, []);
