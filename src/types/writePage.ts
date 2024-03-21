@@ -16,3 +16,20 @@ export type PostBasicImageStore = {
   postBasicImage: string;
   setPostBasicImage: (arg: string) => void;
 };
+
+export type PostComment = {
+  id?: string;
+  created_at?: string;
+  postId: string;
+  userId: string;
+  userProfile: string;
+  userName: string;
+  comment: string;
+};
+
+export type UserInfo = {
+  avatar: string;
+  email: string;
+  id: string;
+  nickname: string;
+};
