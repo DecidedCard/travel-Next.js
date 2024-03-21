@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Input } from "@nextui-org/react";
+import { Avatar, Input } from "@nextui-org/react";
 
 import type { PostComment } from "@/types/writePage";
-import useComment from "@/hook/detail-write-hook/useComment";
 
 const CommentEditForm = ({
   item,
@@ -29,12 +28,36 @@ const CommentEditForm = ({
   }, [setEditComment, item.comment]);
 
   return (
-    <form onSubmit={(e) => onSubmitUpdateHandler(e, item.id!)}>
-      <Input value={editComment} onChange={onChangeEditCommentHandler} />
-      <button type="button" onClick={() => onClickEditingIdSet("")}>
-        취소
-      </button>
-      <button type="submit">수정하기</button>
+    <form
+      onSubmit={(e) => onSubmitUpdateHandler(e, item.id!)}
+      className="flex justify-evenly items-center my-2 py-2 border-b border-solid border-gray-700"
+    >
+      <div className="flex justify-evenly items-center w-24">
+        <Avatar src={item.userProfile} alt="유저 프로필" />
+        <p>{item.userName}</p>
+      </div>
+      <Input
+        type="text"
+        placeholder="코멘트를 입력해주세요"
+        value={editComment}
+        onChange={onChangeEditCommentHandler}
+        className="w-9/12"
+      />
+      <div>
+        <button
+          type="submit"
+          className="border-r border-solid border-gray-700 w-20"
+        >
+          수정하기
+        </button>
+        <button
+          type="button"
+          onClick={() => onClickEditingIdSet("")}
+          className="w-12 text-subColor1"
+        >
+          취소
+        </button>
+      </div>
     </form>
   );
 };

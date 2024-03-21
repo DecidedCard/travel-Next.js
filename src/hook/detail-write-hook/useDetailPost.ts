@@ -3,12 +3,14 @@ import { postQueryKey, useDetailQuery } from "./useDetailQuery";
 import useSetMutation from "../useSetMutation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import useUserInfo from "./useUserInfo";
 
 const useDetailPost = (id: string) => {
-  const router = useRouter();
+  const { userInfo } = useUserInfo();
   const [editFormToggle, setEditFormToggle] = useState(false);
   const { post, isLoading, isError } = useDetailQuery(id);
   const { mutate: deleteMutate } = useSetMutation(deleteWrite, postQueryKey);
+  const router = useRouter();
 
   const onClickEditFormToggleHandler = () => {
     setEditFormToggle(!editFormToggle);
@@ -40,6 +42,7 @@ const useDetailPost = (id: string) => {
     onClickEditFormToggleHandler,
     onClickCancelHandler,
     setEditFormToggle,
+    userInfo,
   };
 };
 
