@@ -8,9 +8,9 @@ import useSetMutation from "../useSetMutation";
 import useInput from "../useInput";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import useUserInfo from "./useUserInfo";
 
 import type { PostComment, UserInfo } from "@/types/writePage";
-import useUserInfo from "./useUserInfo";
 
 const useComment = (id: string) => {
   const { userInfo } = useUserInfo();

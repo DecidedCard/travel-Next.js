@@ -80,21 +80,25 @@ const CommentList = ({
                       </h4>
                     </div>
                   </div>
-                  {item.userId === userInfo.current.id && (
-                    <div className="mt-auto">
-                      <button
-                        onClick={() => onClickEditingIdSet(item.id!)}
-                        className="w-14 border-r border-solid border-slate-700"
-                      >
-                        수정
-                      </button>
-                      <button
-                        onClick={() => deleteMutate(item.id)}
-                        className="w-14 text-subColor1"
-                      >
-                        삭제
-                      </button>
-                    </div>
+                  {userInfo.current ? (
+                    item.userId === userInfo.current.id && (
+                      <div className="mt-auto">
+                        <button
+                          onClick={() => onClickEditingIdSet(item.id!)}
+                          className="w-14 border-r border-solid border-slate-700"
+                        >
+                          수정
+                        </button>
+                        <button
+                          onClick={() => deleteMutate(item.id)}
+                          className="w-14 text-subColor1"
+                        >
+                          삭제
+                        </button>
+                      </div>
+                    )
+                  ) : (
+                    <></>
                   )}
                 </CardHeader>
                 <CardBody className="p-5 text-small text-default-400">

@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Button, Input } from "@nextui-org/react";
+import { Avatar, Button, Input, user } from "@nextui-org/react";
 import React from "react";
 
 const CommentInputForm = ({
@@ -19,7 +19,7 @@ const CommentInputForm = ({
   onChangeCommentHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmitInsertHandler: (e: React.FormEvent<HTMLFormElement>) => void;
 }) => {
-  return (
+  return userInfo.current ? (
     <form
       onSubmit={onSubmitInsertHandler}
       className="flex justify-evenly items-center my-2 py-2 border-b border-solid border-gray-700"
@@ -38,6 +38,8 @@ const CommentInputForm = ({
       />
       <Button type="submit">등록</Button>
     </form>
+  ) : (
+    <div> 로그인 해주시기 바랍니다.</div>
   );
 };
 

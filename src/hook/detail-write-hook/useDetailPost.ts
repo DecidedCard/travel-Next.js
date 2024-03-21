@@ -1,3 +1,5 @@
+"use client";
+
 import { deleteWrite } from "@/util/detail-writeSupaBase/writeSupaBase";
 import { postQueryKey, useDetailQuery } from "./useDetailQuery";
 import useSetMutation from "../useSetMutation";

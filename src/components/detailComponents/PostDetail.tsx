@@ -34,21 +34,25 @@ const PostDetail = ({ id }: { id: string }) => {
     <main>
       <section className="flex justify-between items-center m-2 py-4 border-b border-solid border-gray-700">
         <h2 className="text-4xl font-bold">{post!.title}</h2>
-        {post?.userId === userInfo.current.id && (
-          <div>
-            <button
-              className="border-r border-solid border-gray-700 w-14"
-              onClick={onClickEditFormToggleHandler}
-            >
-              수정
-            </button>
-            <button
-              className="w-14 text-subColor1"
-              onClick={onClickDeleteHandler}
-            >
-              삭제
-            </button>
-          </div>
+        {userInfo.current ? (
+          post?.userId === userInfo.current.id && (
+            <div>
+              <button
+                className="border-r border-solid border-gray-700 w-14"
+                onClick={onClickEditFormToggleHandler}
+              >
+                수정
+              </button>
+              <button
+                className="w-14 text-subColor1"
+                onClick={onClickDeleteHandler}
+              >
+                삭제
+              </button>
+            </div>
+          )
+        ) : (
+          <></>
         )}
       </section>
       <section className="flex flex-col gap-5 m-2 pb-1 border-b border-solid border-gray-700">
