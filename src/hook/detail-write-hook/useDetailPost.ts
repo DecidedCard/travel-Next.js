@@ -1,23 +1,27 @@
+"use client";
+
 import { deleteWrite } from "@/util/detail-writeSupaBase/writeSupaBase";
 import { postQueryKey, useDetailQuery } from "./useDetailQuery";
 import useSetMutation from "../useSetMutation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import useUserInfo from "./useUserInfo";
 
 const useDetailPost = (id: string) => {
-  const router = useRouter();
-  const [editForm, setEditForm] = useState(false);
-  const { post, isLoading } = useDetailQuery(id);
+  const { userInfo } = useUserInfo();
+  const [editFormToggle, setEditFormToggle] = useState(false);
+  const { post, isLoading, isError } = useDetailQuery(id);
   const { mutate: deleteMutate } = useSetMutation(deleteWrite, postQueryKey);
+  const router = useRouter();
 
   const onClickEditFormToggleHandler = () => {
-    setEditForm(!editForm);
+    setEditFormToggle(!editFormToggle);
   };
 
   const onClickCancelHandler = () => {
     const result = window.confirm("취소하시겠습니까?");
     if (result) {
-      setEditForm(false);
+      setEditFormToggle(false);
     }
   };
 
@@ -34,11 +38,13 @@ const useDetailPost = (id: string) => {
   return {
     post,
     isLoading,
+    isError,
     onClickDeleteHandler,
-    editForm,
+    editFormToggle,
     onClickEditFormToggleHandler,
     onClickCancelHandler,
-    setEditForm,
+    setEditFormToggle,
+    userInfo,
   };
 };
 

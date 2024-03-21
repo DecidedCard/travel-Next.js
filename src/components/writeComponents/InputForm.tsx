@@ -1,14 +1,15 @@
 "use client";
 
 import usePostBasicImageStore from "@/store/postBasicImageStore";
-import useWriteInputForm from "../../hook/detail-write-hook/useWriteInputForm";
+import useWriteInputForm from "@/hook/detail-write-hook/useWriteInputForm";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import dynamic from "next/dynamic";
-import { Post } from "@/types/writePage";
 const QuillEditor = dynamic(() => import("./QuillEditor"), {
   loading: () => <p>로딩중입니다.</p>,
   ssr: false,
 });
+
+import type { Post } from "@/types/writePage";
 
 const InputForm = ({
   post,
