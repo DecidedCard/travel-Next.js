@@ -3,8 +3,8 @@
 import React from "react";
 import CommentEditForm from "./CommentEditForm";
 import { Avatar, Card, CardBody, CardHeader } from "@nextui-org/react";
-import type { PostComment } from "@/types/writePage";
-import { UseMutateFunction } from "@tanstack/react-query";
+
+import type { CommentListProps } from "@/types/writePage";
 
 const CommentList = ({
   userInfo,
@@ -18,27 +18,7 @@ const CommentList = ({
   onChangeEditCommentHandler,
   onSubmitUpdateHandler,
   deleteMutate,
-}: {
-  userInfo: React.MutableRefObject<{
-    avatar: string;
-    id: string;
-    email: string;
-    nickname: string;
-  }>;
-  commentsData: PostComment[];
-  isLoading: boolean;
-  isError: boolean;
-  editingId: string;
-  onClickEditingIdSet: (id: string) => void;
-  editComment: string;
-  setEditComment: React.Dispatch<React.SetStateAction<string>>;
-  onChangeEditCommentHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmitUpdateHandler: (
-    e: React.FormEvent<HTMLFormElement>,
-    id: string
-  ) => void;
-  deleteMutate: UseMutateFunction<unknown, Error, any, unknown>;
-}) => {
+}: CommentListProps) => {
   if (isLoading) {
     return <div>로딩중입니다...</div>;
   }
