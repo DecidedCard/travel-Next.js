@@ -1,6 +1,5 @@
 import { Post } from "@/types/writePage";
 import { supabase } from "../supabase";
-import { MutateFunction } from "@tanstack/react-query";
 
 const path = crypto.randomUUID();
 
