@@ -1,10 +1,11 @@
 "use client";
-import useCommunityStore from "@/store/communityStore";
 import React, { useEffect, useState } from "react";
+import useCommunityStore, { CommunityContent } from "@/store/communityStore";
+import SearchCommunity from "./SearchCommunity";
 
-const CommunityList = () => {
+const CommunityList: React.FC = () => {
   const {
-    communityContent,
+    communityContent: initialCommunityContent,
     fetchCommunity,
     deleteCommunityContent,
     updateCommunityContent,
@@ -13,8 +14,29 @@ const CommunityList = () => {
   useEffect(() => {
     fetchCommunity();
   }, []);
+
   const [editId, setEditId] = useState<string | null>(null);
   const [editedContent, setEditedContent] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [communityContent, setCommunityContent] = useState<CommunityContent[]>(
+    initialCommunityContent
+  );
+
+  useEffect(() => {
+    setCommunityContent(initialCommunityContent);
+  }, [initialCommunityContent]);
+
+  const handleSearch = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
+    if (searchTerm.trim() === "") {
+      setCommunityContent(initialCommunityContent);
+    } else {
+      const results = initialCommunityContent.filter((post) =>
+        post.communityContent.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setCommunityContent(results);
+    }
+  };
 
   const handleDelete = async (postId: string) => {
     if (window.confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
@@ -50,6 +72,7 @@ const CommunityList = () => {
   return (
     <div>
       <h2>Community List</h2>
+      <SearchCommunity onSearch={handleSearch} />
       <ul>
         {communityContent.map((post) => (
           <li key={post.id}>
@@ -65,7 +88,6 @@ const CommunityList = () => {
             ) : (
               <>
                 <p>{post.communityContent}</p>
-                {/* <p>작성자: {post.nickname}</p> */}
                 <p>작성자: 임시1234</p>
                 <p>작성일: {new Date(post.created_at).toLocaleString()}</p>
                 <button

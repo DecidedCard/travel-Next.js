@@ -1,7 +1,7 @@
 import { supabase } from "@/util/supabase";
 import { create } from "zustand";
 
-interface CommunityContent {
+export interface CommunityContent {
   id: string;
   communityContent: string;
   created_at: Date;
@@ -36,14 +36,8 @@ const useCommunityStore = create<CommunityStore>((set) => ({
       {
         communityContent: content,
         created_at: timeString,
-        // created_at: new Date(),
       },
     ]);
-    // if (!response.error) {
-    //   await fetchCommunity();
-    // } else {
-    //   console.error("Error inserting community:", response.error.message);
-    // }
   },
   deleteCommunityContent: async (postId) => {
     const response = await supabase.from("community").delete().eq("id", postId);
