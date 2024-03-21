@@ -20,23 +20,9 @@ import { useState } from "react";
 
 const Home = () => {
   const { data: posts, isLoading, isError } = usePosts();
-  const { sortOrder, sortByLatest, sortByOldest } = usePostSort()
+  const { sortByLatest, sortByOldest, getSortedPosts  } = usePostSort()
   const router = useRouter();
   const [ searchKeyword, setsearchKeyword ] = useState('');
-
-
-  const getSortedPosts = () => {
-    if (posts && posts.length > 0) {
-      if (sortOrder === 'latest') {
-        // 최신순 정렬
-        return posts.sort((a, b) => new Date(b.postDate).getTime() - new Date(a.postDate).getTime());
-      } else {
-        // 오래된 순 정렬
-        return posts.sort((a, b) => new Date(a.postDate).getTime() - new Date(b.postDate).getTime());
-      }
-    }
-    return []; // 유효한 posts가 없는 경우 빈 배열 반환
-  };
   
   const filteredPostsByKeyword = (keyword: string) => {
     return getSortedPosts().filter(post =>
