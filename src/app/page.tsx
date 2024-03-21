@@ -10,7 +10,6 @@ import {
   User,
   ScrollShadow,
   CardFooter,
-  Tab,
 } from "@nextui-org/react";
 import Image from "next/image";
 import { usePosts } from "@/hook/usePostData";
@@ -88,19 +87,22 @@ const Home = () => {
                   />
                   <div className="absolute top-2 left-0 z-10">
                   <CardFooter className="bg-white/90 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
-                    <p className="text-medium font-bold text-blue-600">📍{post.travelPlace}</p>
+                    <p className="text-medium font-bold text-blue-600">📍&nbsp;{post.travelPlace}</p>
                   </CardFooter>
                   </div>
                 </div>
               </CardBody>
               <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                <User
-                  name={post.userName} 
-                  avatarProps={{
-                    src: post.userProfile, 
-                  }}
-                  className="font-semibold mb-2"
-                />
+                <div className="flex justify-between items-center w-full"> 
+                  <User
+                    name={post.userName}
+                    avatarProps={{
+                      src: post.userProfile,
+                    }}
+                    className="font-bold mb-2"
+                  />
+                  <p className="">💬&nbsp;&nbsp;{post.comment_count}</p>
+                </div>
                 <hr className="w-full border-2 border-gray-40 mb-1" />
                 <h1 className="uppercase font-bold mt-3">{post.title.length > 20 ? `${post.title.substring(0, 20)}...` : post.title}</h1>
                 <p className="text-default-500 mt-3">{post.content.length > 50 ? `${post.content.substring(0, 50)}...` : post.content}</p>
