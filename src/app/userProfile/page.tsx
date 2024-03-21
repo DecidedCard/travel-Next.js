@@ -4,13 +4,14 @@ import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/react";
 import Image from "next/image";
 import Profile from "@/components/profile/Profile";
+
 const userProfile = () => {
   return (
     <div className="flex min-w-full m-5">
       <Profile />
       <section className="p-4">
         <div className="flex w-full flex-col">
-          <Tabs aria-label="Options">
+          <Tabs aria-label="Options" color="primary" variant="bordered">
             <Tab key="내가 등록한글" title="내가 등록한글">
               <Card>
                 <CardBody>

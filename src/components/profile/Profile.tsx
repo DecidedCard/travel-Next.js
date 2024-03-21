@@ -1,68 +1,109 @@
-import Image from "next/image";
-import React, { useRef, useState } from "react";
+"use Client";
+import { supabase } from "@/util/supabase";
+import { Avatar, Button, CircularProgress, Input } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCameraSearch } from "react-icons/tb";
-import { Input } from "@nextui-org/react";
-import defaultUser from "../../assets/defaultUser.png";
-import { supabase } from "@/util/supabase";
-import { useMutation, useQuery } from "@tanstack/react-query";
-
-interface Profile {
-  profileUrl: string;
-}
 
 const Profile = () => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  // const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
-  // const [nickName, setNickName] = useState("");
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>("");
+  const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
   const [newNickName, setNewNickName] = useState("");
   const [isEditingNickName, setIsEditingNickName] = useState(false);
+  const [newAvatar, setNewAvatar] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
-  const fileInput = useRef(null);
-  // 프로필
-  const imgSelectehandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newFile = e.target.files?.[0];
-    if (newFile) {
-      setSelectedFile(newFile);
+  // async function getAllUsersMetadata() {
+  //   try {
+  //     const { data: allUsersMetadata, error } = await supabase
+  //       .from("users")
+  //       .select("*");
+
+  //     if (error) {
+  //       console.error("Error fetching users metadata:", error.message);
+  //       return;
+  //     }
+
+  //     if (allUsersMetadata && allUsersMetadata.length > 0) {
+  //       console.log("All Users Metadata:");
+  //       allUsersMetadata.forEach((userMetadata) => {
+  //         console.log("User ID:", userMetadata.id);
+  //         console.log("Email:", userMetadata.email);
+  //         console.log("Nickname:", userMetadata.nickname);
+  //         console.log("avatar:", userMetadata.avatar);
+  //         console.log("---------------------------");
+  //       });
+  //     } else {
+  //       console.log("No user metadata found.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching users metadata:", error);
+  //   }
+  // }
+  // getAllUsersMetadata();
+
+  //유저 정보가져오기
+  useEffect(() => {
+    const Users = localStorage.getItem("user");
+    if (Users) {
+      setUserInfo(JSON.parse(Users));
     }
-  };
+  }, []);
 
-  const { data, error, isLoading } = useQuery(["profile"], async () => {
-    const { data, error } = await supabase.from("profiles").select("*");
-    if (error) throw error;
-    return data;
-  });
-
-  const [mutateProfile, { isLoading: isMutating }] = useMutation(
-    async (newProfile: Profile) => {
-      const { data, error } = await supabase
-        .from("userProfile")
-        .update(newProfile);
-      if (error) throw error;
-      return data;
-    },
-    {
-      onSuccess: () => {
-        // 로컬 상태 업데이트
-      },
-    }
-  );
-
-  const imgUploadHandler = async (file: File) => {
-    if (!selectedFile) return;
-
-    const { data, error } = await supabase.storage
-      .from("userProfile")
-      .upload(file.name, file);
-    if (error) throw error;
-
-    const updatedProfile = {
-      ...data,
-      profileUrl: data.url,
+  // 저장
+  useEffect(() => {
+    const downloadImage = async (path: string) => {
+      try {
+        const { data, error } = await supabase.storage
+          .from("userProfile/avatar")
+          .download(path);
+        if (error) {
+          throw error;
+        }
+        const url = await URL.createObjectURL(data);
+        setAvatarUrl(url);
+      } catch (error) {
+        console.log("Error downloading image: ", error);
+      }
     };
+  }, [supabase]);
 
-    await mutateProfile(updatedProfile);
-  };
+  // // 이미지 업로드
+  // const uploadImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   try {
+  //     setUploading(true);
+
+  //     if (!e.target.files || e.target.files.length === 0) {
+  //       throw new Error("업로드할 이미지를 선택하세요");
+  //     }
+
+  //     const file = e.target.files[0];
+  //     const fileExt = file.name.split(".").pop();
+  //     const filePath = `${userInfo.id}/${userInfo.id}.${fileExt}`;
+
+  //     const { error: uploadError } = await supabase.storage
+  //       .from("userProfile/avatar")
+  //       .upload(filePath, file);
+
+  //     if (uploadError) {
+  //       throw uploadError;
+  //     }
+  //     if (file) {
+  //       const imageUrl = await data(file);
+  //       if (imageUrl) {
+  //         setNewAvatar(imageUrl);
+  //         // URL을 로컬 스토리지에 저장합니다.
+  //         localStorage.setItem("profilePicUrl", imageUrl);
+  //       }
+  //     }
+  //     setUserInfo(imageUrl);
+  //     setUploading(false);
+  //   } catch (error) {
+  //     alert("Error uploading avatar");
+  //   } finally {
+  //   }
+  // };
 
   // 닉네임
   const nickNameOnClickHandler = () => {
@@ -73,41 +114,90 @@ const Profile = () => {
     setIsEditingNickName(false);
   };
 
-  const onClickDone = () => {
+  // 닉네임 수정
+  const onClickDone = async () => {
     if (!newNickName.trim()) {
       alert("변경할 닉네임을 입력하세요");
       return;
     }
-    setIsEditingNickName(false);
+    if (newNickName !== userInfo.nickname) {
+      try {
+        const { data, error } = await supabase
+          .from("users")
+          .update({ nickname: newNickName })
+          .eq("id", userInfo.id);
+        if (error) {
+          throw error;
+        }
+        setUserInfo((prev: any) => ({
+          ...prev,
+          nickname: newNickName,
+        }));
+        setIsEditingNickName(false);
+        alert("닉네임이 변경되었습니다.");
+      } catch (error) {
+        console.error("닉네임 업데이트 오류:", error);
+        alert("닉네임 변경 중 오류가 발생했습니다.");
+      }
+    } else {
+      alert("변경된 내용이 없습니다");
+    }
   };
 
   return (
     <div className="p-4 flex flex-col items-center border-r-4 border-gray-500">
-      <p className="text-xl/6 font-bold ">안녕하세요 여행한탕 님 :D</p>
+      {userInfo ? (
+        <p className="text-xl/6 font-bold mb-10">
+          안녕하세요<br></br> {userInfo.nickname} 님 :D
+        </p>
+      ) : (
+        <p className="text-xl/6 font-bold ">안녕하세요 유저님 :D</p>
+      )}
+
       <div>
-        <Image
-          src={data.profileUrl ?? defaultUser}
-          alt="유저프로필"
-          className="w-20 h-20 rounded-full"
-        />
+        {userInfo ? (
+          <Avatar
+            isBordered
+            color="default"
+            src={userInfo.avatar}
+            alt="유저프로필"
+            className="w-20 h-20 rounded-full"
+          />
+        ) : (
+          <CircularProgress label="Loading..." />
+        )}
+
         <input
           type="file"
-          id="file"
+          id="profileImg"
           style={{ display: "none" }}
           accept="image/jpg,image/png,image/jpeg"
-          onChange={imgSelectehandler}
+          // onChange={uploadImg}
         />
-        <TbCameraSearch
-          size={25}
-          className="ml-70 cursor-pointer"
-          onClick={imgUploadHandler}
-        />
-        {/* <label>파일선택</label> */}
+        {isEditingImageUrl ? (
+          <div className="flex flex-wrap gap-4 items-center">
+            <Button
+              color="danger"
+              onClick={() => {
+                setUploading(false);
+              }}
+            >
+              취소
+            </Button>
+            <Button color="primary">완료</Button>
+          </div>
+        ) : (
+          <label htmlFor="profileImg">
+            <TbCameraSearch size={25} className="ml-70 cursor-pointer" />
+          </label>
+        )}
       </div>
 
       {isEditingNickName ? (
         <div className="flex">
           <Input
+            size="sm"
+            color="primary"
             variant="bordered"
             type="text"
             value={newNickName}
@@ -118,12 +208,27 @@ const Profile = () => {
               setNewNickName(e.target.value)
             }
           />
-          <button onClick={() => setIsEditingNickName(false)}>취소</button>
-          <button onClick={onClickDone}>완료</button>
+          <div className="flex gap-2 items-center">
+            <Button
+              size="sm"
+              color="danger"
+              onClick={() => setIsEditingNickName(false)}
+            >
+              취소
+            </Button>
+            <Button size="sm" color="primary" onClick={onClickDone}>
+              완료
+            </Button>
+          </div>
         </div>
       ) : (
         <div className="flex">
-          <p>여행한탕</p>
+          {userInfo ? (
+            <p className="font-bold text-lg">{userInfo.nickname} 님</p>
+          ) : (
+            <p>유저 정보를 찾는중...</p>
+          )}
+
           <PiPencilSimpleLineBold
             className="cursor-pointer"
             size={25}
@@ -131,7 +236,7 @@ const Profile = () => {
           />
         </div>
       )}
-      <p>asd123@gmail.com</p>
+      {userInfo ? <p>{userInfo.email}</p> : <p>유저 정보를 찾는중...</p>}
     </div>
   );
 };
