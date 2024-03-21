@@ -80,26 +80,20 @@ const Header = () => {
               <DropdownItem
                 key="profile"
                 className="h-14 gap-2 pointer-events-none"
-                textValue="Signed in as"
               >
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user.email}</p>
               </DropdownItem>
-              <DropdownItem as={Link} href="/write" textValue="글쓰기">
+              <DropdownItem as={Link} href="/write">
                 글쓰기
               </DropdownItem>
-              <DropdownItem
-                as={Link}
-                href="/userProfile"
-                textValue="마이페이지"
-              >
+              <DropdownItem as={Link} href="/userProfile">
                 마이페이지
               </DropdownItem>
               <DropdownItem
                 key="logout"
                 color="danger"
                 onClick={() => handleLogout()}
-                textValue="로그아웃"
               >
                 로그아웃
               </DropdownItem>
