@@ -1,6 +1,6 @@
 "use client";
 
-import { Post } from "@/types/writePage";
+import { Post, UserInfo } from "@/types/writePage";
 import useInput from "../useInput";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -13,6 +13,8 @@ import useSetMutation from "../useSetMutation";
 import { postQueryKey } from "./useDetailQuery";
 
 const useWriteInputForm = (post?: Post) => {
+  let userInfo: UserInfo = { avatar: "", id: "", email: "", nickname: "" };
+
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
   const [title, onChangeTitle, setTitle] = useInput();
   const [startDate, onChangeStartDate, setStartDate] = useInput();
@@ -21,6 +23,13 @@ const useWriteInputForm = (post?: Post) => {
   const [content, onChangeContent, setContent] = useInput();
   const [postMainContent, setPostMainContent] = useState("");
   const router = useRouter();
+  if (typeof window !== "undefined") {
+    userInfo = JSON.parse(localStorage.getItem("user")!);
+    if (!userInfo) {
+      alert("로그인 해주시기 바랍니다.");
+      router.replace("/login");
+    }
+  }
 
   useEffect(() => {
     if (post) {
@@ -111,9 +120,9 @@ const useWriteInputForm = (post?: Post) => {
       content,
       travelDate: `${startDate} ~ ${endDate}`,
       travelPlace,
-      userId: crypto.randomUUID(),
-      userName: crypto.randomUUID(),
-      userProfile: crypto.randomUUID(),
+      userId: userInfo.id,
+      userName: userInfo.nickname,
+      userProfile: userInfo.avatar,
       postMainContent,
       postBasicImage,
     };
@@ -127,7 +136,13 @@ const useWriteInputForm = (post?: Post) => {
     router.push(`/detail/${addWrite[0].id}`);
   };
 
-  return { inputValue, inputOnChange, onSubmit, onClickUpdateHandler };
+  return {
+    userInfo,
+    inputValue,
+    inputOnChange,
+    onSubmit,
+    onClickUpdateHandler,
+  };
 };
 
 export default useWriteInputForm;

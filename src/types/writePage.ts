@@ -25,3 +25,10 @@ export type PostComment = {
   userProfile: string;
   comment: string;
 };
+
+export type UserInfo = {
+  avatar: string;
+  email: string;
+  id: string;
+  nickname: string;
+};
