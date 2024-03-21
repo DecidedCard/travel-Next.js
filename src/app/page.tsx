@@ -16,11 +16,14 @@ import Image from "next/image";
 import { usePosts } from "@/hook/usePostData";
 import { usePostSort } from "@/hook/useSortPosts";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const Home = () => {
   const { data: posts, isLoading, isError } = usePosts();
   const { sortOrder, sortByLatest, sortByOldest } = usePostSort()
   const router = useRouter();
+  const [ searchKeyword, setsearchKeyword ] = useState('');
+
 
   const getSortedPosts = () => {
     if (posts && posts.length > 0) {
@@ -35,6 +38,21 @@ const Home = () => {
     return []; // 유효한 posts가 없는 경우 빈 배열 반환
   };
   
+  const filteredPostsByKeyword = (keyword: string) => {
+    return getSortedPosts().filter(post =>
+    post.travelPlace.toLowerCase().includes(keyword.toLowerCase()) ||
+    post.title.toLowerCase().includes(keyword.toLowerCase()) ||
+    post.content.toLowerCase().includes(keyword.toLowerCase()) ||
+    post.postMainContent.toLowerCase().includes(keyword.toLowerCase()) 
+   );
+  }
+
+  const filteredPosts = filteredPostsByKeyword(searchKeyword);
+
+  const handleSearchKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setsearchKeyword(e.currentTarget.value)
+  }
+
   if (isLoading) return <div>로딩중...</div>;
   if (isError) return <div>패칭 에러</div>;
 
@@ -50,6 +68,8 @@ const Home = () => {
             type="text"
             placeholder="어느 나라, 도시로 떠나시나요?"
             className="w-3/4 md:w-1/2 lg:w-1/3 h-10 px-4 py-2 bg-white bg-opacity-90 rounded-full shadow outline-none ring-2 ring-blue-500 focus:bg-opacity-100"
+            value={searchKeyword}
+            onChange={handleSearchKeyword}
           />
         </div>
       </div>
@@ -66,7 +86,7 @@ const Home = () => {
       </div>
       <ScrollShadow className="w-[full] h-[400px] mt-3">
       <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
-      {getSortedPosts().map((post) => (
+      {filteredPosts.map((post) => (
             <Card key={post.id} className="py-4">
               <CardBody className="overflow-visible py-2">
               <h1 className="text-lg font-bold mb-2">🛫&nbsp;&nbsp;여행 기간</h1>
@@ -95,7 +115,7 @@ const Home = () => {
                 />
                 <h1 className="uppercase font-bold mt-3">{post.title.length > 20 ? `${post.title.substring(0, 20)}...` : post.title}</h1>
                 <p className="text-default-500 mt-3">{post.content.length > 50 ? `${post.content.substring(0, 50)}...` : post.content}</p>
-                <Button className="mt-2 ml-auto" color="primary" variant="ghost" onClick={() => handleCardClick(post.id)}>
+                <Button className="mt-2 ml-auto font-semibold" color="primary" variant="ghost" onClick={() => handleCardClick(post.id)}>
                 자세히 보기
               </Button> 
               </CardHeader>
