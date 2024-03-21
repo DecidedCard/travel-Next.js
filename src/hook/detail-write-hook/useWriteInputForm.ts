@@ -24,6 +24,11 @@ const useWriteInputForm = (post?: Post) => {
   const [postMainContent, setPostMainContent] = useState("");
   const router = useRouter();
 
+  if (!userInfo.current) {
+    alert("글을 작성 하시려면 로그인을 해주시기 바랍니다.");
+    router.replace("/login");
+  }
+
   useEffect(() => {
     if (post) {
       setTitle(post.title);
@@ -113,9 +118,9 @@ const useWriteInputForm = (post?: Post) => {
       content,
       travelDate: `${startDate} ~ ${endDate}`,
       travelPlace,
-      userId: userInfo.current.id,
-      userName: userInfo.current.nickname,
-      userProfile: userInfo.current.avatar,
+      userId: userInfo.current!.id,
+      userName: userInfo.current!.nickname,
+      userProfile: userInfo.current!.avatar!,
       postMainContent,
       postBasicImage,
     };
