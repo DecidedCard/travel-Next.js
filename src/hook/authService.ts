@@ -45,6 +45,7 @@ export const signIn = async (
       password,
     });
 
+    // 유효성 검사
     if (error) {
       alert("이메일 또는 비밀번호를 확인해주세요.");
       throw error;
@@ -54,6 +55,7 @@ export const signIn = async (
       alert("등록된 회원 정보가 없습니다.");
       throw new Error("User data not found in signInWithPassword response");
     }
+
     localStorage.setItem("user", JSON.stringify(data.user));
     const user = data.user;
 
