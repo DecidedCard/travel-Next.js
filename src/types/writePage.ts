@@ -23,6 +23,7 @@ export type PostComment = {
   postId: string;
   userId: string;
   userProfile: string;
+  userName: string;
   comment: string;
 };
 

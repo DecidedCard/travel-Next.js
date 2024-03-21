@@ -2,10 +2,11 @@ import { supabase } from "../supabase";
 
 import type { PostComment } from "@/types/writePage";
 
-export const getComment = async (): Promise<PostComment[]> => {
+export const getComment = async (id: string): Promise<PostComment[]> => {
   const { data: postComment, error } = await supabase
     .from("postComment")
-    .select("*");
+    .select("*")
+    .eq("postId", id);
   if (error) {
     console.error(error);
     return Promise.reject(error);
