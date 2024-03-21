@@ -11,9 +11,25 @@ import {
   DropdownMenu,
   Avatar,
 } from "@nextui-org/react";
+import { logout } from "@/hook/authService";
 
 const Header = () => {
   const { isLoggedIn, user, authLogout } = useAuthStore();
+
+  const handleLogout = async () => {
+    const confirmed = window.confirm("로그아웃 하시겠습니까?");
+    if (confirmed) {
+      try {
+        await logout();
+        authLogout();
+        alert("로그아웃 되었습니다.");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    } else {
+      return;
+    }
+  };
 
   return (
     <nav className="bg-blue-500 text-white px-4 py-2 flex justify-between items-center">
@@ -66,7 +82,7 @@ const Header = () => {
               <DropdownItem
                 key="logout"
                 color="danger"
-                onClick={() => authLogout()}
+                onClick={() => handleLogout()}
                 textValue="로그아웃"
               >
                 로그아웃

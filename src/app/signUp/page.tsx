@@ -20,49 +20,56 @@ const SignUp = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   // 유효성 검사 상태 저장
-  const [value, setValue] = useState<string>("junior2nextui.org");
+  const [value, setValue] = React.useState("");
   const [passwordError, setPasswordError] = useState<string>("");
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
   const [nicknameError, setNicknameError] = useState<string>("");
 
-  const validateEmail = (value: string) =>
-    value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-
+  // 이메일 비밀번호 형식
   const validatePassword = (value: string) =>
     /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(value);
+  const validateEmail = (value: string) =>
+    value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
 
-  const isInvalid = React.useMemo(() => {
-    let invalid = false;
+  // 유효성 검사 함수
+  const emailIsInvalid = React.useMemo(() => {
+    if (value === "") return false;
+    return validateEmail(value) ? false : true;
+  }, [value]);
 
-    if (value === "" || !validateEmail(value)) {
-      setValue("유효한 이메일을 입력하세요.");
-      invalid = true;
-    } else {
-      setValue("");
-    }
+  const passwordIsInvalid = React.useMemo(() => {
+    if (passwordError === "") return false;
+    return validatePassword(password) ? false : true;
+  }, [password, passwordError]);
 
-    if (password === "" || !validatePassword(password)) {
-      setPasswordError(
-        "비밀번호는 최소 6자 이상이어야 하며 영문과 숫자를 포함해야 합니다."
-      );
-      invalid = true;
-    } else {
-      setPasswordError("");
-    }
+  const confirmPasswordIsInvalid = React.useMemo(() => {
+    if (password !== confirmPassword) return true;
+    return false;
+  }, [password, confirmPassword]);
 
-    return invalid;
-  }, [value, password]);
-
-  // const isInvalid = React.useMemo(() => {
-  //   if (value === "") return false;
-
-  //   return validateEmail(value) ? false : true;
-  //   return validatePassword(passwordError) ? false : true;
-  // }, [value]);
+  const nicknameIsInvalid = React.useMemo(() => {
+    if (nicknameError === "") return false;
+    if (nickname.length < 2) return true;
+    return false;
+  }, [nickname, nicknameError]);
 
   // 회원가입
   const handleSingUp = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email || !password || !confirmPassword || !nickname) {
+      alert("입력란을 입력해주세요.");
+    }
+
+    if (
+      emailIsInvalid ||
+      passwordIsInvalid ||
+      confirmPasswordIsInvalid ||
+      nicknameIsInvalid
+    ) {
+      alert("회원가입 양식을 확인해주세요.");
+      return;
+    }
 
     try {
       const data = await signUp(email, password, nickname);
@@ -70,19 +77,6 @@ const SignUp = () => {
       alert("회원가입을 축하합니다!");
     } catch (error) {
       console.error("Sign up error:", error);
-    }
-
-    if (password.length < 6) {
-      setPasswordError("비밀번호는 6자 이상이어야 합니다.");
-    }
-    if (nickname.length < 2) {
-      setNicknameError("닉네임은 2자 이상이어야 합니다.");
-    }
-
-    if (password !== confirmPassword) {
-      setConfirmPasswordError(
-        "비밀번호가 일치하지 않습니다. 비밀번호를 확인해주세요."
-      );
     }
   };
 
@@ -92,10 +86,10 @@ const SignUp = () => {
         <Image src={loginImg} alt="LoginBackgroundImg" className="absolute" />
       </div>
       <div className="flex absolute px-28 py-20">
-        <Card className="flex w-[560px] h-[620px]">
-          <CardBody className="flex flex-col items-center justify-between px-8 py-12">
-            <h1 className="text-4xl font-bold mb-4">여행한탕</h1>
-            <h1 className="text-2xl font-bold mb-4">회원가입</h1>
+        <Card className="flex w-[560px] h-[650px]">
+          <CardBody className="flex flex-col items-center justify-between px-8 py-8">
+            <h1 className="text-4xl font-bold mb-2">여행한탕</h1>
+            <h1 className="text-2xl font-bold mb-2">회원가입</h1>
             <form onSubmit={handleSingUp} className="w-full">
               <div className="flex flex-col gap-5">
                 <Input
@@ -104,9 +98,11 @@ const SignUp = () => {
                   variant="flat"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  isInvalid={isInvalid}
-                  color={isInvalid ? "danger" : "default"}
-                  errorMessage={isInvalid && "이메일 형식으로 입력해주세요"}
+                  isInvalid={emailIsInvalid}
+                  color={emailIsInvalid ? "danger" : "default"}
+                  errorMessage={
+                    emailIsInvalid && "유효한 이메일을 입력해주세요."
+                  }
                   onValueChange={setValue}
                 />
                 <Input
@@ -128,9 +124,13 @@ const SignUp = () => {
                   type={isVisible ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  isInvalid={isInvalid}
-                  color={isInvalid ? "danger" : "default"}
-                  errorMessage={isInvalid && passwordError}
+                  isInvalid={passwordIsInvalid}
+                  color={passwordIsInvalid ? "danger" : "default"}
+                  errorMessage={
+                    passwordIsInvalid &&
+                    "비밀번호는 최소 6자 이상이어야 하며 영문과 숫자를 포함해야 합니다."
+                  }
+                  onValueChange={setPasswordError}
                 />
                 <Input
                   label="비밀번호 확인"
@@ -150,14 +150,31 @@ const SignUp = () => {
                   }
                   type={isVisible ? "text" : "password"}
                   value={confirmPassword}
-                  onChange={(e) => SetConfirmPassword(e.target.value)}
+                  onChange={(e) => {
+                    SetConfirmPassword(e.target.value);
+                  }}
+                  isInvalid={confirmPasswordIsInvalid}
+                  color={confirmPasswordIsInvalid ? "danger" : "default"}
+                  errorMessage={
+                    confirmPasswordIsInvalid &&
+                    "비밀번호가 일치하지 않습니다. 비밀번호를 확인해주세요."
+                  }
+                  onValueChange={setConfirmPasswordError}
                 />
                 <Input
                   type="text"
                   label="닉네임"
                   variant="flat"
                   value={nickname}
-                  onChange={(e) => SetNickname(e.target.value)}
+                  onChange={(e) => {
+                    SetNickname(e.target.value);
+                  }}
+                  isInvalid={nicknameIsInvalid}
+                  color={nicknameIsInvalid ? "danger" : "default"}
+                  errorMessage={
+                    nicknameIsInvalid && "닉네임은 2자 이상이어야 합니다."
+                  }
+                  onValueChange={setNicknameError}
                 />
               </div>
               <Button
