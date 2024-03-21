@@ -1,19 +1,21 @@
 "use Client";
 import { supabase } from "@/util/supabase";
 import { Avatar, Button, CircularProgress, Input } from "@nextui-org/react";
+import { randomUUID } from "crypto";
 import React, { useEffect, useState } from "react";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCameraSearch } from "react-icons/tb";
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>("");
-  const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
   const [newNickName, setNewNickName] = useState("");
   const [isEditingNickName, setIsEditingNickName] = useState(false);
-  const [newAvatar, setNewAvatar] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  // const [newImageUrl, setNewImageUrl] = useState("");
+  const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
 
+  // -- 테스트-- //
   // async function getAllUsersMetadata() {
   //   try {
   //     const { data: allUsersMetadata, error } = await supabase
@@ -21,17 +23,17 @@ const Profile = () => {
   //       .select("*");
 
   //     if (error) {
-  //       console.error("Error fetching users metadata:", error.message);
+  //       console.error("Error fetching users data:", error);
   //       return;
   //     }
 
   //     if (allUsersMetadata && allUsersMetadata.length > 0) {
-  //       console.log("All Users Metadata:");
-  //       allUsersMetadata.forEach((userMetadata) => {
-  //         console.log("User ID:", userMetadata.id);
-  //         console.log("Email:", userMetadata.email);
-  //         console.log("Nickname:", userMetadata.nickname);
-  //         console.log("avatar:", userMetadata.avatar);
+  //       console.log("Users data:");
+  //       allUsersMetadata.forEach((data) => {
+  //         console.log("User ID:", data.id);
+  //         console.log("Email:", data.email);
+  //         console.log("Nickname:", data.nickname);
+  //         console.log("avatar:", data.avatar);
   //         console.log("---------------------------");
   //       });
   //     } else {
@@ -43,67 +45,91 @@ const Profile = () => {
   // }
   // getAllUsersMetadata();
 
+  // -- 테스트-- //
+
   //유저 정보가져오기
   useEffect(() => {
-    const Users = localStorage.getItem("user");
-    if (Users) {
-      setUserInfo(JSON.parse(Users));
+    const User = localStorage.getItem("user");
+    if (User) {
+      setUserInfo(JSON.parse(User));
     }
   }, []);
 
-  // 저장
-  useEffect(() => {
-    const downloadImage = async (path: string) => {
+  const uploadFile = async (file: File): Promise<any> => {
+    try {
+      const fileExt = file.name.split(".").pop();
+      const filePath = `avatar/${userInfo.id}/${userInfo.id}.${fileExt}`;
+      const { data } = await supabase.storage
+        .from("userProfile")
+        .upload(filePath, file, {
+          upsert: true,
+        });
+      return data;
+    } catch (error) {
+      console.error("Error 이미지 업로드 실패:", error);
+      alert("Error 이미지 업로드 실패");
+      return null;
+    }
+  };
+
+  const getUrlImage = async () => {
+    const { data } = await supabase.storage
+      .from("userProfile")
+      .getPublicUrl("avatar/4a91a347-e257-4d7c-b474-3ed83d6ac705.jpg");
+    console.log(data);
+    return data?.publicUrl;
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files![0];
+    if (file) {
+      setFile(file);
+      setImageUrl(URL.createObjectURL(file));
+      setIsEditingImageUrl(true);
+
+      // 이미지 파일을 읽어서 미리 보기
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditingImageUrl(false);
+    setFile(null);
+    setImageUrl("");
+  };
+
+  const handleUploadDon = async () => {
+    if (file) {
       try {
-        const { data, error } = await supabase.storage
-          .from("userProfile/avatar")
-          .download(path);
-        if (error) {
-          throw error;
+        const uploadFiles = await uploadFile(file);
+        if (uploadFiles) {
+          const newImageUrl = await getUrlImage();
+          console.log(newImageUrl);
+          localStorage.setItem("avatar", JSON.stringify(newImageUrl));
+
+          // Supabase 데이터베이스 업데이트
+          const { data, error } = await supabase
+            .from("users")
+            .update({ avatar: newImageUrl })
+            .eq("id", userInfo.id);
+          if (error) {
+            console.error("Supabase에서 avatar 업데이트중 에러:", error);
+            alert("이미지 파일 등록 실패");
+            return;
+          }
         }
-        const url = await URL.createObjectURL(data);
-        setAvatarUrl(url);
       } catch (error) {
-        console.log("Error downloading image: ", error);
+        console.error("error:", error);
+        alert("이미지 파일 등록 실패");
+        return;
       }
-    };
-  }, [supabase]);
-
-  // // 이미지 업로드
-  // const uploadImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   try {
-  //     setUploading(true);
-
-  //     if (!e.target.files || e.target.files.length === 0) {
-  //       throw new Error("업로드할 이미지를 선택하세요");
-  //     }
-
-  //     const file = e.target.files[0];
-  //     const fileExt = file.name.split(".").pop();
-  //     const filePath = `${userInfo.id}/${userInfo.id}.${fileExt}`;
-
-  //     const { error: uploadError } = await supabase.storage
-  //       .from("userProfile/avatar")
-  //       .upload(filePath, file);
-
-  //     if (uploadError) {
-  //       throw uploadError;
-  //     }
-  //     if (file) {
-  //       const imageUrl = await data(file);
-  //       if (imageUrl) {
-  //         setNewAvatar(imageUrl);
-  //         // URL을 로컬 스토리지에 저장합니다.
-  //         localStorage.setItem("profilePicUrl", imageUrl);
-  //       }
-  //     }
-  //     setUserInfo(imageUrl);
-  //     setUploading(false);
-  //   } catch (error) {
-  //     alert("Error uploading avatar");
-  //   } finally {
-  //   }
-  // };
+    }
+    setIsEditingImageUrl(false);
+  };
 
   // 닉네임
   const nickNameOnClickHandler = () => {
@@ -133,6 +159,7 @@ const Profile = () => {
           ...prev,
           nickname: newNickName,
         }));
+        localStorage.setItem("nickname", newNickName);
         setIsEditingNickName(false);
         alert("닉네임이 변경되었습니다.");
       } catch (error) {
@@ -144,6 +171,16 @@ const Profile = () => {
     }
   };
 
+  useEffect(() => {
+    const storedNickName = localStorage.getItem("nickname");
+    if (storedNickName) {
+      setUserInfo((prev: any) => ({
+        ...prev,
+        nickname: storedNickName,
+      }));
+    }
+  }, []);
+
   return (
     <div className="p-4 flex flex-col items-center border-r-4 border-gray-500">
       {userInfo ? (
@@ -154,44 +191,40 @@ const Profile = () => {
         <p className="text-xl/6 font-bold ">안녕하세요 유저님 :D</p>
       )}
 
-      <div>
-        {userInfo ? (
-          <Avatar
-            isBordered
-            color="default"
-            src={userInfo.avatar}
-            alt="유저프로필"
-            className="w-20 h-20 rounded-full"
-          />
-        ) : (
-          <CircularProgress label="Loading..." />
-        )}
-
-        <input
-          type="file"
-          id="profileImg"
-          style={{ display: "none" }}
-          accept="image/jpg,image/png,image/jpeg"
-          // onChange={uploadImg}
+      {userInfo ? (
+        <Avatar
+          isBordered
+          color="default"
+          src={imageUrl ?? undefined}
+          alt="유저프로필"
+          className="w-20 h-20 rounded-full"
         />
-        {isEditingImageUrl ? (
-          <div className="flex flex-wrap gap-4 items-center">
-            <Button
-              color="danger"
-              onClick={() => {
-                setUploading(false);
-              }}
-            >
-              취소
-            </Button>
-            <Button color="primary">완료</Button>
-          </div>
-        ) : (
-          <label htmlFor="profileImg">
-            <TbCameraSearch size={25} className="ml-70 cursor-pointer" />
-          </label>
-        )}
-      </div>
+      ) : (
+        <CircularProgress label="Loading..." />
+      )}
+
+      <input
+        type="file"
+        id="profileImg"
+        style={{ display: "none" }}
+        accept="image/jpg,image/png,image/jpeg"
+        onChange={handleFileChange}
+      />
+
+      {isEditingImageUrl ? (
+        <div className="flex flex-wrap gap-4 items-center">
+          <Button color="danger" onClick={handleCancel}>
+            취소
+          </Button>
+          <Button color="primary" onClick={handleUploadDon}>
+            완료
+          </Button>
+        </div>
+      ) : (
+        <label htmlFor="profileImg">
+          <TbCameraSearch size={25} className="ml-70 cursor-pointer" />
+        </label>
+      )}
 
       {isEditingNickName ? (
         <div className="flex">

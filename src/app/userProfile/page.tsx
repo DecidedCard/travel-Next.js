@@ -1,9 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
-import { Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/react";
-import Image from "next/image";
 import Profile from "@/components/profile/Profile";
+import { Avatar, Card, CardBody, Tab, Tabs } from "@nextui-org/react";
+import Image from "next/image";
 
 const userProfile = () => {
   return (
