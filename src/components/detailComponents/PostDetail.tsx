@@ -9,7 +9,7 @@ const PostDetail = ({ id }: { id: string }) => {
     post,
     isLoading,
     onClickDeleteHandler,
-    editForm,
+    editFormToggle,
     onClickEditFormToggleHandler,
     onClickCancelHandler,
   } = useDetailPost(id);
@@ -18,7 +18,7 @@ const PostDetail = ({ id }: { id: string }) => {
     return <div>로딩중입니다.</div>;
   }
 
-  return editForm ? (
+  return editFormToggle ? (
     <InputForm post={post!} onClickCancelHandler={onClickCancelHandler} />
   ) : (
     <main>

@@ -6,18 +6,18 @@ import { useState } from "react";
 
 const useDetailPost = (id: string) => {
   const router = useRouter();
-  const [editForm, setEditForm] = useState(false);
+  const [editFormToggle, setEditFormToggle] = useState(false);
   const { post, isLoading } = useDetailQuery(id);
   const { mutate: deleteMutate } = useSetMutation(deleteWrite, postQueryKey);
 
   const onClickEditFormToggleHandler = () => {
-    setEditForm(!editForm);
+    setEditFormToggle(!editFormToggle);
   };
 
   const onClickCancelHandler = () => {
     const result = window.confirm("취소하시겠습니까?");
     if (result) {
-      setEditForm(false);
+      setEditFormToggle(false);
     }
   };
 
@@ -35,10 +35,10 @@ const useDetailPost = (id: string) => {
     post,
     isLoading,
     onClickDeleteHandler,
-    editForm,
+    editFormToggle,
     onClickEditFormToggleHandler,
     onClickCancelHandler,
-    setEditForm,
+    setEditFormToggle,
   };
 };
 

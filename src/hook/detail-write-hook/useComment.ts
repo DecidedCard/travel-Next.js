@@ -14,7 +14,7 @@ import type { PostComment, UserInfo } from "@/types/writePage";
 const useComment = (id: string) => {
   let userInfo: UserInfo = { avatar: "", id: "", email: "", nickname: "" };
   const [comment, onChangeCommentHandler, setComment] = useInput();
-  const [editForm, setEditForm] = useState("");
+  const [editingId, setEditingId] = useState("");
   const [editComment, onChangeEditCommentHandler, setEditComment] = useInput();
   const commentQueryKey = ["detail/comment"];
   const router = useRouter();
@@ -28,7 +28,7 @@ const useComment = (id: string) => {
   }
 
   const {
-    data: commentData,
+    data: commentsData,
     isError,
     isLoading,
   } = useQuery({
@@ -57,8 +57,8 @@ const useComment = (id: string) => {
     alert("성공적으로 저장 되었습니다.");
   };
 
-  const onClickEditFormToggle = (id: string) => {
-    setEditForm(id);
+  const onClickEditingIdSet = (id: string) => {
+    setEditingId(id);
   };
 
   const { mutate: deleteMutate } = useSetMutation(
@@ -70,12 +70,12 @@ const useComment = (id: string) => {
     comment,
     onChangeCommentHandler,
     onSubmitInsertHandler,
-    commentData,
+    commentsData,
     isError,
     isLoading,
     deleteMutate,
-    editForm,
-    onClickEditFormToggle,
+    editingId,
+    onClickEditingIdSet,
     editComment,
     onChangeEditCommentHandler,
     setEditComment,

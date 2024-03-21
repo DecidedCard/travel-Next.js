@@ -11,13 +11,13 @@ const CommentEditForm = ({
   editComment,
   setEditComment,
   onChangeEditCommentHandler,
-  onClickEditFormToggle,
+  onClickEditingIdSet,
 }: {
   item: PostComment;
   editComment: string;
   setEditComment: (editComment: string) => void;
   onChangeEditCommentHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClickEditFormToggle: (editComment: string) => void;
+  onClickEditingIdSet: (editComment: string) => void;
 }) => {
   useEffect(() => {
     setEditComment(item.comment);
@@ -26,7 +26,7 @@ const CommentEditForm = ({
   return (
     <div>
       <Input value={editComment} onChange={onChangeEditCommentHandler} />
-      <button onClick={() => onClickEditFormToggle("")}>취소</button>
+      <button onClick={() => onClickEditingIdSet("")}>취소</button>
       <button>수정하기</button>
     </div>
   );

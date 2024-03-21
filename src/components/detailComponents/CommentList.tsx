@@ -6,12 +6,12 @@ import CommentEditForm from "./CommentEditForm";
 
 const CommentList = ({ id }: { id: string }) => {
   const {
-    commentData,
+    commentsData,
     isLoading,
     isError,
     deleteMutate,
-    editForm,
-    onClickEditFormToggle,
+    editingId,
+    onClickEditingIdSet,
     editComment,
     setEditComment,
     onChangeEditCommentHandler,
@@ -24,23 +24,23 @@ const CommentList = ({ id }: { id: string }) => {
   }
   return (
     <section>
-      {commentData!.map((item) => {
+      {commentsData!.map((item) => {
         return (
           <div key={item.id}>
-            {editForm === item.id ? (
+            {editingId === item.id ? (
               <CommentEditForm
                 item={item}
                 editComment={editComment}
                 setEditComment={setEditComment}
                 onChangeEditCommentHandler={onChangeEditCommentHandler}
-                onClickEditFormToggle={onClickEditFormToggle}
+                onClickEditingIdSet={onClickEditingIdSet}
               />
             ) : (
               <div className="flex justify-between">
                 <p>{item.comment}</p>
                 <div>
                   <button
-                    onClick={() => onClickEditFormToggle(item.id!)}
+                    onClick={() => onClickEditingIdSet(item.id!)}
                     className="w-14 border-r border-solid border-slate-700"
                   >
                     수정
