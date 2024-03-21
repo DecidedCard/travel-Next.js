@@ -7,7 +7,7 @@ import { useState } from "react";
 const useDetailPost = (id: string) => {
   const router = useRouter();
   const [editFormToggle, setEditFormToggle] = useState(false);
-  const { post, isLoading } = useDetailQuery(id);
+  const { post, isLoading, isError } = useDetailQuery(id);
   const { mutate: deleteMutate } = useSetMutation(deleteWrite, postQueryKey);
 
   const onClickEditFormToggleHandler = () => {
@@ -34,6 +34,7 @@ const useDetailPost = (id: string) => {
   return {
     post,
     isLoading,
+    isError,
     onClickDeleteHandler,
     editFormToggle,
     onClickEditFormToggleHandler,

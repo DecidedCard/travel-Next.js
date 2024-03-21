@@ -3,11 +3,14 @@
 import useDetailPost from "@/hook/detail-write-hook/useDetailPost";
 import React from "react";
 import InputForm from "../writeComponents/InputForm";
+import { useRouter } from "next/navigation";
 
 const PostDetail = ({ id }: { id: string }) => {
+  const router = useRouter();
   const {
     post,
     isLoading,
+    isError,
     onClickDeleteHandler,
     editFormToggle,
     onClickEditFormToggleHandler,
@@ -16,6 +19,12 @@ const PostDetail = ({ id }: { id: string }) => {
 
   if (isLoading) {
     return <div>로딩중입니다.</div>;
+  }
+
+  if (isError) {
+    alert("없는 게시글인거 같습니다.");
+    router.replace("/");
+    return;
   }
 
   return editFormToggle ? (
