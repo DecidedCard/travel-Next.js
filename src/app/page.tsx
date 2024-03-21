@@ -20,7 +20,7 @@ import { useState } from "react";
 
 const Home = () => {
   const { data: posts, isLoading, isError } = usePosts();
-  const { sortByLatest, sortByOldest, getSortedPosts  } = usePostSort()
+  const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } = usePostSort()
   const router = useRouter();
   const [ searchKeyword, setsearchKeyword ] = useState('');
   
@@ -67,7 +67,7 @@ const Home = () => {
         <Button color="warning" className="mr-2 font-semibold" onClick={sortByOldest}>
         오래된 순
         </Button>  
-        <Button color="default" className="font-semibold">
+        <Button color="default" className="font-semibold" onClick={sortByCommentCount}>
         댓글 순
         </Button>
       </div>
@@ -101,7 +101,7 @@ const Home = () => {
                   }}
                   className="font-semibold mb-2"
                 />
-                <hr className="w-full border-2 border-gray-300 mb-1" />
+                <hr className="w-full border-2 border-gray-40 mb-1" />
                 <h1 className="uppercase font-bold mt-3">{post.title.length > 20 ? `${post.title.substring(0, 20)}...` : post.title}</h1>
                 <p className="text-default-500 mt-3">{post.content.length > 50 ? `${post.content.substring(0, 50)}...` : post.content}</p>
                 <Button className="mt-2 ml-auto font-semibold" color="primary" variant="ghost" onClick={() => handleCardClick(post.id)}>
