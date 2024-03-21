@@ -21,9 +21,11 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      alert("이메일 또는 비밀번호를 입력하세요.");
+    }
     try {
       const userData = await signIn(email, password);
-      console.log("User signIn:", userData);
       authLogin(userData);
       alert("로그인 성공");
       router.push("/");
