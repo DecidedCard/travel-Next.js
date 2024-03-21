@@ -12,6 +12,9 @@ const CommentList = ({ id }: { id: string }) => {
     deleteMutate,
     editForm,
     onClickEditFormToggle,
+    editComment,
+    setEditComment,
+    onChangeEditCommentHandler,
   } = useComment(id);
   if (isLoading) {
     return <div>로딩중입니다...</div>;
@@ -25,7 +28,13 @@ const CommentList = ({ id }: { id: string }) => {
         return (
           <div key={item.id}>
             {editForm === item.id ? (
-              <CommentEditForm item={item} id={id} />
+              <CommentEditForm
+                item={item}
+                editComment={editComment}
+                setEditComment={setEditComment}
+                onChangeEditCommentHandler={onChangeEditCommentHandler}
+                onClickEditFormToggle={onClickEditFormToggle}
+              />
             ) : (
               <div className="flex justify-between">
                 <p>{item.comment}</p>

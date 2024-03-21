@@ -6,14 +6,19 @@ import { Input } from "@nextui-org/react";
 import type { PostComment } from "@/types/writePage";
 import useComment from "@/hook/detail-write-hook/useComment";
 
-const CommentEditForm = ({ item, id }: { item: PostComment; id: string }) => {
-  const {
-    onClickEditFormToggle,
-    editComment,
-    onChangeEditCommentHandler,
-    setEditComment,
-  } = useComment(id);
-
+const CommentEditForm = ({
+  item,
+  editComment,
+  setEditComment,
+  onChangeEditCommentHandler,
+  onClickEditFormToggle,
+}: {
+  item: PostComment;
+  editComment: string;
+  setEditComment: (editComment: string) => void;
+  onChangeEditCommentHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClickEditFormToggle: (editComment: string) => void;
+}) => {
   useEffect(() => {
     setEditComment(item.comment);
   }, [setEditComment, item.comment]);
