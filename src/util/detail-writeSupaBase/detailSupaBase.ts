@@ -39,3 +39,21 @@ export const deleteComment = async (id: string) => {
     Promise.reject(error);
   }
 };
+
+// export const getCommentCount = async (postId: string) => {
+//   try {
+//   const { data: postComment, error } = await supabase
+//     .from("postComment")
+//     .select("postId")
+//     .eq("postId", postId);
+//   if (error) {
+//     console.error(error);
+//     Promise.reject(error);
+//   }
+//     return postComment?.length;
+//   } catch (error) {
+//     console.error(error);
+//     return 0;
+//   }
+// };
+
