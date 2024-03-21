@@ -25,12 +25,13 @@ const SignUp = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
   const [nicknameError, setNicknameError] = useState<string>("");
 
+  // 이메일 비밀번호 형식
   const validatePassword = (value: string) =>
     /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(value);
-
   const validateEmail = (value: string) =>
     value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
 
+  // 유효성 검사 함수
   const emailIsInvalid = React.useMemo(() => {
     if (value === "") return false;
     return validateEmail(value) ? false : true;
@@ -47,6 +48,7 @@ const SignUp = () => {
   }, [confirmPasswordError]);
 
   const nicknameIsInvalid = React.useMemo(() => {
+    if (nicknameError === "") return false;
     if (nickname.length < 2) return true;
     return false;
   }, [nicknameError]);
@@ -54,6 +56,10 @@ const SignUp = () => {
   // 회원가입
   const handleSingUp = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email || !password || !confirmPassword || !nickname) {
+      alert("입력란을 입력해주세요.");
+    }
 
     if (
       emailIsInvalid ||
