@@ -1,8 +1,3 @@
-export type Store = {
-  count: number;
-  inc: () => void;
-};
-
 export type User = {
   id: string;
   email: string;
@@ -10,5 +5,3 @@ export type User = {
   nickname: string;
   password: string;
 };
-
-

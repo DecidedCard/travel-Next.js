@@ -8,9 +8,9 @@ const queryClient = new QueryClient();
 
 const Provider = ({ children }: PropsWithChildren) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <NextUIProvider>{children}</NextUIProvider>
-    </QueryClientProvider>
+    <NextUIProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </NextUIProvider>
   );
 };
 
