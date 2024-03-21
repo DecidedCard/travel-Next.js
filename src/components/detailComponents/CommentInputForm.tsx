@@ -1,12 +1,24 @@
 "use client";
 
-import useComment from "@/hook/detail-write-hook/useComment";
 import { Avatar, Button, Input } from "@nextui-org/react";
 import React from "react";
 
-const CommentInputForm = ({ id }: { id: string }) => {
-  const { userInfo, comment, onChangeCommentHandler, onSubmitInsertHandler } =
-    useComment(id);
+const CommentInputForm = ({
+  userInfo,
+  comment,
+  onChangeCommentHandler,
+  onSubmitInsertHandler,
+}: {
+  userInfo: React.MutableRefObject<{
+    avatar: string;
+    id: string;
+    email: string;
+    nickname: string;
+  }>;
+  comment: string;
+  onChangeCommentHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmitInsertHandler: (e: React.FormEvent<HTMLFormElement>) => void;
+}) => {
   return (
     <form
       onSubmit={onSubmitInsertHandler}

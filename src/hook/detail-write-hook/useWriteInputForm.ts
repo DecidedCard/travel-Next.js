@@ -1,9 +1,9 @@
 "use client";
 
-import { Post, UserInfo } from "@/types/writePage";
+import { Post } from "@/types/writePage";
 import useInput from "../useInput";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import usePostBasicImageStore from "@/store/postBasicImageStore";
 import {
   insertWriting,
@@ -11,15 +11,10 @@ import {
 } from "@/util/detail-writeSupaBase/writeSupaBase";
 import useSetMutation from "../useSetMutation";
 import { postQueryKey } from "./useDetailQuery";
+import useUserInfo from "./useUserInfo";
 
 const useWriteInputForm = (post?: Post) => {
-  const userInfo = useRef<UserInfo>({
-    avatar: "",
-    id: "",
-    email: "",
-    nickname: "",
-  });
-
+  const { userInfo } = useUserInfo();
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
   const [title, onChangeTitle, setTitle] = useInput();
   const [startDate, onChangeStartDate, setStartDate] = useInput();
@@ -28,16 +23,6 @@ const useWriteInputForm = (post?: Post) => {
   const [content, onChangeContent, setContent] = useInput();
   const [postMainContent, setPostMainContent] = useState("");
   const router = useRouter();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      userInfo.current = JSON.parse(localStorage.getItem("user")!);
-      if (!userInfo) {
-        alert("로그인 해주시기 바랍니다.");
-        router.replace("/login");
-      }
-    }
-  }, [router]);
 
   useEffect(() => {
     if (post) {

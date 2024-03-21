@@ -51,6 +51,11 @@ const useComment = (id: string) => {
 
   const onSubmitInsertHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!comment) {
+      alert("내용을 입력해주시기 바랍니다.");
+      return;
+    }
+
     const newComment: PostComment = {
       postId: id,
       userId: userInfo.current.id,
@@ -68,6 +73,14 @@ const useComment = (id: string) => {
     id: string
   ) => {
     e.preventDefault();
+    if (!editComment) {
+      alert("내용을 입력해주시기 바랍니다.");
+      return;
+    }
+    const result = window.confirm("수정하시겠습니까?");
+    if (!result) {
+      return;
+    }
     const updateComment = {
       comment: editComment,
     };

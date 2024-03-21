@@ -66,7 +66,7 @@ const QuillEditor = ({
           image: () => imageHandler(quillRef, dataPath, imgUrl),
         },
       },
-      imageActions: {},
+      // imageActions: {},
       imageFormats: {},
     };
   }, []);
