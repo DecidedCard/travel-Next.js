@@ -29,6 +29,7 @@ const Home = () => {
     post.travelPlace.toLowerCase().includes(keyword.toLowerCase()) ||
     post.title.toLowerCase().includes(keyword.toLowerCase()) ||
     post.content.toLowerCase().includes(keyword.toLowerCase()) ||
+    post.userName.toLowerCase().includes(keyword.toLowerCase()) ||
     post.postMainContent.toLowerCase().includes(keyword.toLowerCase()) 
    );
   }
@@ -98,6 +99,7 @@ const Home = () => {
                   avatarProps={{
                     src: post.userProfile, 
                   }}
+                  className="font-semibold mb-2"
                 />
                 <h1 className="uppercase font-bold mt-3">{post.title.length > 20 ? `${post.title.substring(0, 20)}...` : post.title}</h1>
                 <p className="text-default-500 mt-3">{post.content.length > 50 ? `${post.content.substring(0, 50)}...` : post.content}</p>
