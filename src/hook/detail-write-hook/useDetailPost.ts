@@ -1,4 +1,4 @@
-import { deleteWrite } from "@/util/writeSupaBase/writeSupaBase";
+import { deleteWrite } from "@/util/detail-writeSupaBase/writeSupaBase";
 import { postQueryKey, useDetailQuery } from "./useDetailQuery";
 import useSetMutation from "../useSetMutation";
 import { useRouter } from "next/navigation";
