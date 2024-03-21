@@ -3,7 +3,7 @@
 import { Post, UserInfo } from "@/types/writePage";
 import useInput from "../useInput";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import usePostBasicImageStore from "@/store/postBasicImageStore";
 import {
   insertWriting,
@@ -13,7 +13,12 @@ import useSetMutation from "../useSetMutation";
 import { postQueryKey } from "./useDetailQuery";
 
 const useWriteInputForm = (post?: Post) => {
-  let userInfo: UserInfo = { avatar: "", id: "", email: "", nickname: "" };
+  const userInfo = useRef<UserInfo>({
+    avatar: "",
+    id: "",
+    email: "",
+    nickname: "",
+  });
 
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
   const [title, onChangeTitle, setTitle] = useInput();
@@ -23,13 +28,16 @@ const useWriteInputForm = (post?: Post) => {
   const [content, onChangeContent, setContent] = useInput();
   const [postMainContent, setPostMainContent] = useState("");
   const router = useRouter();
-  if (typeof window !== "undefined") {
-    userInfo = JSON.parse(localStorage.getItem("user")!);
-    if (!userInfo) {
-      alert("로그인 해주시기 바랍니다.");
-      router.replace("/login");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      userInfo.current = JSON.parse(localStorage.getItem("user")!);
+      if (!userInfo) {
+        alert("로그인 해주시기 바랍니다.");
+        router.replace("/login");
+      }
     }
-  }
+  }, [router]);
 
   useEffect(() => {
     if (post) {
@@ -120,9 +128,9 @@ const useWriteInputForm = (post?: Post) => {
       content,
       travelDate: `${startDate} ~ ${endDate}`,
       travelPlace,
-      userId: userInfo.id,
-      userName: userInfo.nickname,
-      userProfile: userInfo.avatar,
+      userId: userInfo.current.id,
+      userName: userInfo.current.nickname,
+      userProfile: userInfo.current.avatar,
       postMainContent,
       postBasicImage,
     };

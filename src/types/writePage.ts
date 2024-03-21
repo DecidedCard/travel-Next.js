@@ -32,4 +32,5 @@ export type UserInfo = {
   email: string;
   id: string;
   nickname: string;
+  password?: string;
 };

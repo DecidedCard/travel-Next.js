@@ -1,4 +1,5 @@
 "use client";
+
 import useComment from "@/hook/detail-write-hook/useComment";
 import React from "react";
 import CommentEditForm from "./CommentEditForm";
@@ -20,30 +21,33 @@ const CommentList = ({ id }: { id: string }) => {
   }
   return (
     <section>
-      {commentData?.length !== 0 ? (
-        commentData!.map((item) => {
-          return editForm === item.id ? (
-            <CommentEditForm item={item} />
-          ) : (
-            <div key={item.id} className="flex justify-between">
-              <p>{item.comment}</p>
-              <div>
-                <button
-                  onClick={() => onClickEditFormToggle(item.id!)}
-                  className="w-14 border-r border-solid border-slate-700"
-                >
-                  수정
-                </button>
-                <button onClick={() => deleteMutate(item.id)} className="w-14">
-                  삭제
-                </button>
+      {commentData!.map((item) => {
+        return (
+          <div key={item.id}>
+            {editForm === item.id ? (
+              <CommentEditForm item={item} id={id} />
+            ) : (
+              <div className="flex justify-between">
+                <p>{item.comment}</p>
+                <div>
+                  <button
+                    onClick={() => onClickEditFormToggle(item.id!)}
+                    className="w-14 border-r border-solid border-slate-700"
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={() => deleteMutate(item.id)}
+                    className="w-14"
+                  >
+                    삭제
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })
-      ) : (
-        <div>댓글이 없습니다.</div>
-      )}
+            )}
+          </div>
+        );
+      })}
     </section>
   );
 };
