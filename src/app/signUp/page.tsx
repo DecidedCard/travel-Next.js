@@ -81,12 +81,17 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex relative">
-      <div>
-        <Image src={loginImg} alt="LoginBackgroundImg" className="absolute" />
+    <div className="flex w-screen h-screen relative ">
+      <div className="flex absolute inset-0 w-full h-full">
+        <Image
+          src={loginImg}
+          alt="LoginBackgroundImg"
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
-      <div className="flex absolute px-28 py-20">
-        <Card className="flex w-[560px] h-[650px]">
+      <div className="flex items-center px-4 lg:px-0 max-w-lg ml-20">
+        <Card className=" flex flex-col items-center justify-center w-[560px] h-[650px]">
           <CardBody className="flex flex-col items-center justify-between px-8 py-8">
             <h1 className="text-4xl font-bold mb-2">여행한탕</h1>
             <h1 className="text-2xl font-bold mb-2">회원가입</h1>
