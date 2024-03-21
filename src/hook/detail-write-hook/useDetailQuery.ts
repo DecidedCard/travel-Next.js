@@ -1,4 +1,4 @@
-import { getWrite } from "@/util/writeSupaBase/writeSupaBase";
+import { getWrite } from "@/util/detail-writeSupaBase/writeSupaBase";
 import { useQuery } from "@tanstack/react-query";
 
 export const postQueryKey = ["detail/post"];

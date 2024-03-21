@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { getUrlImage, uploadFile } from "./writeSupaBase/writeSupaBase";
+import { getUrlImage, uploadFile } from "./detail-writeSupaBase/writeSupaBase";
 
 const imageHandler = (quillRef: any, dataPath: any, imgUrl: any) => {
   const input = document.createElement("input");
