@@ -15,10 +15,12 @@ import {
 import Image from "next/image";
 import { usePosts } from "@/hook/usePostData";
 import { usePostSort } from "@/hook/useSortPosts";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
   const { data: posts, isLoading, isError } = usePosts();
   const { sortOrder, sortByLatest, sortByOldest } = usePostSort()
+  const router = useRouter();
 
   const getSortedPosts = () => {
     if (posts && posts.length > 0) {
@@ -35,6 +37,9 @@ const Home = () => {
   
   if (isLoading) return <div>로딩중...</div>;
   if (isError) return <div>패칭 에러</div>;
+
+  const handleCardClick = (userId: string) => 
+    router.push(`/detail/${userId}`); 
 
   return (
     <div>
@@ -62,7 +67,7 @@ const Home = () => {
       <ScrollShadow className="w-[full] h-[400px] mt-3">
       <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
       {getSortedPosts().map((post) => (
-            <Card key={post.id} className="py-4">
+            <Card key={post.userId} className="py-4">
               <CardBody className="overflow-visible py-2">
               <h1 className="text-lg font-bold mb-2">🛫&nbsp;&nbsp;여행 기간</h1>
                <p className="mb-2">{post.travelDate}</p>
@@ -90,6 +95,9 @@ const Home = () => {
                 />
                 <h1 className="uppercase font-bold mt-3">{post.title.length > 20 ? `${post.title.substring(0, 20)}...` : post.title}</h1>
                 <p className="text-default-500 mt-3">{post.content.length > 50 ? `${post.content.substring(0, 50)}...` : post.content}</p>
+                <Button className="mt-2" color="primary" variant="ghost" onClick={() => handleCardClick(post.userId)}>
+                자세히 보기
+              </Button> 
               </CardHeader>
             </Card>
           ))}      

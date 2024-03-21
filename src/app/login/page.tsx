@@ -21,14 +21,19 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      alert("이메일 또는 비밀번호를 입력하세요.");
+      return; // 이메일 또는 비밀번호가 입력되지 않으면 함수 종료
+    }
+
     try {
       const userData = await signIn(email, password);
-      console.log("User signIn:", userData);
       authLogin(userData);
-      alert("로그인 성공");
+      alert("로그인 성공했습니다.");
       router.push("/");
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      alert("이메일 또는 비밀번호를 다시 확인해주세요.");
     }
   };
 
@@ -38,10 +43,10 @@ const Login = () => {
         <Image src={loginImg} alt="LoginBackgroundImg" className="absolute" />
       </div>
       <div className="flex absolute px-28 py-20">
-        <Card className="flex w-[560px] h-[620px]">
-          <CardBody className="flex flex-col items-center justify-between px-8 py-16">
-            <h1 className="text-4xl font-bold mb-10">여행한탕</h1>
-            <h1 className="text-2xl font-bold mb-4">로그인</h1>
+        <Card className="flex w-[560px] h-[650px]">
+          <CardBody className="flex flex-col items-center justify-between px-8 py-8">
+            <h1 className="text-4xl font-bold mb-2">여행한탕</h1>
+            <h1 className="text-2xl font-bold mb-2">로그인</h1>
             <form onSubmit={handleLogin} className="w-full">
               <div className="flex flex-col gap-5">
                 <Input

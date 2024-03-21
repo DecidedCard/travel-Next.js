@@ -45,12 +45,11 @@ export const signIn = async (
       password,
     });
 
-    if (error) throw error;
-
     if (!data || !data.user) {
       throw new Error("User data not found in signInWithPassword response");
     }
 
+    localStorage.setItem("user", JSON.stringify(data.user));
     const user = data.user;
 
     const { data: userData, error: fetchError } = await supabase
@@ -60,10 +59,6 @@ export const signIn = async (
       .single();
 
     if (fetchError) throw fetchError;
-
-    if (!userData) {
-      throw new Error("User data not found in database");
-    }
 
     // 로컬스토리지 user에 user 정보 저장
     localStorage.setItem("user", JSON.stringify(userData));
