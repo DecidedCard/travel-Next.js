@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../public/logo.png";
@@ -12,9 +12,25 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import { logout } from "@/hook/authService";
+import { User } from "@/types";
 
 const Header = () => {
-  const { isLoggedIn, user, authLogout } = useAuthStore();
+  const { isLoggedIn, user, authLogout, authLogin } = useAuthStore();
+
+  useEffect(() => {
+    const getUserFromStorage = (): User | null => {
+      if (typeof window !== "undefined") {
+        // localStorage 액세스를 useEffect 후크 내부로 이동하여 클라이언트 측에서만 실행되도록
+        const userString = localStorage.getItem("user");
+        return userString ? JSON.parse(userString) : null;
+      }
+      return null;
+    };
+    const storedUser = getUserFromStorage();
+    if (storedUser) {
+      authLogin(storedUser);
+    }
+  }, [authLogin]);
 
   const handleLogout = async () => {
     const confirmed = window.confirm("로그아웃 하시겠습니까?");
