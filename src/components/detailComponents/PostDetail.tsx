@@ -21,7 +21,7 @@ const PostDetail = ({ id }: { id: string }) => {
   return editForm ? (
     <InputForm post={post!} onClickCancelHandler={onClickCancelHandler} />
   ) : (
-    <main className="max-w-7xl min-w-[800px] min-h-96 mx-auto">
+    <main>
       <section className="flex justify-between items-center m-2 py-4 border-b border-solid border-gray-700">
         <h2 className="text-4xl font-bold">{post!.title}</h2>
         <div>
@@ -51,9 +51,6 @@ const PostDetail = ({ id }: { id: string }) => {
       </section>
       <section className="m-2 border-b border-solid border-gray-700">
         <div dangerouslySetInnerHTML={{ __html: post!.postMainContent }}></div>
-      </section>
-      <section className="m-2">
-        <p>댓글 작성란</p>
       </section>
     </main>
   );
