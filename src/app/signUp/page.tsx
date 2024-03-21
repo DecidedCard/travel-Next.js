@@ -40,18 +40,18 @@ const SignUp = () => {
   const passwordIsInvalid = React.useMemo(() => {
     if (passwordError === "") return false;
     return validatePassword(password) ? false : true;
-  }, [passwordError]);
+  }, [password, passwordError]);
 
   const confirmPasswordIsInvalid = React.useMemo(() => {
     if (password !== confirmPassword) return true;
     return false;
-  }, [confirmPasswordError]);
+  }, [password, confirmPassword]);
 
   const nicknameIsInvalid = React.useMemo(() => {
     if (nicknameError === "") return false;
     if (nickname.length < 2) return true;
     return false;
-  }, [nicknameError]);
+  }, [nickname, nicknameError]);
 
   // 회원가입
   const handleSingUp = async (e: React.FormEvent) => {

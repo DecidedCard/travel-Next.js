@@ -17,12 +17,17 @@ const Header = () => {
   const { isLoggedIn, user, authLogout } = useAuthStore();
 
   const handleLogout = async () => {
-    try {
-      await logout();
-      authLogout();
-      alert("로그아웃");
-    } catch (error) {
-      console.error("Logout error:", error);
+    const confirmed = window.confirm("로그아웃 하시겠습니까?");
+    if (confirmed) {
+      try {
+        await logout();
+        authLogout();
+        alert("로그아웃 되었습니다.");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    } else {
+      return;
     }
   };
 

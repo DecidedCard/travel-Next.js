@@ -45,14 +45,7 @@ export const signIn = async (
       password,
     });
 
-    // 유효성 검사
-    if (error) {
-      alert("이메일 또는 비밀번호를 확인해주세요.");
-      throw error;
-    }
-
     if (!data || !data.user) {
-      alert("등록된 회원 정보가 없습니다.");
       throw new Error("User data not found in signInWithPassword response");
     }
 
@@ -66,10 +59,6 @@ export const signIn = async (
       .single();
 
     if (fetchError) throw fetchError;
-
-    if (!userData) {
-      throw new Error("User data not found in database");
-    }
 
     // 로컬스토리지 user에 user 정보 저장
     localStorage.setItem("user", JSON.stringify(userData));

@@ -23,14 +23,17 @@ const Login = () => {
     e.preventDefault();
     if (!email || !password) {
       alert("이메일 또는 비밀번호를 입력하세요.");
+      return; // 이메일 또는 비밀번호가 입력되지 않으면 함수 종료
     }
+
     try {
       const userData = await signIn(email, password);
       authLogin(userData);
-      alert("로그인 성공");
+      alert("로그인 성공했습니다.");
       router.push("/");
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      alert("이메일 또는 비밀번호를 다시 확인해주세요.");
     }
   };
 
