@@ -57,8 +57,8 @@ const Profile = () => {
 
   const uploadFile = async (file: File): Promise<any> => {
     try {
-      const fileExt = file.name.split(".").pop();
-      const filePath = `avatar/${userInfo.id}/${userInfo.id}.${fileExt}`;
+      // const fileExt = file.name.split(".").pop();
+      const filePath = `avatar/${userInfo.id}/${userInfo.id}`;
       const { data } = await supabase.storage
         .from("userProfile")
         .upload(filePath, file, {
@@ -75,7 +75,7 @@ const Profile = () => {
   const getUrlImage = async () => {
     const { data } = await supabase.storage
       .from("userProfile")
-      .getPublicUrl("avatar/4a91a347-e257-4d7c-b474-3ed83d6ac705.jpg");
+      .getPublicUrl(`avatar/${userInfo.id}/${userInfo.id}`);
     console.log(data);
     return data?.publicUrl;
   };
@@ -195,7 +195,7 @@ const Profile = () => {
         <Avatar
           isBordered
           color="default"
-          src={imageUrl ?? undefined}
+          src={imageUrl ?? userInfo.avatar}
           alt="유저프로필"
           className="w-20 h-20 rounded-full"
         />
