@@ -15,8 +15,14 @@ export const usePostSort = () => {
     setSortOrder('oldest');
   };
 
+  // 댓글 순 정렬 함수
   const sortByCommentCount = async () => {
     setSortOrder('commentCount');
+  };
+
+  // 조회 순 정렬 함수
+  const sortByViewCount = () => {
+    setSortOrder('viewCount');
   };
   
   const getSortedPosts = () => {
@@ -31,11 +37,14 @@ export const usePostSort = () => {
         case 'commentCount':
           // 댓글 수가 많은 순 정렬
           return posts.sort((a, b) => b.comment_count - a.comment_count);
-        default:
-          return posts; // 정렬 조건이 지정되지 않은 경우 원본 배열 반환
+        case 'viewCount':
+            // 조회수가 많은 순 정렬
+            return posts.sort((a, b) => b.view_count - a.view_count);
+          default:
+            return posts;
       }
     }
-    return []; // 유효한 posts가 없는 경우 빈 배열 반환
+    return [];
   };
 
   return { sortOrder, sortByLatest, sortByOldest, sortByCommentCount, getSortedPosts };
