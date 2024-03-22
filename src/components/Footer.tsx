@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white text-center p-5 mt-3">
       <p className="text-xl font-bold text-gray-300 mb-2">여행한탕</p>
-      <p className="max-w-md mx-auto mb-2">Your Trip will be more Memorable with us.</p>
+      <p className="max-w-md mx-auto mb-2">Your Trip will be more Memorable When you are With us.</p>
       <div className="flex justify-center space-x-6 my-1">
         <a href="https://github.com/DecidedCard/travel-Next.js" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-white transition-colors duration-300">
           <FaGithub size="28" />
