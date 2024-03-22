@@ -55,7 +55,8 @@ const PostDetail = ({ id }: { id: string }) => {
           <></>
         )}
       </section>
-      <section className="flex flex-col gap-5 m-2 pb-1 border-b border-solid border-gray-700 relative">
+      <section className="flex m-2 pb-1 border-b border-solid border-gray-700 relative">
+        <div className="flex flex-col gap-5">
           <h3 className="text-2xl">여행일정</h3>
           <div className="flex flex-col gap-2">
             <p>
@@ -67,12 +68,14 @@ const PostDetail = ({ id }: { id: string }) => {
               {post?.travelPlace}
             </p>
           </div>
-          <div className="absolute bottom-0 right-0 mb-1 mr-2">
-            <p className="text-gray-500">
-              <label>조회: </label>
-              {post?.view_count}
-            </p>
-          </div>
+        </div>
+        <div>
+          <p>{userInfo.current?.nickname}</p>
+          <p className="text-gray-500">
+            <label>조회: </label>
+            {post?.view_count}
+          </p>
+        </div>
       </section>
       <section className="m-2 p-2 border-b border-solid border-gray-700">
         <div dangerouslySetInnerHTML={{ __html: post!.postMainContent }}></div>
