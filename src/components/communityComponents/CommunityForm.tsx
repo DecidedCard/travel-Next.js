@@ -42,7 +42,7 @@ const CommunityForm = () => {
     >
       <div className="max-w-screen-lg mx-auto mt-10 p-4 border rounded-lg flex flex-col items-center">
         <textarea
-          className="w-[800px] h-52 border-2 border-blue-500 rounded-xl px-3 py-3 mb-4 focus:outline-none focus:border-blue-500 resize-none"
+          className="md:w-[800px] w-[400px] h-52 border-2 border-blue-500 rounded-xl px-3 py-3 mb-4 focus:outline-none focus:border-blue-500 resize-none"
           maxLength={200}
           value={inputValue}
           onChange={handleInputChange}

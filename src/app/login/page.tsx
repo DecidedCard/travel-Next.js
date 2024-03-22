@@ -23,7 +23,7 @@ const Login = () => {
     e.preventDefault();
     if (!email || !password) {
       alert("이메일 또는 비밀번호를 입력하세요.");
-      return; // 이메일 또는 비밀번호가 입력되지 않으면 함수 종료
+      return;
     }
 
     try {
@@ -38,14 +38,19 @@ const Login = () => {
   };
 
   return (
-    <div className="flex relative">
-      <div>
-        <Image src={loginImg} alt="LoginBackgroundImg" className="absolute" />
+    <div className="flex w-screen h-screen relative">
+      <div className="flex absolute inset-0 w-full h-full">
+        <Image
+          src={loginImg}
+          alt="LoginBackgroundImg"
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
-      <div className="flex absolute px-28 py-20">
-        <Card className="flex w-[560px] h-[650px]">
-          <CardBody className="flex flex-col items-center justify-between px-8 py-8">
-            <h1 className="text-4xl font-bold mb-2">여행한탕</h1>
+      <div className="flex items-center justify-center absolute top-[50px] md:top-[150px] left-20 px-4 lg:px-0 max-w-lg">
+        <Card className="relative flex flex-col items-center justify-center w-[560px] h-[650px]">
+          <CardBody className="flex flex-col items-center justify-between px-8 py-8 h-full">
+            <h1 className="text-4xl font-bold mb-6">여행한탕</h1>
             <h1 className="text-2xl font-bold mb-2">로그인</h1>
             <form onSubmit={handleLogin} className="w-full">
               <div className="flex flex-col gap-5">
@@ -79,9 +84,7 @@ const Login = () => {
               </div>
               <Button
                 type="submit"
-                color="primary"
-                style={{ width: "100%" }}
-                className="mt-5 h-[56px] text-lg"
+                className="w-full mt-5 h-[56px] text-lg bg-subColor2 text-white"
               >
                 로그인
               </Button>
