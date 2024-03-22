@@ -38,7 +38,7 @@ const Profile = () => {
     }
   };
 
-  // 이미지 url 여기서부터 고치기 getPublicUrl < url을 만들어주는메서드임
+  // 이미지 url 여기서부터 고치기
   const getUrlImage = () => {
     const { data } = supabase.storage
       .from("userProfile")
@@ -77,9 +77,7 @@ const Profile = () => {
         const uploadFiles = await uploadFile(file);
         if (uploadFiles) {
           const newImageUrl = getUrlImage();
-          // 여기에 문제가있는거같은데 방법을모르겠다...
           if (newImageUrl) {
-            // localStorage.removeItem("avatar");
             localStorage.setItem(
               "user",
               JSON.stringify({ ...userInfo, avatar: newImageUrl })
@@ -153,11 +151,6 @@ const Profile = () => {
           .eq("userId", userInfo?.id);
         if (commentUpdateError) throw commentUpdateError;
 
-        setUserInfo((prev: any) => ({
-          ...prev,
-          nickname: newNickName,
-        }));
-        localStorage.setItem("nickname", newNickName);
         setIsEditingNickName(false);
         alert("닉네임이 변경되었습니다.");
       } catch (error) {
