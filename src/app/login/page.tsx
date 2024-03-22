@@ -84,8 +84,7 @@ const Login = () => {
               </div>
               <Button
                 type="submit"
-                color="primary"
-                className="w-full mt-5 h-[56px] text-lg"
+                className="w-full mt-5 h-[56px] text-lg bg-mainColor text-white"
               >
                 로그인
               </Button>
@@ -94,7 +93,7 @@ const Login = () => {
               <p className="text-default-400 ">회원이 아니신가요?</p>
               <button
                 onClick={() => {
-                  router.push("/signup");
+                  router.push("/signUp");
                 }}
                 style={{ textDecoration: "underline" }}
               >
