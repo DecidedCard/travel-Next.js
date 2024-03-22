@@ -112,8 +112,14 @@ const ContentList = () => {
                       src: post.userProfile,
                     }}
                   />
-                  <h1 className="uppercase font-bold mt-3">{post.title}</h1>
-                  <p className="text-default-500 mt-3">{post.content}</p>
+                  <h1 className="uppercase font-bold mt-3"> 
+                    {post.title.length > 10
+                    ? `${post.title.substring(0, 10)}...`
+                    : post.title}</h1>
+                  <p className="text-default-500 mt-3">
+                    {post.content.length > 30
+                    ? `${post.content.substring(0, 30)}...`
+                    : post.content}</p>
                   <Button
                     className="mt-2 ml-auto font-semibold"
                     color="primary"
