@@ -71,31 +71,53 @@ const CommunityList: React.FC = () => {
 
   return (
     <div>
-      <h2>Community List</h2>
       <SearchCommunity onSearch={handleSearch} />
-      <ul>
+      <ul className="max-w-screen-lg mx-auto px-10 mb-5">
         {communityContent.map((post) => (
-          <li key={post.id}>
+          <li
+            className="py-2 my-1 leading-7"
+            style={{ borderBottom: "1px solid black" }}
+            key={post.id}
+          >
             {editId === post.id ? (
               <>
                 <textarea
+                  className="h-20 w-[400px] p-2 border-3 border-blue-500 rounded-xl focus:outline-none resize-none"
                   value={editedContent}
                   onChange={(e) => setEditedContent(e.target.value)}
                 />
-                <button onClick={() => handleSaveEdit(post.id)}>저장</button>
-                <button onClick={handleCancelEdit}>취소</button>
+                <br></br>
+                <button
+                  onClick={() => handleSaveEdit(post.id)}
+                  className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
+                >
+                  저장
+                </button>
+                <button
+                  onClick={handleCancelEdit}
+                  className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
+                >
+                  취소
+                </button>
               </>
             ) : (
               <>
-                <p>{post.communityContent}</p>
-                <p>작성자: {post.nickname}</p>
-                <p>작성일: {new Date(post.created_at).toLocaleString()}</p>
+                <p className="font-semibold">{post.communityContent}</p>
+                <p className="text-slate-400 mb-2">
+                  {post.nickname} | {new Date(post.created_at).toLocaleString()}
+                </p>
                 <button
                   onClick={() => handleEdit(post.id, post.communityContent)}
+                  className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
                 >
                   수정
                 </button>
-                <button onClick={() => handleDelete(post.id)}>삭제</button>
+                <button
+                  onClick={() => handleDelete(post.id)}
+                  className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
+                >
+                  삭제
+                </button>
               </>
             )}
           </li>

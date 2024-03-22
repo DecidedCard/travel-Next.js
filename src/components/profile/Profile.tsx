@@ -11,7 +11,7 @@ const Profile = () => {
   const [newNickName, setNewNickName] = useState("");
   const [isEditingNickName, setIsEditingNickName] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
 
   //유저 정보가져오기
@@ -22,13 +22,13 @@ const Profile = () => {
     }
   }, []);
 
-  // 이미지파일 spabase에업로드
+  const path = crypto.randomUUID();
+  // 이미지파일 spabase에 업로드
   const uploadFile = async (file: File): Promise<any> => {
     try {
-      const filePath = `avatar/${userInfo?.id}/${userInfo?.id}`;
       const { data } = await supabase.storage
         .from("userProfile")
-        .upload(filePath, file, {
+        .upload(`avatar/${userInfo?.id}/${path}.jpg`, file, {
           upsert: true,
         });
       return data;
@@ -38,13 +38,12 @@ const Profile = () => {
       return null;
     }
   };
+
   // 이미지 url
-  const getUrlImage = async () => {
-    const filePath = `avatar/${userInfo?.id}/${userInfo?.id}`;
-    const { data } = await supabase.storage
+  const getUrlImage = () => {
+    const { data } = supabase.storage
       .from("userProfile")
-      .getPublicUrl(filePath);
-    console.log(data);
+      .getPublicUrl(`avatar/${userInfo?.id}/${path}.jpg`);
     return data?.publicUrl;
   };
 
@@ -60,6 +59,7 @@ const Profile = () => {
       reader.onload = () => {
         setImageUrl(reader.result as string);
       };
+
       reader.readAsDataURL(file);
     }
   };
@@ -72,34 +72,46 @@ const Profile = () => {
   };
 
   // 이미지 변경완료버튼
-  const handleUploadDon = async () => {
+  const handleUploadDone = async () => {
     if (file) {
+      window.confirm("프로필 사진을 변경하시겠습니까?");
       try {
         const uploadFiles = await uploadFile(file);
         if (uploadFiles) {
-          const newImageUrl = await getUrlImage();
-          // 여기에 문제가있는거같은데 방법을모르겠다...
+          const newImageUrl = getUrlImage();
           if (newImageUrl) {
-            localStorage.removeItem("avatar");
-            localStorage.setItem("avatar", newImageUrl);
-            // console.log(newImageUrl);
+            localStorage.setItem(
+              "user",
+              JSON.stringify({ ...userInfo, avatar: newImageUrl })
+            );
 
             // Supabase 데이터베이스 업데이트
             const { data, error } = await supabase
               .from("users")
               .update({ avatar: newImageUrl })
-              .eq("avatar", userInfo?.avatar);
-            // console.log(newImageUrl);
+              .eq("id", userInfo?.id);
+
             if (error) {
               console.error("Supabase에서 avatar 업데이트중 에러:", error);
               alert("이미지 파일 등록 실패");
               return;
             }
-          } else {
-            console.error("이미지 URL이 없습니다.");
-            alert("이미지 파일 등록 실패");
-            return;
           }
+
+          // 관련 게시글의 유저이미지 업데이트
+          const { error: postUpdateError } = await supabase
+            .from("posts")
+            .update({ userProfile: newImageUrl })
+            .eq("userId", userInfo?.id);
+          if (postUpdateError) throw postUpdateError;
+
+          // 관련 댓글의 유저이미지 업데이트
+          const { error: commentUpdateError } = await supabase
+            .from("postComment")
+            .update({ userProfile: newImageUrl })
+            .eq("userId", userInfo?.id);
+          if (commentUpdateError) throw commentUpdateError;
+          location.reload();
         }
       } catch (error) {
         console.error("이미지 파일 등록 실패:", error);
@@ -107,7 +119,6 @@ const Profile = () => {
         return;
       }
     }
-
     setIsEditingImageUrl(false);
   };
 
@@ -126,40 +137,47 @@ const Profile = () => {
       alert("변경할 닉네임을 입력하세요");
       return;
     }
-    if (newNickName !== userInfo?.nickname) {
-      try {
-        const { data, error } = await supabase
-          .from("users")
-          .update({ nickname: newNickName })
-          .eq("id", userInfo?.id);
-        if (error) {
-          throw error;
-        }
-        setUserInfo((prev: any) => ({
-          ...prev,
-          nickname: newNickName,
-        }));
-        localStorage.setItem("nickname", newNickName);
-        setIsEditingNickName(false);
-        alert("닉네임이 변경되었습니다.");
-      } catch (error) {
-        console.error("닉네임 업데이트 오류:", error);
-        alert("닉네임 변경 중 오류가 발생했습니다.");
-      }
-    } else {
+
+    if (newNickName === userInfo?.nickname) {
       alert("변경된 내용이 없습니다");
+      return;
+    }
+    try {
+      const { data: updateUserData, error: userUpdateError } = await supabase
+        .from("users")
+        .update({ nickname: newNickName })
+        .eq("id", userInfo?.id);
+
+      if (userUpdateError) {
+        throw userUpdateError.message;
+      }
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...userInfo, nickname: newNickName })
+      );
+
+      // 관련 게시글의 닉네임 업데이트
+      const { error: postUpdateError } = await supabase
+        .from("posts")
+        .update({ userName: newNickName })
+        .eq("userId", userInfo?.id);
+      if (postUpdateError) throw postUpdateError;
+
+      // 관련 댓글의 닉네임 업데이트
+      const { error: commentUpdateError } = await supabase
+        .from("postComment")
+        .update({ userName: newNickName })
+        .eq("userId", userInfo?.id);
+      if (commentUpdateError) throw commentUpdateError;
+
+      location.reload();
+      setIsEditingNickName(false);
+      alert("닉네임이 변경되었습니다.");
+    } catch (error) {
+      console.error("닉네임 업데이트 오류:", error);
+      alert("닉네임 변경 중 오류가 발생했습니다.");
     }
   };
-
-  useEffect(() => {
-    const storedNickName = localStorage.getItem("nickname");
-    if (storedNickName) {
-      setUserInfo((prev: any) => ({
-        ...prev,
-        nickname: storedNickName,
-      }));
-    }
-  }, []);
 
   return (
     <div className="w-[500px] p-6 flex flex-col items-center border-r border-solid border-gray-300">
@@ -177,8 +195,9 @@ const Profile = () => {
         <Avatar
           isBordered
           color="default"
-          src={imageUrl ?? userInfo.avatar}
+          src={imageUrl || userInfo.avatar}
           alt="유저프로필"
+          id="profileImage"
           className="w-[200px] h-[200px] rounded-full "
         />
       ) : (
@@ -194,11 +213,11 @@ const Profile = () => {
       />
 
       {isEditingImageUrl ? (
-        <div className="flex flex-wrap gap-4 items-center">
+        <div className="flex flex-wrap gap-4 items-center mt-5">
           <Button color="danger" onClick={handleCancel}>
             취소
           </Button>
-          <Button color="primary" onClick={handleUploadDon}>
+          <Button color="primary" onClick={handleUploadDone}>
             완료
           </Button>
         </div>

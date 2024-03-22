@@ -134,3 +134,17 @@ table {
 .ql-editor em {
   font-style: italic;
 }
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.bounce-on-hover:hover {
+  animation: bounce 0.8s ease-in-out infinite;
+}
