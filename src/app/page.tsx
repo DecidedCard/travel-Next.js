@@ -17,19 +17,21 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Home = () => {
-  const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } = usePostSort()
+  const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } =
+    usePostSort();
   const router = useRouter();
   const [searchKeyword, setsearchKeyword] = useState("");
 
   const filteredPostsByKeyword = (keyword: string) => {
-    return getSortedPosts().filter(post =>
-    post.travelPlace.toLowerCase().includes(keyword.toLowerCase()) ||
-    post.title.toLowerCase().includes(keyword.toLowerCase()) ||
-    post.content.toLowerCase().includes(keyword.toLowerCase()) ||
-    post.userName.toLowerCase().includes(keyword.toLowerCase()) ||
-    post.postMainContent.toLowerCase().includes(keyword.toLowerCase()) 
-  );
-  }
+    return getSortedPosts().filter(
+      (post) =>
+        post.travelPlace.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.title.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.content.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.userName.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.postMainContent.toLowerCase().includes(keyword.toLowerCase())
+    );
+  };
 
   const filteredPosts = filteredPostsByKeyword(searchKeyword);
 
@@ -37,8 +39,7 @@ const Home = () => {
     setsearchKeyword(e.currentTarget.value);
   };
 
-  const handleCardClick = (id: string) => 
-    router.push(`/detail/${id}`); 
+  const handleCardClick = (id: string) => router.push(`/detail/${id}`);
 
   return (
     <div>
@@ -78,7 +79,7 @@ const Home = () => {
         </Button>
       </div>
       <ScrollShadow className="w-[full] h-[400px] mt-3">
-        <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
+        <div className="gap-2 grid grid-cols-2 md:grid-cols-4 p-5">
           {filteredPosts.map((post) => (
             <Card key={post.id} className="py-4">
               <CardBody className="overflow-visible py-2">
