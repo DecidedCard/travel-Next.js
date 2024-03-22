@@ -139,6 +139,25 @@ const Profile = () => {
           JSON.stringify({ ...userInfo, nickname: newNickName })
         );
         location.reload();
+        // 관련 게시글의 닉네임 업데이트
+        const { error: postUpdateError } = await supabase
+          .from("posts")
+          .update({ userName: newNickName })
+          .eq("userId", userInfo?.id);
+        if (postUpdateError) throw postUpdateError;
+
+        // 관련 댓글의 닉네임 업데이트
+        const { error: commentUpdateError } = await supabase
+          .from("postComment")
+          .update({ userName: newNickName })
+          .eq("userId", userInfo?.id);
+        if (commentUpdateError) throw commentUpdateError;
+
+        setUserInfo((prev: any) => ({
+          ...prev,
+          nickname: newNickName,
+        }));
+        localStorage.setItem("nickname", newNickName);
         setIsEditingNickName(false);
         alert("닉네임이 변경되었습니다.");
       } catch (error) {
@@ -149,16 +168,6 @@ const Profile = () => {
       alert("변경된 내용이 없습니다");
     }
   };
-
-  // useEffect(() => {
-  //   const storedNickName = localStorage.getItem("nickname");
-  //   if (storedNickName) {
-  //     setUserInfo((prev: any) => ({
-  //       ...prev,
-  //       nickname: storedNickName,
-  //     }));
-  //   }
-  // }, []);
 
   return (
     <div className="w-[500px] p-6 flex flex-col items-center border-r border-solid border-gray-300">
