@@ -11,7 +11,7 @@ const Profile = () => {
   const [newNickName, setNewNickName] = useState("");
   const [isEditingNickName, setIsEditingNickName] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
 
   //유저 정보가져오기
@@ -21,8 +21,9 @@ const Profile = () => {
       setUserInfo(JSON.parse(User));
     }
   }, []);
+
   const path = crypto.randomUUID();
-  // 이미지파일 spabase에업로드
+  // 이미지파일 spabase에 업로드
   const uploadFile = async (file: File): Promise<any> => {
     try {
       const { data } = await supabase.storage
@@ -38,7 +39,7 @@ const Profile = () => {
     }
   };
 
-  // 이미지 url 여기서부터 고치기
+  // 이미지 url
   const getUrlImage = () => {
     const { data } = supabase.storage
       .from("userProfile")
@@ -58,6 +59,7 @@ const Profile = () => {
       reader.onload = () => {
         setImageUrl(reader.result as string);
       };
+
       reader.readAsDataURL(file);
     }
   };
@@ -95,6 +97,20 @@ const Profile = () => {
               return;
             }
           }
+
+          // 관련 게시글의 유저이미지 업데이트
+          const { error: postUpdateError } = await supabase
+            .from("posts")
+            .update({ userProfile: newImageUrl })
+            .eq("userId", userInfo?.id);
+          if (postUpdateError) throw postUpdateError;
+
+          // 관련 댓글의 유저이미지 업데이트
+          const { error: commentUpdateError } = await supabase
+            .from("postComment")
+            .update({ userProfile: newImageUrl })
+            .eq("userId", userInfo?.id);
+          if (commentUpdateError) throw commentUpdateError;
           location.reload();
         }
       } catch (error) {
@@ -103,7 +119,6 @@ const Profile = () => {
         return;
       }
     }
-
     setIsEditingImageUrl(false);
   };
 
@@ -122,43 +137,45 @@ const Profile = () => {
       alert("변경할 닉네임을 입력하세요");
       return;
     }
-    if (newNickName !== userInfo?.nickname) {
-      try {
-        const { data, error } = await supabase
-          .from("users")
-          .update({ nickname: newNickName })
-          .eq("id", userInfo?.id);
-        if (error) {
-          throw error;
-        }
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ ...userInfo, nickname: newNickName })
-        );
-        location.reload();
-        // 관련 게시글의 닉네임 업데이트
-        const { error: postUpdateError } = await supabase
-          .from("posts")
-          .update({ userName: newNickName })
-          .eq("userId", userInfo?.id);
-        if (postUpdateError) throw postUpdateError;
-
-        // 관련 댓글의 닉네임 업데이트
-        const { error: commentUpdateError } = await supabase
-          .from("postComment")
-          .update({ userName: newNickName })
-          .eq("userId", userInfo?.id);
-        if (commentUpdateError) throw commentUpdateError;
-
-        setIsEditingNickName(false);
-        alert("닉네임이 변경되었습니다.");
-      } catch (error) {
-        console.error("닉네임 업데이트 오류:", error);
-        alert("닉네임 변경 중 오류가 발생했습니다.");
-      }
-    } else {
+    if (newNickName === userInfo?.nickname) {
       alert("변경된 내용이 없습니다");
+      return;
+    }
+    try {
+      const { data: updateUserData, error: userUpdateError } = await supabase
+        .from("users")
+        .update({ nickname: newNickName })
+        .eq("id", userInfo?.id);
+
+      if (userUpdateError) {
+        throw userUpdateError.message;
+      }
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...userInfo, nickname: newNickName })
+      );
+
+      // 관련 게시글의 닉네임 업데이트
+      const { error: postUpdateError } = await supabase
+        .from("posts")
+        .update({ userName: newNickName })
+        .eq("userId", userInfo?.id);
+      if (postUpdateError) throw postUpdateError;
+
+      // 관련 댓글의 닉네임 업데이트
+      const { error: commentUpdateError } = await supabase
+        .from("postComment")
+        .update({ userName: newNickName })
+        .eq("userId", userInfo?.id);
+      if (commentUpdateError) throw commentUpdateError;
+
+      location.reload();
+      setIsEditingNickName(false);
+      alert("닉네임이 변경되었습니다.");
+    } catch (error) {
+      console.error("닉네임 업데이트 오류:", error);
+      alert("닉네임 변경 중 오류가 발생했습니다.");
     }
   };
 
@@ -178,7 +195,7 @@ const Profile = () => {
         <Avatar
           isBordered
           color="default"
-          src={userInfo.avatar}
+          src={imageUrl || userInfo.avatar}
           alt="유저프로필"
           id="profileImage"
           className="w-[200px] h-[200px] rounded-full "
