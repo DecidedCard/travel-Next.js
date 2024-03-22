@@ -37,14 +37,35 @@ export const insertWriting = async (newWrite: Post) => {
 };
 
 export const getWrite = async (id: string) => {
-  const { data, error } = await supabase.from("posts").select("*").eq("id", id);
+  // 특정 게시글 조회
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("id", id);
+
   if (error) {
     console.error(error);
     return Promise.reject(error);
   } else {
-    return data[0] as Post;
+    const post = data[0] as Post;
+
+    // 조회수 업데이트 로직 추가
+    if (post) {
+      const { error: updateError } = await supabase
+        .from("posts")
+        .update({ view_count: post.view_count + 1 })
+        .eq("id", id);
+
+      if (updateError) {
+        console.error('조회수 업데이트 실패:', updateError);
+
+      }
+    }
+
+    return post;
   }
 };
+
 
 export const updateWrite = async ({ id, post }: { id: string; post: Post }) => {
   const { error } = await supabase.from("posts").update(post).eq("id", id);

@@ -13,6 +13,7 @@ export type Post = {
   userProfile?: string;
   postMainContent: string;
   postBasicImage: string;
+  view_count: string;
 };
 
 export type PostBasicImageStore = {
