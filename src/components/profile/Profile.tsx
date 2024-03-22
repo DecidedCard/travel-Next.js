@@ -72,6 +72,7 @@ const Profile = () => {
   // 이미지 변경완료버튼
   const handleUploadDone = async () => {
     if (file) {
+      window.confirm("프로필 사진을 변경하시겠습니까?");
       try {
         const uploadFiles = await uploadFile(file);
         if (uploadFiles) {
@@ -79,8 +80,10 @@ const Profile = () => {
           // 여기에 문제가있는거같은데 방법을모르겠다...
           if (newImageUrl) {
             // localStorage.removeItem("avatar");
-            localStorage.setItem("avatar", JSON.stringify(newImageUrl));
-            console.log(newImageUrl);
+            localStorage.setItem(
+              "user",
+              JSON.stringify({ ...userInfo, avatar: newImageUrl })
+            );
 
             // Supabase 데이터베이스 업데이트
             const { data, error } = await supabase
@@ -94,6 +97,7 @@ const Profile = () => {
               return;
             }
           }
+          location.reload();
         }
       } catch (error) {
         console.error("이미지 파일 등록 실패:", error);
@@ -129,11 +133,12 @@ const Profile = () => {
         if (error) {
           throw error;
         }
-        setUserInfo((prev: any) => ({
-          ...prev,
-          nickname: newNickName,
-        }));
-        localStorage.setItem("nickname", newNickName);
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...userInfo, nickname: newNickName })
+        );
+        location.reload();
         setIsEditingNickName(false);
         alert("닉네임이 변경되었습니다.");
       } catch (error) {
@@ -145,15 +150,15 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {
-    const storedNickName = localStorage.getItem("nickname");
-    if (storedNickName) {
-      setUserInfo((prev: any) => ({
-        ...prev,
-        nickname: storedNickName,
-      }));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedNickName = localStorage.getItem("nickname");
+  //   if (storedNickName) {
+  //     setUserInfo((prev: any) => ({
+  //       ...prev,
+  //       nickname: storedNickName,
+  //     }));
+  //   }
+  // }, []);
 
   return (
     <div className="w-[500px] p-6 flex flex-col items-center border-r border-solid border-gray-300">

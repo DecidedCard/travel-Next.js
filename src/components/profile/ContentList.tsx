@@ -1,8 +1,7 @@
-import { getAllPosts } from "@/hook/usePostData";
-import { User } from "@/types";
-import { Post, UserInfo } from "@/types/writePage";
+import { Post } from "@/types/writePage";
 import { supabase } from "@/util/supabase";
 import {
+  Button,
   Card,
   CardBody,
   CardFooter,
@@ -11,7 +10,6 @@ import {
   User as NextUser,
   Tab,
   Tabs,
-  Button,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -65,7 +63,7 @@ const ContentList = () => {
             variant="bordered"
             size="lg"
           >
-            <Tab key="등록한 게시글" title="등록한 게시글"></Tab>
+            <Tab key="내가 등록한 게시글" title="내가 등록한 게시글"></Tab>
           </Tabs>
         </div>
       </section>
