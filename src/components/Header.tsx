@@ -87,10 +87,7 @@ const Header = () => {
               <DropdownItem as={Link} href="/write">
                 글쓰기
               </DropdownItem>
-              <DropdownItem
-                as={Link}
-                href="/userProfile"
-              >
+              <DropdownItem as={Link} href="/userProfile">
                 마이페이지
               </DropdownItem>
               <DropdownItem
