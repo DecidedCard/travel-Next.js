@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import useCommunityStore, { CommunityContent } from "@/store/communityStore";
 import SearchCommunity from "./SearchCommunity";
+import useUserInfo from "@/hook/detail-write-hook/useUserInfo";
 
 const CommunityList: React.FC = () => {
   const {
@@ -10,9 +11,11 @@ const CommunityList: React.FC = () => {
     deleteCommunityContent,
     updateCommunityContent,
   } = useCommunityStore();
+  const { userInfo } = useUserInfo();
 
   useEffect(() => {
     fetchCommunity();
+    console.log(userInfo);
   }, []);
 
   const [editId, setEditId] = useState<string | null>(null);
@@ -79,45 +82,55 @@ const CommunityList: React.FC = () => {
             style={{ borderBottom: "1px solid black" }}
             key={post.id}
           >
-            {editId === post.id ? (
-              <>
-                <textarea
-                  className="h-20 w-[400px] p-2 border-3 border-blue-500 rounded-xl focus:outline-none resize-none"
-                  value={editedContent}
-                  onChange={(e) => setEditedContent(e.target.value)}
-                />
-                <br></br>
-                <button
-                  onClick={() => handleSaveEdit(post.id)}
-                  className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
-                >
-                  저장
-                </button>
-                <button
-                  onClick={handleCancelEdit}
-                  className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
-                >
-                  취소
-                </button>
-              </>
+            {userInfo.current?.nickname === post.nickname ? (
+              editId === post.id ? (
+                <>
+                  <textarea
+                    className="h-20 w-[400px] p-2 border-3 border-blue-500 rounded-xl focus:outline-none resize-none"
+                    value={editedContent}
+                    onChange={(e) => setEditedContent(e.target.value)}
+                  />
+                  <br></br>
+                  <button
+                    onClick={() => handleSaveEdit(post.id)}
+                    className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
+                  >
+                    저장
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
+                  >
+                    취소
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="font-semibold">{post.communityContent}</p>
+                  <p className="text-slate-400 mb-2">
+                    {post.nickname} |{" "}
+                    {new Date(post.created_at).toLocaleString()}
+                  </p>
+                  <button
+                    onClick={() => handleEdit(post.id, post.communityContent)}
+                    className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={() => handleDelete(post.id)}
+                    className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
+                  >
+                    삭제
+                  </button>
+                </>
+              )
             ) : (
               <>
                 <p className="font-semibold">{post.communityContent}</p>
                 <p className="text-slate-400 mb-2">
                   {post.nickname} | {new Date(post.created_at).toLocaleString()}
                 </p>
-                <button
-                  onClick={() => handleEdit(post.id, post.communityContent)}
-                  className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
-                >
-                  수정
-                </button>
-                <button
-                  onClick={() => handleDelete(post.id)}
-                  className=" bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded w-10 text-xs mr-2"
-                >
-                  삭제
-                </button>
               </>
             )}
           </li>

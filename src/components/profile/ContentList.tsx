@@ -93,14 +93,14 @@ const ContentList = ({ id }: { id: string }) => {
         </p>
       ) : (
         <ul>
-          <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
+          <div className="gap-2 grid grid-cols-1 md:grid-cols-4 p-5">
             {userPosts.map((post) => (
               <Card key={post.id} className="py-4">
                 <CardBody className="overflow-visible py-2">
                   <h1 className="text-lg font-bold mb-2">
                     🛫&nbsp;&nbsp;여행 기간
                   </h1>
-                  <p className="mb-2">{post.travelDate}</p>
+                  <p className="mb-2 font-semibold text-blue-500">{post.travelDate}</p>
                   <div className="relative">
                     <NextUiImg
                       isZoomed
@@ -115,8 +115,8 @@ const ContentList = ({ id }: { id: string }) => {
                     />
                     <div className="absolute top-2 left-0 z-10">
                       <CardFooter className="bg-white/80 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
-                        <p className="text-medium text-#5356FF font-bold">
-                          📍{post.travelPlace}
+                        <p className="text-medium font-bold text-blue-600">
+                        📍&nbsp;{post.travelPlace}
                         </p>
                       </CardFooter>
                     </div>
@@ -129,8 +129,14 @@ const ContentList = ({ id }: { id: string }) => {
                       src: post.userProfile,
                     }}
                   />
-                  <h1 className="uppercase font-bold mt-3">{post.title}</h1>
-                  <p className="text-default-500 mt-3">{post.content}</p>
+                  <h1 className="uppercase font-bold mt-3"> 
+                    {post.title.length > 10
+                    ? `${post.title.substring(0, 10)}...`
+                    : post.title}</h1>
+                  <p className="text-default-500 mt-3">
+                    {post.content.length > 30
+                    ? `${post.content.substring(0, 30)}...`
+                    : post.content}</p>
                   <Button
                     className="mt-2 ml-auto font-semibold"
                     color="primary"
