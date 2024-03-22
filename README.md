@@ -70,7 +70,8 @@ $ yarn start
 
 ### Development
 
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 
 ### Hosting
 
@@ -85,50 +86,76 @@ $ yarn start
 ## 🗂️ 디렉토리 구조
 
 ```
-src
- ┣ api
- ┃ ┣ index.js
- ┃ ┣ reviewApi.js
- ┃ ┗ scrapApi.js
- ┣ assets
- ┃ ┣ backgroungimg.png
- ┃ ┣ font.css
- ┃ ┣ left.png
- ┃ ┗ right.png
- ┣ components
- ┃ ┣ common
- ┃ ┃ ┣ CalculateGrade.jsx
- ┃ ┃ ┣ Layout.jsx
- ┃ ┃ ┗ LoadingSpinner.jsx
- ┃ ┣ Detail.jsx
- ┃ ┣ Header.jsx
- ┃ ┣ MapLoader.jsx
- ┃ ┣ Review.jsx
- ┃ ┗ SideBar.jsx
- ┣ hooks
- ┃ ┗ useForm.js
- ┣ pages
- ┃ ┣ HomePage.jsx
- ┃ ┗ LoginPage.jsx
- ┣ redux
- ┃ ┣ config
- ┃ ┃ ┗ configStore.js
- ┃ ┗ modules
- ┃ ┃ ┣ authSlice.js
- ┃ ┃ ┣ reviewSlice.js
- ┃ ┃ ┗ scrapSlice.js
- ┣ shared
- ┃ ┗ Router.jsx
- ┣ styles
- ┃ ┣ GlobalStyle.jsx
- ┃ ┗ theme.js
- ┣ util
- ┣ App.jsx
- ┣ App.test.js
- ┣ index.jsx
- ┣ logo.svg
- ┣ reportWebVitals.js
- ┗ setupTests.js
+📦src
+ ┣ 📂app
+ ┃ ┣ 📂community
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂detail
+ ┃ ┃ ┗ 📂[id]
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂login
+ ┃ ┃ ┣ 📜EyeFilledIcon.tsx
+ ┃ ┃ ┣ 📜EyeSlashFilledIcon.tsx
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂signUp
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂userProfile
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂write
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📜Provider.tsx
+ ┃ ┣ 📜globals.css
+ ┃ ┣ 📜layout.tsx
+ ┃ ┗ 📜page.tsx
+ ┣ 📂assets
+ ┃ ┣ 📜defaultUser.png
+ ┃ ┣ 📜loginImg.jpg
+ ┃ ┣ 📜mainimage.jpg
+ ┃ ┗ 📜sky.jpg
+ ┣ 📂components
+ ┃ ┣ 📂communityComponents
+ ┃ ┃ ┣ 📜CommunityForm.tsx
+ ┃ ┃ ┣ 📜CommunityList.tsx
+ ┃ ┃ ┗ 📜SearchCommunity.tsx
+ ┃ ┣ 📂detailComponents
+ ┃ ┃ ┣ 📜CommentEditForm.tsx
+ ┃ ┃ ┣ 📜CommentInputForm.tsx
+ ┃ ┃ ┣ 📜CommentList.tsx
+ ┃ ┃ ┣ 📜Comments.tsx
+ ┃ ┃ ┗ 📜PostDetail.tsx
+ ┃ ┣ 📂profile
+ ┃ ┃ ┣ 📜ContentList.tsx
+ ┃ ┃ ┗ 📜Profile.tsx
+ ┃ ┣ 📂writeComponents
+ ┃ ┃ ┣ 📜InputForm.tsx
+ ┃ ┃ ┗ 📜QuillEditor.tsx
+ ┃ ┣ 📜Footer.tsx
+ ┃ ┗ 📜Header.tsx
+ ┣ 📂hook
+ ┃ ┣ 📂detail-write-hook
+ ┃ ┃ ┣ 📜useComment.ts
+ ┃ ┃ ┣ 📜useDetailPost.ts
+ ┃ ┃ ┣ 📜useDetailQuery.ts
+ ┃ ┃ ┣ 📜useUserInfo.ts
+ ┃ ┃ ┗ 📜useWriteInputForm.ts
+ ┃ ┣ 📜authService.ts
+ ┃ ┣ 📜useInput.ts
+ ┃ ┣ 📜usePostData.ts
+ ┃ ┣ 📜useSetMutation.ts
+ ┃ ┗ 📜useSortPosts.ts
+ ┣ 📂store
+ ┃ ┣ 📜authStore.ts
+ ┃ ┣ 📜communityStore.ts
+ ┃ ┗ 📜postBasicImageStore.ts
+ ┣ 📂types
+ ┃ ┣ 📜index.ts
+ ┃ ┗ 📜writePage.ts
+ ┗ 📂util
+ ┃ ┣ 📂detail-writeSupaBase
+ ┃ ┃ ┣ 📜detailSupaBase.ts
+ ┃ ┃ ┗ 📜writeSupaBase.ts
+ ┃ ┣ 📜quillImageHandler.ts
+ ┃ ┗ 📜supabase.ts
 ```
 
 <br />
@@ -138,37 +165,37 @@ src
 |             로그인 페이지              |              메인 페이지               |
 | :------------------------------------: | :------------------------------------: |
 |  ![LoginPage](./images/LoginPage.png)  |   ![MainPage](./images/MainPage.png)   |
-|              상세 페이지               |              리뷰 페이지               |
+|              상세 페이지               |            커뮤니티 페이지             |
 | ![DetailPage](./images/DetailPage.png) | ![ReviewPage](./images/ReviewPage.png) |
 
 ## 📦 주요 기능
 
 #### ⭐️ 로그인 기능
 
-- 로그아웃 상태에서도 방탈출 카페의 검색 및 상세 정보 조회 기능을 사용할 수 있습니다.
+- 로그아웃 상태에서도 여행 일기 검색 및 커뮤니티 조회 기능을 사용할 수 있습니다.
 - 로그인을 원할 경우, 헤더에 위치한 로그인 버튼을 클릭하면 로그인 페이지로 이동합니다.
-- 로그인 후 사용자는 자동으로 홈 페이지로 이동하며, 헤더에 표시된 사용자의 닉네임을 통해 현재 로그인 상태를 확인할 수 있습니다.
+- 로그인 후 사용자는 자동으로 홈 페이지로 이동하며, 헤더에 표시된 사용자의 프로필을 통해 현재 로그인 상태를 확인할 수 있습니다.
 - 아직 회원이 아니라면, 아이디, 비밀번호, 닉네임을 입력하여 회원가입을 진행할 수 있습니다.
 - 회원가입 과정에서 유효하지 않은 정보를 입력한 경우, 알림창이 표시됩니다.
-- 스크랩, 리뷰 작성 등의 회원 정보가 필요한 기능들은 로그인하거나 회원가입을 완료한 후에 이용 가능합니다.
+- 여행 일기 작성, 커뮤니티 글 작성, 프로필 변경 등의 회원 정보가 필요한 기능들은 로그인하거나 회원가입을 완료한 후에 이용 가능합니다.
 
 #### ⭐️ 메인 페이지
 
-- 키워드 검색 시 해당하는 방탈출 카페 리스트를 조회할 수 있습니다.
-- 현재 위치를 받아와 지도에 보여줍니다.
-- 현재 위치에서 가까운 거리 순으로 방탈출 카페 리스트를 조회할 수 있습니다.
-- 특정 방탈출 카페를 누르면 상세 정보를 볼 수 있습니다.
-- 상단의 스크랩 아이콘을 누르면 스크랩한 방탈출 카페 리스트를 조회할 수 있습니다.
+- 헤더의 프로필 이미지를 클릭해 글쓰기, 마이페이지, 로그인/로그아웃을 할 수 있습니다.
+- 헤더의 커뮤니티를 클릭해 커뮤니티 페이지로 이동할 수 있습니다.
+- 키워드 검색 시 해당하는 여행 일기를 조회할 수 있습니다.
+- 최신 순, 오래된 순, 댓글 순으로 여행 글을 조회할 수 있습니다.
+- 특정 여행 일기의 자세히 보기 버튼을 누르면 상세 글을 볼 수 있습니다.
 
-#### ⭐️ 디테일
+#### ⭐️ 여행 일기
 
-- 선택한 방탈출 카페 위치로 지도가 이동합니다.
-- 방탈출 카페의 정보와 리뷰를 탭을 통해 조회할 수 있습니다.
-- 정보 탭을 누르면 방탈출 카페의 이름, 주소, 전화번호, 웹사이트 주소, 평점을 확인할 수 있습니다.
-- 리뷰 탭을 누르면 방탈출 카페의 리뷰들을 조회하고 리뷰를 남길 수 있습니다.
-- 이름 옆 스크랩 아이콘 클릭 시 방탈출 카페를 스크랩 목록에 추가하거나 삭제할 수 있습니다.
+- 로그인 후 여행 일기를 작성할 수 있습니다.
+- 여행 일정을 선택할 수 있으며 여행지를 작성하고 사진을 업로드 하거나 글을 작성할 수 있습니다.
+- 자신이 쓴 여행 일기는 로그인 후 수정/삭제 할 수 있습니다.
+- 로그인 후 코맨트를 입력할 수 있습니다.
+- 자신이 쓴 코멘트는 로그인 후 수정/삭제 할 수 있습니다.
 
-#### ⭐️ 리뷰
+#### ⭐️ 커뮤니티
 
 - 리뷰 탭에서는 방탈출 카페에 대한 리뷰를 확인할 수 있습니다.
 - 사용자는 방탈출 카페에 대해 자신의 리뷰를 작성, 수정, 삭제할 수 있습니다.
@@ -177,6 +204,12 @@ src
 - 사용자는 자신이 등록한 리뷰에 한해 수정 및 삭제 권한을 가집니다.
 - 리뷰를 수정할 때는 리뷰의 내용과 평점 모두 수정이 가능합니다.
 - 리뷰를 등록할 때 입력한 평점은 각 방탈출 카페의 평균 평점 계산에 반영됩니다.
+
+#### ⭐️ 마이페이지
+
+- 로그인 후 닉네임과 프로필 사진을 변경할 수 있습니다.
+- 등록한 게시글을 모아 볼 수 있습니다.
+- 댓글을 작성한 게시글을 모아 볼 수 있습니다.
   <br />
 
 ## 🚦 트러블 슈팅
