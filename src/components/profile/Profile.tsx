@@ -135,6 +135,21 @@ const Profile = () => {
         if (error) {
           throw error;
         }
+
+        // 관련 게시글의 닉네임 업데이트
+        const { error: postUpdateError } = await supabase
+          .from("posts")
+          .update({ userName: newNickName }) 
+          .eq("userId", userInfo?.id);
+        if (postUpdateError) throw postUpdateError
+
+        // 관련 댓글의 닉네임 업데이트
+        const { error: commentUpdateError } = await supabase
+          .from("comments")
+          .update({ userName: newNickName }) 
+          .eq("userId", userInfo?.id);
+        if (commentUpdateError) throw commentUpdateError;
+        
         setUserInfo((prev: any) => ({
           ...prev,
           nickname: newNickName,
