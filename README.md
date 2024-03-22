@@ -1,7 +1,7 @@
 # 여행한탕 - Good Travel & Good Experience"
 
 <p align="center">
-  <img src="http://localhost:3000/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.5c17cd47.png&w=96&q=75" alt="logo">
+  <img width = "25%" src="image-5.png" alt="logo">
 </p>
 <p align="center">
 여행을 함께 즐기고 그 경험을 즐겁게 소통하는 커뮤니티
@@ -54,7 +54,6 @@ NEXT_PUBLIC_SUPABASE_KEY = supabase API Key
 ```
 $ cd travel-Next
 $ yarn install
-$ yarn json
 $ yarn start
 ```
 
@@ -162,13 +161,13 @@ $ yarn start
 
 ## 💻 화면 구성
 
-|       로그인 페이지        |              메인 페이지               |
-| :------------------------: | :------------------------------------: |
-|  ![LoginPage](image.png)   |        ![MainPage](image-3.png)        |
-|        상세 페이지         |            커뮤니티 페이지             |
-| ![DetailPage](image-1.png) | ![ReviewPage](./images/ReviewPage.png) |
-|        마이 페이지         |                                        |
-| ![DetailPage](image-1.png) |                                        |
+|       로그인 페이지        |        메인 페이지         |
+| :------------------------: | :------------------------: |
+|  ![LoginPage](image.png)   |  ![MainPage](image-6.png)  |
+|        상세 페이지         |      커뮤니티 페이지       |
+| ![DetailPage](image-1.png) | ![ReviewPage](image-1.png) |
+|        마이 페이지         |                            |
+| ![DetailPage](image-4.png) |                            |
 
 ## 📦 주요 기능
 
