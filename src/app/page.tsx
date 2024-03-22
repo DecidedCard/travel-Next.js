@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import mainImage from "../assets/mainimage.jpg";
 import {
@@ -19,8 +19,8 @@ import { useState } from "react";
 const Home = () => {
   const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } = usePostSort()
   const router = useRouter();
-  const [ searchKeyword, setsearchKeyword ] = useState('');
-  
+  const [searchKeyword, setsearchKeyword] = useState("");
+
   const filteredPostsByKeyword = (keyword: string) => {
     return getSortedPosts().filter(post =>
     post.travelPlace.toLowerCase().includes(keyword.toLowerCase()) ||
@@ -34,8 +34,8 @@ const Home = () => {
   const filteredPosts = filteredPostsByKeyword(searchKeyword);
 
   const handleSearchKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setsearchKeyword(e.currentTarget.value)
-  }
+    setsearchKeyword(e.currentTarget.value);
+  };
 
   const handleCardClick = (id: string) => 
     router.push(`/detail/${id}`); 
@@ -55,40 +55,62 @@ const Home = () => {
         </div>
       </div>
       <div className="mt-10 flex">
-        <Button color="primary" className="ml-5 font-semibold mr-2" onClick={sortByLatest}>
-        최신 순
+        <Button
+          color="primary"
+          className="ml-5 font-semibold mr-2"
+          onClick={sortByLatest}
+        >
+          최신 순
         </Button>
-        <Button color="warning" className="mr-2 font-semibold" onClick={sortByOldest}>
-        오래된 순
-        </Button>  
-        <Button color="default" className="font-semibold" onClick={sortByCommentCount}>
-        댓글 순
+        <Button
+          color="warning"
+          className="mr-2 font-semibold"
+          onClick={sortByOldest}
+        >
+          오래된 순
+        </Button>
+        <Button
+          color="default"
+          className="font-semibold"
+          onClick={sortByCommentCount}
+        >
+          댓글 순
         </Button>
       </div>
       <ScrollShadow className="w-[full] h-[400px] mt-3">
-      <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
-      {filteredPosts.map((post) => (
+        <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
+          {filteredPosts.map((post) => (
             <Card key={post.id} className="py-4">
               <CardBody className="overflow-visible py-2">
-              <h1 className="text-lg font-bold mb-2">🛫&nbsp;&nbsp;여행 기간</h1>
-              <p className="mb-2 font-semibold text-blue-500">{post.travelDate}</p>
-              <div className="relative">
+                <h1 className="text-lg font-bold mb-2">
+                  🛫&nbsp;&nbsp;여행 기간
+                </h1>
+                <p className="mb-2 font-semibold text-blue-500">
+                  {post.travelDate}
+                </p>
+                <div className="relative">
                   <NextUiImg
                     isZoomed
                     alt="Card background"
                     className="object-cover rounded-xl h-80"
-                    src={post.postBasicImage ? post.postBasicImage : "https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"}
-                    width={460}  
+                    src={
+                      post.postBasicImage
+                        ? post.postBasicImage
+                        : "https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"
+                    }
+                    width={460}
                   />
                   <div className="absolute top-2 left-0 z-10">
-                  <CardFooter className="bg-white/90 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
-                    <p className="text-medium font-bold text-blue-600">📍&nbsp;{post.travelPlace}</p>
-                  </CardFooter>
+                    <CardFooter className="bg-white/90 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
+                      <p className="text-medium font-bold text-blue-600">
+                        📍&nbsp;{post.travelPlace}
+                      </p>
+                    </CardFooter>
                   </div>
                 </div>
               </CardBody>
               <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                <div className="flex justify-between items-center w-full"> 
+                <div className="flex justify-between items-center w-full">
                   <User
                     name={post.userName}
                     avatarProps={{
@@ -99,14 +121,27 @@ const Home = () => {
                   <p className="">💬&nbsp;&nbsp;{post.comment_count}</p>
                 </div>
                 <hr className="w-full border-2 border-gray-40 mb-1" />
-                <h1 className="uppercase font-bold mt-3">{post.title.length > 20 ? `${post.title.substring(0, 20)}...` : post.title}</h1>
-                <p className="text-default-500 mt-3">{post.content.length > 50 ? `${post.content.substring(0, 50)}...` : post.content}</p>
-                <Button className="mt-2 ml-auto font-semibold" color="primary" variant="ghost" onClick={() => handleCardClick(post.id)}>
-                자세히 보기
-              </Button> 
+                <h1 className="uppercase font-bold mt-3">
+                  {post.title.length > 20
+                    ? `${post.title.substring(0, 20)}...`
+                    : post.title}
+                </h1>
+                <p className="text-default-500 mt-3">
+                  {post.content.length > 50
+                    ? `${post.content.substring(0, 50)}...`
+                    : post.content}
+                </p>
+                <Button
+                  className="mt-2 ml-auto font-semibold"
+                  color="primary"
+                  variant="ghost"
+                  onClick={() => handleCardClick(post.id)}
+                >
+                  자세히 보기
+                </Button>
               </CardHeader>
             </Card>
-          ))}      
+          ))}
         </div>
       </ScrollShadow>
     </div>
