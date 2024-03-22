@@ -31,7 +31,9 @@ const CommentInputForm = ({
       <Button type="submit">등록</Button>
     </form>
   ) : (
-    <div> 댓글 작성은 로그인 후 이용 가능합니다.</div>
+    <div className="flex items-center mx-auto w-fit h-12 text-xl border-b border-dashed border-gray-700">
+      댓글 작성은 로그인 후 이용 가능합니다.
+    </div>
   );
 };
 
