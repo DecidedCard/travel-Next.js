@@ -21,14 +21,13 @@ const Profile = () => {
       setUserInfo(JSON.parse(User));
     }
   }, []);
-
+  const path = crypto.randomUUID();
   // 이미지파일 spabase에업로드
   const uploadFile = async (file: File): Promise<any> => {
     try {
-      const filePath = `avatar/${userInfo?.id}/${userInfo?.id}`;
       const { data } = await supabase.storage
         .from("userProfile")
-        .upload(filePath, file, {
+        .upload(`avatar/${userInfo?.id}/${path}.jpg`, file, {
           upsert: true,
         });
       return data;
@@ -38,13 +37,12 @@ const Profile = () => {
       return null;
     }
   };
-  // 이미지 url
-  const getUrlImage = async () => {
-    const filePath = `avatar/${userInfo?.id}/${userInfo?.id}`;
-    const { data } = await supabase.storage
+
+  // 이미지 url 여기서부터 고치기 getPublicUrl < url을 만들어주는메서드임
+  const getUrlImage = () => {
+    const { data } = supabase.storage
       .from("userProfile")
-      .getPublicUrl(filePath);
-    console.log(data);
+      .getPublicUrl(`avatar/${userInfo?.id}/${path}.jpg`);
     return data?.publicUrl;
   };
 
@@ -72,33 +70,29 @@ const Profile = () => {
   };
 
   // 이미지 변경완료버튼
-  const handleUploadDon = async () => {
+  const handleUploadDone = async () => {
     if (file) {
       try {
         const uploadFiles = await uploadFile(file);
         if (uploadFiles) {
-          const newImageUrl = await getUrlImage();
+          const newImageUrl = getUrlImage();
           // 여기에 문제가있는거같은데 방법을모르겠다...
           if (newImageUrl) {
-            localStorage.removeItem("avatar");
-            localStorage.setItem("avatar", newImageUrl);
-            // console.log(newImageUrl);
+            // localStorage.removeItem("avatar");
+            localStorage.setItem("avatar", JSON.stringify(newImageUrl));
+            console.log(newImageUrl);
 
             // Supabase 데이터베이스 업데이트
             const { data, error } = await supabase
               .from("users")
               .update({ avatar: newImageUrl })
-              .eq("avatar", userInfo?.avatar);
-            // console.log(newImageUrl);
+              .eq("id", userInfo?.id);
+
             if (error) {
               console.error("Supabase에서 avatar 업데이트중 에러:", error);
               alert("이미지 파일 등록 실패");
               return;
             }
-          } else {
-            console.error("이미지 URL이 없습니다.");
-            alert("이미지 파일 등록 실패");
-            return;
           }
         }
       } catch (error) {
@@ -177,8 +171,9 @@ const Profile = () => {
         <Avatar
           isBordered
           color="default"
-          src={imageUrl ?? userInfo.avatar}
+          src={userInfo.avatar}
           alt="유저프로필"
+          id="profileImage"
           className="w-[200px] h-[200px] rounded-full "
         />
       ) : (
@@ -194,11 +189,11 @@ const Profile = () => {
       />
 
       {isEditingImageUrl ? (
-        <div className="flex flex-wrap gap-4 items-center">
+        <div className="flex flex-wrap gap-4 items-center mt-5">
           <Button color="danger" onClick={handleCancel}>
             취소
           </Button>
-          <Button color="primary" onClick={handleUploadDon}>
+          <Button color="primary" onClick={handleUploadDone}>
             완료
           </Button>
         </div>
