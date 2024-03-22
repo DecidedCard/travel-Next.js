@@ -15,6 +15,9 @@ import Image from "next/image";
 import { usePostSort } from "@/hook/useSortPosts";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { GrView } from "react-icons/gr";
+import { FaRegCommentDots } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Home = () => {
   const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } = usePostSort()
@@ -102,8 +105,8 @@ const Home = () => {
                   />
                   <div className="absolute top-2 left-0 z-10">
                     <CardFooter className="bg-white/90 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
-                      <p className="text-medium font-bold text-blue-600">
-                        📍&nbsp;{post.travelPlace}
+                      <p className="text-medium font-bold text-blue-600 flex">
+                      <FaMapMarkerAlt className="mt-1" />&nbsp;{post.travelPlace}
                       </p>
                     </CardFooter>
                   </div>
@@ -118,7 +121,10 @@ const Home = () => {
                     }}
                     className="font-bold mb-2"
                   />
-                  <p className="">💬&nbsp;&nbsp;{post.comment_count}</p>
+                  <div className="flex">
+                  <p className="flex"><FaRegCommentDots />&nbsp;{post.comment_count}</p>
+                  <p className="flex ml-2"><GrView />&nbsp;{post.view_count}</p>
+                  </div>
                 </div>
                 <hr className="w-full border-2 border-gray-40 mb-1" />
                 <h1 className="uppercase font-bold mt-3">
