@@ -145,11 +145,11 @@ const Profile = () => {
 
         // 관련 댓글의 닉네임 업데이트
         const { error: commentUpdateError } = await supabase
-          .from("comments")
+          .from("postComment")
           .update({ userName: newNickName }) 
           .eq("userId", userInfo?.id);
         if (commentUpdateError) throw commentUpdateError;
-        
+
         setUserInfo((prev: any) => ({
           ...prev,
           nickname: newNickName,
