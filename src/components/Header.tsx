@@ -51,7 +51,9 @@ const Header = () => {
     <nav className="bg-blue-500 text-white px-4 py-2 flex justify-between items-center">
       <div className="flex items-center space-x-4">
         <Link href="/">
+          <div className="bounce-on-hover">
           <Image src={logo} alt="Logo" width={40} height={40} />
+          </div>
         </Link>
         <div className="flex flex-col">
           <h1 className="font-bold text-xl">여행한탕</h1>
