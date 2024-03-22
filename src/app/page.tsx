@@ -12,13 +12,11 @@ import {
   CardFooter,
 } from "@nextui-org/react";
 import Image from "next/image";
-import { usePosts } from "@/hook/usePostData";
 import { usePostSort } from "@/hook/useSortPosts";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Home = () => {
-  const { data: posts, isLoading, isError } = usePosts();
   const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } = usePostSort()
   const router = useRouter();
   const [ searchKeyword, setsearchKeyword ] = useState('');
@@ -30,7 +28,7 @@ const Home = () => {
     post.content.toLowerCase().includes(keyword.toLowerCase()) ||
     post.userName.toLowerCase().includes(keyword.toLowerCase()) ||
     post.postMainContent.toLowerCase().includes(keyword.toLowerCase()) 
-   );
+  );
   }
 
   const filteredPosts = filteredPostsByKeyword(searchKeyword);
@@ -38,9 +36,6 @@ const Home = () => {
   const handleSearchKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setsearchKeyword(e.currentTarget.value)
   }
-
-  if (isLoading) return <div>로딩중...</div>;
-  if (isError) return <div>패칭 에러</div>;
 
   const handleCardClick = (id: string) => 
     router.push(`/detail/${id}`); 
@@ -76,8 +71,8 @@ const Home = () => {
             <Card key={post.id} className="py-4">
               <CardBody className="overflow-visible py-2">
               <h1 className="text-lg font-bold mb-2">🛫&nbsp;&nbsp;여행 기간</h1>
-               <p className="mb-2 font-semibold text-blue-500">{post.travelDate}</p>
-               <div className="relative">
+              <p className="mb-2 font-semibold text-blue-500">{post.travelDate}</p>
+              <div className="relative">
                   <NextUiImg
                     isZoomed
                     alt="Card background"
