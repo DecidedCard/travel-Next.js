@@ -68,7 +68,7 @@ const PostDetail = ({ id }: { id: string }) => {
           </p>
         </div>
       </section>
-      <section className="m-2 border-b border-solid border-gray-700">
+      <section className="m-2 p-2 border-b border-solid border-gray-700">
         <div dangerouslySetInnerHTML={{ __html: post!.postMainContent }}></div>
       </section>
     </main>
