@@ -5,7 +5,7 @@ import React from "react";
 const Detail = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
   return (
-    <div className="max-w-7xl min-w-[800px] min-h-96 mx-auto">
+    <div className="flex flex-col md: max-w-7xl min-w-[600px] min-h-96 mx-auto">
       <PostDetail id={id} />
       <Comments id={id} />
     </div>

@@ -76,7 +76,7 @@ const ContentList = () => {
         </p>
       ) : (
         <ul>
-          <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
+          <div className="gap-2 grid grid-cols-1 md:grid-cols-4 p-5">
             {userPosts.map((post) => (
               <Card key={post.id} className="py-4">
                 <CardBody className="overflow-visible py-2">
