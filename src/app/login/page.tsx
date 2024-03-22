@@ -84,7 +84,7 @@ const Login = () => {
               </div>
               <Button
                 type="submit"
-                className="w-full mt-5 h-[56px] text-lg bg-mainColor text-white"
+                className="w-full mt-5 h-[56px] text-lg bg-subColor2 text-white"
               >
                 로그인
               </Button>

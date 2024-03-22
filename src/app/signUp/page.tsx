@@ -185,7 +185,7 @@ const SignUp = () => {
               <Button
                 type="submit"
                 style={{ width: "100%" }}
-                className="mt-5 h-[56px] text-lg  bg-mainColor text-white"
+                className="mt-5 h-[56px] text-lg  bg-subColor2 text-white"
               >
                 회원가입
               </Button>
