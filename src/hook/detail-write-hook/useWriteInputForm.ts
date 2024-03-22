@@ -94,7 +94,7 @@ const useWriteInputForm = (post?: Post) => {
         travelDate: `${startDate} ~ ${endDate}`,
         travelPlace,
         postMainContent,
-        postBasicImage,
+        postBasicImage
       };
       updateMutate({ id, post });
       location.reload();
