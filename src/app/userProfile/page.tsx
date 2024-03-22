@@ -1,7 +1,14 @@
-import React from "react";
+"use client";
+import ContentList from "@/components/profile/ContentList";
+import Profile from "@/components/profile/Profile";
 
-const UserProfile = () => {
-  return <div>UserProfile</div>;
+const userProfile = () => {
+  return (
+    <div className="flex min-w-full m-5">
+      <Profile />
+      <ContentList />
+    </div>
+  );
 };
 
-export default UserProfile;
+export default userProfile;
