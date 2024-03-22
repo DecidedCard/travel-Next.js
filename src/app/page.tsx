@@ -12,28 +12,24 @@ import {
   CardFooter,
 } from "@nextui-org/react";
 import Image from "next/image";
-import { usePosts } from "@/hook/usePostData";
 import { usePostSort } from "@/hook/useSortPosts";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Home = () => {
-  const { data: posts, isLoading, isError } = usePosts();
-  const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } =
-    usePostSort();
+  const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } = usePostSort()
   const router = useRouter();
   const [searchKeyword, setsearchKeyword] = useState("");
 
   const filteredPostsByKeyword = (keyword: string) => {
-    return getSortedPosts().filter(
-      (post) =>
-        post.travelPlace.toLowerCase().includes(keyword.toLowerCase()) ||
-        post.title.toLowerCase().includes(keyword.toLowerCase()) ||
-        post.content.toLowerCase().includes(keyword.toLowerCase()) ||
-        post.userName.toLowerCase().includes(keyword.toLowerCase()) ||
-        post.postMainContent.toLowerCase().includes(keyword.toLowerCase())
-    );
-  };
+    return getSortedPosts().filter(post =>
+    post.travelPlace.toLowerCase().includes(keyword.toLowerCase()) ||
+    post.title.toLowerCase().includes(keyword.toLowerCase()) ||
+    post.content.toLowerCase().includes(keyword.toLowerCase()) ||
+    post.userName.toLowerCase().includes(keyword.toLowerCase()) ||
+    post.postMainContent.toLowerCase().includes(keyword.toLowerCase()) 
+  );
+  }
 
   const filteredPosts = filteredPostsByKeyword(searchKeyword);
 
@@ -41,10 +37,8 @@ const Home = () => {
     setsearchKeyword(e.currentTarget.value);
   };
 
-  if (isLoading) return <div>로딩중...</div>;
-  if (isError) return <div>패칭 에러</div>;
-
-  const handleCardClick = (id: string) => router.push(`/detail/${id}`);
+  const handleCardClick = (id: string) => 
+    router.push(`/detail/${id}`); 
 
   return (
     <div>

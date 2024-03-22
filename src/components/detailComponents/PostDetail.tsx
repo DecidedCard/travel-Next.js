@@ -25,7 +25,7 @@ const PostDetail = ({ id }: { id: string }) => {
   if (isError) {
     alert("없는 게시글인거 같습니다.");
     router.replace("/");
-    return;
+    return <></>;
   }
 
   return editFormToggle ? (
