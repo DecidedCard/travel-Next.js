@@ -47,6 +47,6 @@ export const usePostSort = () => {
     return [];
   };
 
-  return { sortOrder, sortByLatest, sortByOldest, sortByCommentCount, getSortedPosts };
+  return { sortOrder, sortByLatest, sortByOldest, sortByCommentCount, getSortedPosts, sortByViewCount };
 };
 

@@ -20,7 +20,7 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Home = () => {
-  const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } = usePostSort()
+  const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount, sortByViewCount } = usePostSort()
   const router = useRouter();
   const [searchKeyword, setsearchKeyword] = useState("");
 
@@ -73,11 +73,18 @@ const Home = () => {
           오래된 순
         </Button>
         <Button
-          color="default"
-          className="font-semibold"
+          color="danger"
+          className="mr-2 font-semibold"
           onClick={sortByCommentCount}
         >
           댓글 순
+        </Button>
+        <Button
+          color="success"
+          className="font-semibold"
+          onClick={sortByViewCount}
+        >
+          조회 순
         </Button>
       </div>
       <ScrollShadow className="w-[full] h-[400px] mt-3">
