@@ -20,19 +20,26 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Home = () => {
-  const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount, sortByViewCount } = usePostSort()
+  const {
+    sortByLatest,
+    sortByOldest,
+    getSortedPosts,
+    sortByCommentCount,
+    sortByViewCount,
+  } = usePostSort();
   const router = useRouter();
   const [searchKeyword, setsearchKeyword] = useState("");
 
   const filteredPostsByKeyword = (keyword: string) => {
-    return getSortedPosts().filter(post =>
-    post.travelPlace.toLowerCase().includes(keyword.toLowerCase()) ||
-    post.title.toLowerCase().includes(keyword.toLowerCase()) ||
-    post.content.toLowerCase().includes(keyword.toLowerCase()) ||
-    post.userName.toLowerCase().includes(keyword.toLowerCase()) ||
-    post.postMainContent.toLowerCase().includes(keyword.toLowerCase()) 
-  );
-  }
+    return getSortedPosts().filter(
+      (post) =>
+        post.travelPlace.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.title.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.content.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.userName.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.postMainContent.toLowerCase().includes(keyword.toLowerCase())
+    );
+  };
 
   const filteredPosts = filteredPostsByKeyword(searchKeyword);
 
@@ -40,8 +47,7 @@ const Home = () => {
     setsearchKeyword(e.currentTarget.value);
   };
 
-  const handleCardClick = (id: string) => 
-    router.push(`/detail/${id}`); 
+  const handleCardClick = (id: string) => router.push(`/detail/${id}`);
 
   return (
     <div>
@@ -87,76 +93,81 @@ const Home = () => {
           조회 순
         </Button>
       </div>
-      <ScrollShadow className="w-[full] h-[400px] mt-3">
-        <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
-          {filteredPosts.map((post) => (
-            <Card key={post.id} className="py-4">
-              <CardBody className="overflow-visible py-2">
-                <h1 className="text-lg font-bold mb-2">
-                  🛫&nbsp;&nbsp;여행 기간
-                </h1>
-                <p className="mb-2 font-semibold text-blue-500">
-                  {post.travelDate}
-                </p>
-                <div className="relative">
-                  <NextUiImg
-                    isZoomed
-                    alt="Card background"
-                    className="object-cover rounded-xl h-80"
-                    src={
-                      post.postBasicImage
-                        ? post.postBasicImage
-                        : "https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"
-                    }
-                    width={460}
-                  />
-                  <div className="absolute top-2 left-0 z-10">
-                    <CardFooter className="bg-white/90 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
-                      <p className="text-medium font-bold text-blue-600 flex">
-                      <FaMapMarkerAlt className="mt-1" />&nbsp;{post.travelPlace}
-                      </p>
-                    </CardFooter>
-                  </div>
+      <div className="gap-2 grid grid-cols-2 md:grid-cols-4 p-5">
+        {filteredPosts.map((post) => (
+          <Card key={post.id} className="py-4">
+            <CardBody className="overflow-visible py-2">
+              <h1 className="text-lg font-bold mb-2">
+                🛫&nbsp;&nbsp;여행 기간
+              </h1>
+              <p className="mb-2 font-semibold text-blue-500">
+                {post.travelDate}
+              </p>
+              <div className="relative">
+                <NextUiImg
+                  isZoomed
+                  alt="Card background"
+                  className="object-cover rounded-xl h-80"
+                  src={
+                    post.postBasicImage
+                      ? post.postBasicImage
+                      : "https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"
+                  }
+                  width={460}
+                />
+                <div className="absolute top-2 left-0 z-10">
+                  <CardFooter className="bg-white/90 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
+                    <p className="text-medium font-bold text-blue-600 flex">
+                      <FaMapMarkerAlt className="mt-1" />
+                      &nbsp;{post.travelPlace}
+                    </p>
+                  </CardFooter>
                 </div>
-              </CardBody>
-              <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                <div className="flex justify-between items-center w-full">
-                  <User
-                    name={post.userName}
-                    avatarProps={{
-                      src: post.userProfile,
-                    }}
-                    className="font-bold mb-2"
-                  />
-                  <div className="flex">
-                  <p className="flex"><FaRegCommentDots />&nbsp;{post.comment_count}</p>
-                  <p className="flex ml-2"><GrView />&nbsp;{post.view_count}</p>
-                  </div>
+              </div>
+            </CardBody>
+            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+              <div className="flex justify-between items-center w-full">
+                <User
+                  name={post.userName}
+                  avatarProps={{
+                    src: post.userProfile,
+                  }}
+                  className="font-bold mb-2"
+                />
+                <div className="flex">
+                  <p className="flex">
+                    <FaRegCommentDots />
+                    &nbsp;{post.comment_count}
+                  </p>
+                  <p className="flex ml-2">
+                    <GrView />
+                    &nbsp;{post.view_count}
+                  </p>
                 </div>
-                <hr className="w-full border-2 border-gray-40 mb-1" />
-                <h1 className="uppercase font-bold mt-3">
-                  {post.title.length > 20
-                    ? `${post.title.substring(0, 20)}...`
-                    : post.title}
-                </h1>
-                <p className="text-default-500 mt-3">
-                  {post.content.length > 50
-                    ? `${post.content.substring(0, 50)}...`
-                    : post.content}
-                </p>
-                <Button
-                  className="mt-2 ml-auto font-semibold"
-                  color="primary"
-                  variant="ghost"
-                  onClick={() => handleCardClick(post.id)}
-                >
-                  자세히 보기
-                </Button>
-              </CardHeader>
-            </Card>
-          ))}
-        </div>
-      </ScrollShadow>
+              </div>
+              <hr className="w-full border-2 border-gray-40 mb-1" />
+              <h1 className="uppercase font-bold mt-3">
+                {post.title.length > 20
+                  ? `${post.title.substring(0, 20)}...`
+                  : post.title}
+              </h1>
+              <p className="text-default-500 mt-3">
+                {post.content.length > 50
+                  ? `${post.content.substring(0, 50)}...`
+                  : post.content}
+              </p>
+              <Button
+                className="mt-2 ml-auto font-semibold"
+                color="primary"
+                variant="ghost"
+                onClick={() => handleCardClick(post.id)}
+              >
+                자세히 보기
+              </Button>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };

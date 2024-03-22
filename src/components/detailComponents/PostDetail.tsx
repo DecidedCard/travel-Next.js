@@ -72,7 +72,7 @@ const PostDetail = ({ id }: { id: string }) => {
           </div>
         </div>
         <div className="flex flex-col justify-evenly mr-2">
-          <div className="flex justify-evenly items-center w-48">
+          <div className="flex gap-6 items-center w-fit">
             <p>
               <label>작성자: </label>
               {post?.userName}
