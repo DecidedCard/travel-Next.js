@@ -1,8 +1,7 @@
-import { getAllPosts } from "@/hook/usePostData";
-import { User } from "@/types";
-import { Post, UserInfo } from "@/types/writePage";
+import { Post } from "@/types/writePage";
 import { supabase } from "@/util/supabase";
 import {
+  Button,
   Card,
   CardBody,
   CardFooter,
@@ -12,12 +11,13 @@ import {
   Tab,
   Tabs,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import CommentList from "../detailComponents/CommentList";
 
 const ContentList = () => {
-  const [userInfo, setUserInfo] = useState<User>();
   const [userPosts, setUserPosts] = useState<Post[]>([]);
-  const [activeTab, setActiveTab] = useState("등록한 게시글");
+  // const [activeTab, setActiveTab] = useState("등록한 게시글");
 
   const fetchUserPosts = async (): Promise<Post[]> => {
     const storedUser = localStorage.getItem("user");
@@ -48,6 +48,11 @@ const ContentList = () => {
 
     fetchPosts();
   }, []);
+  const router = useRouter();
+  const handleCardClick = (id: any) => router.push(`/detail/${id}`);
+
+  // 탭
+  const handleTabChange = () => {};
 
   return (
     <div className="ml-7">
@@ -59,8 +64,8 @@ const ContentList = () => {
             variant="bordered"
             size="lg"
           >
-            <Tab key="등록한 게시글" title="등록한 게시글"></Tab>
-            <Tab key="댓글작성한 게시글" title="댓글작성한 게시글"></Tab>
+            <Tab key="내가 등록한 게시글" title="내가 등록한 게시글"></Tab>
+            <Tab key="내가 등록한 댓글" title="내가 등록한 댓글"></Tab>
           </Tabs>
         </div>
       </section>
@@ -109,12 +114,21 @@ const ContentList = () => {
                   />
                   <h1 className="uppercase font-bold mt-3">{post.title}</h1>
                   <p className="text-default-500 mt-3">{post.content}</p>
+                  <Button
+                    className="mt-2 ml-auto font-semibold"
+                    color="primary"
+                    variant="ghost"
+                    onClick={() => handleCardClick(post.id)}
+                  >
+                    자세히 보기
+                  </Button>
                 </CardHeader>
               </Card>
             ))}
           </div>
         </ul>
       )}
+      {/* <CommentList /> */}
     </div>
   );
 };
