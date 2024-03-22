@@ -36,26 +36,27 @@ const CommunityForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col items-center h-screen"
-    >
-      <div className="max-w-screen-lg mx-auto mt-10 p-4 border rounded-lg flex flex-col items-center">
-        <textarea
-          className="md:w-[800px] w-[400px] h-52 border-2 border-blue-500 rounded-xl px-3 py-3 mb-4 focus:outline-none focus:border-blue-500 resize-none"
-          maxLength={200}
-          value={inputValue}
-          onChange={handleInputChange}
-        />
-        <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-auto"
-          type="submit"
-        >
-          등록
-        </button>
-      </div>
-    </form>
+    <div className="max-w-screen-lg mx-auto p-10 rounded-lg">
+      <form onSubmit={handleSubmit}>
+        <div className="  flex flex-col relative">
+          <textarea
+            className="h-52 border-3 border-blue-500 rounded-xl p-5 mb-4 focus:outline-none resize-none"
+            maxLength={200}
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder="내용을 입력하세요..."
+          />
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold 
+            py-2 px-4 rounded focus:outline-none focus:shadow-outline 
+            absolute bottom-2 right-0 mr-4 mb-4 w-20"
+            type="submit"
+          >
+            등록
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
-
 export default CommunityForm;
