@@ -14,10 +14,27 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import CommentList from "../detailComponents/CommentList";
+import useComment from "@/hook/detail-write-hook/useComment";
 
-const ContentList = () => {
+const ContentList = ({ id }: { id: string }) => {
   const [userPosts, setUserPosts] = useState<Post[]>([]);
   // const [activeTab, setActiveTab] = useState("등록한 게시글");
+  const {
+    userInfo,
+    comment,
+    onChangeCommentHandler,
+    onSubmitInsertHandler,
+    commentsData,
+    isLoading,
+    isError,
+    editingId,
+    editComment,
+    onClickEditingIdSet,
+    setEditComment,
+    onChangeEditCommentHandler,
+    onSubmitUpdateHandler,
+    deleteMutate,
+  } = useComment(id);
 
   const fetchUserPosts = async (): Promise<Post[]> => {
     const storedUser = localStorage.getItem("user");
@@ -128,7 +145,19 @@ const ContentList = () => {
           </div>
         </ul>
       )}
-      {/* <CommentList /> */}
+      <CommentList
+        userInfo={userInfo}
+        commentsData={commentsData!}
+        isLoading={isLoading}
+        isError={isError}
+        editingId={editingId}
+        onClickEditingIdSet={onClickEditingIdSet}
+        editComment={editComment}
+        setEditComment={setEditComment}
+        onChangeEditCommentHandler={onChangeEditCommentHandler}
+        onSubmitUpdateHandler={onSubmitUpdateHandler}
+        deleteMutate={deleteMutate}
+      />
     </div>
   );
 };
