@@ -15,10 +15,18 @@ import Image from "next/image";
 import { usePostSort } from "@/hook/useSortPosts";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { GrView } from "react-icons/gr";
+import { FaRegCommentDots } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Home = () => {
-  const { sortByLatest, sortByOldest, getSortedPosts, sortByCommentCount } =
-    usePostSort();
+  const {
+    sortByLatest,
+    sortByOldest,
+    getSortedPosts,
+    sortByCommentCount,
+    sortByViewCount,
+  } = usePostSort();
   const router = useRouter();
   const [searchKeyword, setsearchKeyword] = useState("");
 
@@ -71,11 +79,18 @@ const Home = () => {
           오래된 순
         </Button>
         <Button
-          color="default"
-          className="font-semibold"
+          color="danger"
+          className="mr-2 font-semibold"
           onClick={sortByCommentCount}
         >
           댓글 순
+        </Button>
+        <Button
+          color="success"
+          className="font-semibold"
+          onClick={sortByViewCount}
+        >
+          조회 순
         </Button>
       </div>
       <ScrollShadow className="w-[full] h-[400px] mt-3">
@@ -103,8 +118,9 @@ const Home = () => {
                   />
                   <div className="absolute top-2 left-0 z-10">
                     <CardFooter className="bg-white/90 border-1 overflow-hidden py-1 before:rounded-xl rounded-large shadow-small ml-1">
-                      <p className="text-medium font-bold text-blue-600">
-                        📍&nbsp;{post.travelPlace}
+                      <p className="text-medium font-bold text-blue-600 flex">
+                        <FaMapMarkerAlt className="mt-1" />
+                        &nbsp;{post.travelPlace}
                       </p>
                     </CardFooter>
                   </div>
@@ -119,7 +135,16 @@ const Home = () => {
                     }}
                     className="font-bold mb-2"
                   />
-                  <p className="">💬&nbsp;&nbsp;{post.comment_count}</p>
+                  <div className="flex">
+                    <p className="flex">
+                      <FaRegCommentDots />
+                      &nbsp;{post.comment_count}
+                    </p>
+                    <p className="flex ml-2">
+                      <GrView />
+                      &nbsp;{post.view_count}
+                    </p>
+                  </div>
                 </div>
                 <hr className="w-full border-2 border-gray-40 mb-1" />
                 <h1 className="uppercase font-bold mt-3">
