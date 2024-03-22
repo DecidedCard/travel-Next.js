@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import CommentList from "../detailComponents/CommentList";
 
 const ContentList = () => {
   const [userPosts, setUserPosts] = useState<Post[]>([]);
@@ -64,6 +65,7 @@ const ContentList = () => {
             size="lg"
           >
             <Tab key="내가 등록한 게시글" title="내가 등록한 게시글"></Tab>
+            <Tab key="내가 등록한 댓글" title="내가 등록한 댓글"></Tab>
           </Tabs>
         </div>
       </section>
@@ -126,6 +128,7 @@ const ContentList = () => {
           </div>
         </ul>
       )}
+      {/* <CommentList /> */}
     </div>
   );
 };
