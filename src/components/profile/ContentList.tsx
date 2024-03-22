@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/hook/usePostData";
+import { User } from "@/types";
 import { Post, UserInfo } from "@/types/writePage";
 import { supabase } from "@/util/supabase";
 import {
@@ -14,30 +15,25 @@ import {
 import { useEffect, useState } from "react";
 
 const ContentList = () => {
-  const [userInfo, setUserInfo] = useState<UserInfo>();
+  const [userInfo, setUserInfo] = useState<User>();
   const [userPosts, setUserPosts] = useState<Post[]>([]);
-
-  //유저 정보가져오기
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setUserInfo(JSON.parse(user));
-    }
-  }, []);
+  const [activeTab, setActiveTab] = useState("등록한 게시글");
 
   const fetchUserPosts = async (): Promise<Post[]> => {
-    if (!userInfo) {
-      throw new Error("유저 정보를 불러올수없음");
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      throw new Error("유저 정보를 불러올 수 없습니다");
     }
+    const userInfo = JSON.parse(storedUser);
     const { data, error } = await supabase
       .from("posts")
       .select("*")
       .eq("userId", userInfo.id);
+
     if (error) {
       throw new Error(error.message);
     }
-
-    return data || [];
+    return data;
   };
 
   useEffect(() => {
@@ -53,8 +49,6 @@ const ContentList = () => {
     fetchPosts();
   }, []);
 
-  console.log(userInfo);
-
   return (
     <div className="ml-7">
       <section className="p-4">
@@ -65,10 +59,12 @@ const ContentList = () => {
             variant="bordered"
             size="lg"
           >
-            <Tab key="내가 등록한 게시글" title="내가 등록한 게시글"></Tab>
+            <Tab key="등록한 게시글" title="등록한 게시글"></Tab>
+            <Tab key="댓글작성한 게시글" title="댓글작성한 게시글"></Tab>
           </Tabs>
         </div>
       </section>
+
       {userPosts.length === 0 ? (
         <p className="text-center text-gray-500 mt-8 m-[20px]">
           등록된 게시글이 없습니다.
