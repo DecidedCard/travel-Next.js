@@ -31,19 +31,19 @@ const InputForm = ({
         value={inputValue.title}
         onChange={inputOnChange.onChangeTitle}
       />
-      <div className="flex justify-evenly border-b-2 border-solid border-gray-500">
+      <div className="flex flex-col md:flex-row justify-evenly border-b-2 border-solid border-gray-500">
         <div>
           <div className="flex items-center">
             <Input
               type="date"
-              className="w-36"
+              className="md:w-36 w-full"
               value={inputValue.startDate}
               onChange={inputOnChange.onChangeStartDate}
             />
             <p>~</p>
             <Input
               type="date"
-              className="w-36"
+              className="md:w-36 w-full"
               value={inputValue.endDate}
               onChange={inputOnChange.onChangeEndDate}
             />
@@ -58,7 +58,7 @@ const InputForm = ({
         <Textarea
           type="text"
           label="설명을 입력해주세요."
-          className="w-96"
+          className="md:w-96 w-full"
           value={inputValue.content}
           onChange={inputOnChange.onChangeContent}
         />
