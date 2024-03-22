@@ -165,7 +165,7 @@ $ yarn start
 | :------------------------: | :------------------------: |
 |  ![LoginPage](image.png)   |  ![MainPage](image-6.png)  |
 |        상세 페이지         |      커뮤니티 페이지       |
-| ![DetailPage](image-1.png) | ![ReviewPage](image-1.png) |
+| ![DetailPage](image-1.png) | ![ReviewPage](image-7.png) |
 |        마이 페이지         |                            |
 | ![DetailPage](image-4.png) |                            |
 
