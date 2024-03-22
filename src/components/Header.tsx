@@ -72,7 +72,7 @@ const Header = () => {
               <Avatar
                 isBordered
                 as="button"
-                className="transition-transform"
+                className="transition-transform bounce-on-hover"
                 color="secondary"
                 size="md"
                 src={user.avatar}
