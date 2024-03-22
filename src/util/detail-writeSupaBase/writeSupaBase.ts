@@ -53,7 +53,7 @@ export const getWrite = async (id: string) => {
     if (post) {
       const { error: updateError } = await supabase
         .from("posts")
-        .update({ view_count: post.view_count + 1 })
+        .update({ view_count: (post.view_count ?? 0) + 1 })
         .eq("id", id);
 
       if (updateError) {
