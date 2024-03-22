@@ -76,13 +76,6 @@ const Home = () => {
           오래된 순
         </Button>
         <Button
-          color="warning"
-          className="mr-2 font-semibold"
-          onClick={sortByOldest}
-        >
-          오래된 순
-        </Button>
-        <Button
           color="default"
           className="font-semibold"
           onClick={sortByCommentCount}
