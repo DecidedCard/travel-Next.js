@@ -16,7 +16,7 @@ const CommentInputForm = ({
       onSubmit={onSubmitInsertHandler}
       className="flex justify-evenly items-center my-2 py-2 border-b border-solid border-gray-700"
     >
-      <div className="flex justify-evenly items-center w-24">
+      <div className="flex gap-6 items-center w-fit">
         <Avatar src={userInfo.current.avatar!} alt="유저 프로필" />
         <p>{userInfo.current.nickname}</p>
       </div>

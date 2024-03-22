@@ -78,7 +78,7 @@ const QuillEditor = ({
 
   return (
     <ReactQuill
-      className="flex flex-col h-96 md:w-full w-[600px] mx-auto"
+      className="h-[550px] w-[900px] mx-auto"
       modules={modules}
       formats={formats}
       value={postMainContent}
