@@ -1,14 +1,17 @@
 import { User } from "@/types";
-import { useEffect, useRef } from "react";
+import { getUserInfo } from "@/util/detail-writeSupaBase/userInfoSupabase";
+import { useQuery } from "@tanstack/react-query";
 
+const queryKey = ["userInfo"];
 const useUserInfo = () => {
-  const userInfo = useRef<User | null>(null);
+  const { data: userInfo, isLoading } = useQuery({
+    queryKey,
+    queryFn: getUserInfo,
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
 
-  useEffect(() => {
-    userInfo.current = JSON.parse(localStorage.getItem("user")!);
-  }, []);
-
-  return { userInfo };
+  return { userInfo, isLoading };
 };
 
 export default useUserInfo;
