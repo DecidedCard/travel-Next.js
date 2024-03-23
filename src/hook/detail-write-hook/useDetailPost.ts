@@ -11,7 +11,7 @@ import { useState } from "react";
 import useUserInfo from "./useUserInfo";
 
 const useDetailPost = (id: string) => {
-  const { userInfo } = useUserInfo();
+  const { userInfo, isLoading: userInfoLoading } = useUserInfo();
   const [editFormToggle, setEditFormToggle] = useState(false);
   const { post, isLoading, isError } = useDetailQuery(id);
   const { mutate: deleteMutate } = useSetMutation(deleteWrite, postQueryKey);
@@ -49,6 +49,7 @@ const useDetailPost = (id: string) => {
     onClickCancelHandler,
     setEditFormToggle,
     userInfo,
+    userInfoLoading,
   };
 };
 

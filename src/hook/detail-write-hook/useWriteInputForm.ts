@@ -14,7 +14,7 @@ import { postQueryKey } from "./useDetailQuery";
 import useUserInfo from "./useUserInfo";
 
 const useWriteInputForm = (post?: Post) => {
-  const { userInfo } = useUserInfo();
+  const { userInfo, isLoading } = useUserInfo();
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
   const [title, onChangeTitle, setTitle] = useInput();
   const [startDate, onChangeStartDate, setStartDate] = useInput();
@@ -34,7 +34,7 @@ const useWriteInputForm = (post?: Post) => {
       setTravelPlace(post.travelPlace);
       setPostBasicImage(post.postBasicImage);
     }
-    if (!userInfo.current) {
+    if (!userInfo) {
       alert("글을 작성 하시려면 로그인을 해주시기 바랍니다.");
       router.replace("/login");
     }
@@ -119,9 +119,9 @@ const useWriteInputForm = (post?: Post) => {
       content,
       travelDate: `${startDate} ~ ${endDate}`,
       travelPlace,
-      userId: userInfo.current!.id,
-      userName: userInfo.current!.nickname,
-      userProfile: userInfo.current!.avatar!,
+      userId: userInfo!.id,
+      userName: userInfo!.nickname,
+      userProfile: userInfo!.avatar!,
       postMainContent,
       postBasicImage,
     };
