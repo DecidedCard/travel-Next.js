@@ -81,7 +81,7 @@ const CommentList = ({
                         )
                       : false}
                   </CardHeader>
-                  <CardBody className="p-5 text-small text-default-400">
+                  <CardBody className="p-5 text-small">
                     <p>{item.comment}</p>
                   </CardBody>
                 </Card>

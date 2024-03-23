@@ -4,7 +4,6 @@ import useDetailPost from "@/hook/detail-write-hook/useDetailPost";
 import React from "react";
 import InputForm from "../writeComponents/InputForm";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { Avatar } from "@nextui-org/react";
 
 const PostDetail = ({ id }: { id: string }) => {

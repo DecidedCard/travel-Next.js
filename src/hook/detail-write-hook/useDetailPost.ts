@@ -1,6 +1,9 @@
 "use client";
 
-import { deleteWrite } from "@/util/detail-writeSupaBase/writeSupaBase";
+import {
+  deleteWrite,
+  deleteWriteComments,
+} from "@/util/detail-writeSupaBase/writeSupaBase";
 import { postQueryKey, useDetailQuery } from "./useDetailQuery";
 import useSetMutation from "../useSetMutation";
 import { useRouter } from "next/navigation";
@@ -30,6 +33,7 @@ const useDetailPost = (id: string) => {
     if (result) {
       router.replace("/");
       deleteMutate(id);
+      deleteWriteComments(id);
     } else {
       return;
     }
