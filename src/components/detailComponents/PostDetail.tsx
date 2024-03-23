@@ -4,7 +4,6 @@ import useDetailPost from "@/hook/detail-write-hook/useDetailPost";
 import React from "react";
 import InputForm from "../writeComponents/InputForm";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { Avatar } from "@nextui-org/react";
 
 const PostDetail = ({ id }: { id: string }) => {
@@ -18,9 +17,10 @@ const PostDetail = ({ id }: { id: string }) => {
     onClickEditFormToggleHandler,
     onClickCancelHandler,
     userInfo,
+    userInfoLoading,
   } = useDetailPost(id);
 
-  if (isLoading) {
+  if (isLoading || userInfoLoading) {
     return <div>로딩중입니다.</div>;
   }
 
@@ -36,8 +36,8 @@ const PostDetail = ({ id }: { id: string }) => {
     <main>
       <section className="flex justify-between items-center m-2 py-4 border-b border-solid border-gray-700">
         <h2 className="text-4xl font-bold">{post!.title}</h2>
-        {userInfo.current ? (
-          post?.userId === userInfo.current.id && (
+        {userInfo ? (
+          post?.userId === userInfo.id && (
             <div>
               <button
                 className="border-r border-solid border-gray-700 w-14"
