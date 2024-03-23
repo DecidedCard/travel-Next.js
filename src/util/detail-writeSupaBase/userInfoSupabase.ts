@@ -1,5 +1,6 @@
-import { User } from "@/types";
 import { supabase } from "../supabase";
+
+import type { User } from "@/types";
 
 export const getUserInfo = async () => {
   const {
