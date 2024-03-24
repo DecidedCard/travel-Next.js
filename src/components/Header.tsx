@@ -14,10 +14,12 @@ import {
 } from "@nextui-org/react";
 import { logout } from "@/hook/authService";
 import useUserInfo from "@/hook/detail-write-hook/useUserInfo";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const { isLoggedIn, user, authLogout, authLogin } = useAuthStore();
   const { userInfo, isLoading } = useUserInfo();
+  const router = useRouter();
   useEffect(() => {
     authLogin(userInfo!);
   }, [authLogin, userInfo]);
@@ -27,6 +29,7 @@ const Header = () => {
     if (confirmed) {
       try {
         await logout();
+        router.replace("/");
         authLogout();
         alert("로그아웃 되었습니다.");
       } catch (error) {
