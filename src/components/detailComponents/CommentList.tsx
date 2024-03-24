@@ -17,7 +17,7 @@ const CommentList = ({
   setEditComment,
   onChangeEditCommentHandler,
   onSubmitUpdateHandler,
-  deleteMutate,
+  onClickDeleteHandler,
 }: CommentListProps) => {
   if (isLoading) {
     return <div>로딩중입니다...</div>;
@@ -79,7 +79,7 @@ const CommentList = ({
                                 수정
                               </button>
                               <button
-                                onClick={() => deleteMutate(item.id)}
+                                onClick={() => onClickDeleteHandler(item.id!)}
                                 className="w-14 text-subColor1"
                               >
                                 삭제
