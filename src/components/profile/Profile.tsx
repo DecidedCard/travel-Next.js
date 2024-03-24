@@ -2,17 +2,26 @@
 import useAuthStore from "@/store/authStore";
 import { supabase } from "@/util/supabase";
 import { Avatar, Button, CircularProgress, Input } from "@nextui-org/react";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCameraSearch } from "react-icons/tb";
 
 const Profile = () => {
-  const { user } = useAuthStore();
+  const { user, isLoggedIn } = useAuthStore();
   const [newNickName, setNewNickName] = useState("");
   const [isEditingNickName, setIsEditingNickName] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      alert("글을 작성 하시려면 로그인을 해주시기 바랍니다.");
+      router.replace("/login");
+    }
+  }, [isLoggedIn, router]);
 
   const path = crypto.randomUUID();
   // 이미지파일 spabase에 업로드

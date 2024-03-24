@@ -11,7 +11,6 @@ import {
 } from "@/util/detail-writeSupaBase/writeSupaBase";
 import useSetMutation from "../useSetMutation";
 import { postQueryKey } from "./useDetailQuery";
-import useUserInfo from "./useUserInfo";
 import useAuthStore from "@/store/authStore";
 
 const useWriteInputForm = (post?: Post) => {
@@ -25,10 +24,12 @@ const useWriteInputForm = (post?: Post) => {
   const [postMainContent, setPostMainContent] = useState("");
   const router = useRouter();
 
-  if (!isLoggedIn) {
-    alert("글을 작성 하시려면 로그인을 해주시기 바랍니다.");
-    router.replace("/login");
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      alert("글을 작성 하시려면 로그인을 해주시기 바랍니다.");
+      router.replace("/login");
+    }
+  }, [isLoggedIn, router]);
 
   useEffect(() => {
     if (post) {
