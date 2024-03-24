@@ -2,7 +2,7 @@
 
 import usePostBasicImageStore from "@/store/postBasicImageStore";
 import useWriteInputForm from "@/hook/detail-write-hook/useWriteInputForm";
-import { Button, Input, Textarea } from "@nextui-org/react";
+import { Button, Input, Spinner, Textarea } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 const QuillEditor = dynamic(() => import("./QuillEditor"), {
   loading: () => <p>로딩중입니다.</p>,
@@ -18,9 +18,24 @@ const InputForm = ({
   post?: Post;
   onClickCancelHandler?: () => void;
 }) => {
-  const { inputValue, inputOnChange, onSubmit, onClickUpdateHandler } =
-    useWriteInputForm(post);
+  const {
+    userInfo,
+    isLoading,
+    inputValue,
+    inputOnChange,
+    onSubmit,
+    onClickUpdateHandler,
+    router,
+  } = useWriteInputForm(post);
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
+  if (isLoading) {
+    return <Spinner size="lg" color="primary" />;
+  }
+
+  if (!userInfo) {
+    alert("로그인 후 이용해주시기 바랍니다.");
+    router.replace("/login");
+  }
 
   return (
     <form className="w-5/6 mx-auto" onSubmit={onSubmit}>
