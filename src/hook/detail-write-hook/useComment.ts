@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { PostComment } from "@/types/writePage";
 
 const useComment = (id: string) => {
-  const { userInfo } = useUserInfo();
+  const { userInfo, isLoading: userInfoLoading } = useUserInfo();
   const [comment, onChangeCommentHandler, setComment] = useInput();
   const [editingId, setEditingId] = useState("");
   const [editComment, onChangeEditCommentHandler, setEditComment] = useInput();
@@ -60,9 +60,9 @@ const useComment = (id: string) => {
 
     const newComment: PostComment = {
       postId: id,
-      userId: userInfo.current!.id,
-      userProfile: userInfo.current!.avatar!,
-      userName: userInfo.current!.nickname,
+      userId: userInfo!.id,
+      userProfile: userInfo!.avatar!,
+      userName: userInfo!.nickname,
       comment,
     };
     insertCommentMutate({ newComment });
@@ -105,6 +105,7 @@ const useComment = (id: string) => {
     onChangeEditCommentHandler,
     setEditComment,
     userInfo,
+    userInfoLoading,
     onSubmitUpdateHandler,
   };
 };

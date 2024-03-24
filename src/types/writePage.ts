@@ -40,14 +40,14 @@ export type UserInfo = {
 };
 
 export type CommentInputFormProps = {
-  userInfo: React.MutableRefObject<User | null>;
+  userInfo: User;
   comment: string;
   onChangeCommentHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmitInsertHandler: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
 export type CommentListProps = {
-  userInfo: React.MutableRefObject<User | null>;
+  userInfo: User;
   commentsData: PostComment[];
   isLoading: boolean;
   isError: boolean;

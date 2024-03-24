@@ -38,10 +38,7 @@ export const insertWriting = async (newWrite: Post) => {
 
 export const getWrite = async (id: string) => {
   // 특정 게시글 조회
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("id", id);
+  const { data, error } = await supabase.from("posts").select("*").eq("id", id);
 
   if (error) {
     console.error(error);
@@ -57,15 +54,13 @@ export const getWrite = async (id: string) => {
         .eq("id", id);
 
       if (updateError) {
-        console.error('조회수 업데이트 실패:', updateError);
-
+        console.error("조회수 업데이트 실패:", updateError);
       }
     }
 
     return post;
   }
 };
-
 
 export const updateWrite = async ({ id, post }: { id: string; post: Post }) => {
   const { error } = await supabase.from("posts").update(post).eq("id", id);
@@ -77,6 +72,18 @@ export const updateWrite = async ({ id, post }: { id: string; post: Post }) => {
 
 export const deleteWrite = async (id: string) => {
   const { error } = await supabase.from("posts").delete().eq("id", id);
+  if (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+};
+
+// 게시글 삭제 시 그에 쓰여져 있는 댓글 삭제 함수
+export const deleteWriteComments = async (id: string) => {
+  const { error } = await supabase
+    .from("postComment")
+    .delete()
+    .eq("postId", id);
   if (error) {
     console.error(error);
     return Promise.reject(error);
