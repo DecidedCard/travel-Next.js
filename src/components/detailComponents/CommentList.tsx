@@ -7,7 +7,7 @@ import { Avatar, Card, CardBody, CardHeader } from "@nextui-org/react";
 import type { CommentListProps } from "@/types/writePage";
 
 const CommentList = ({
-  userInfo,
+  user,
   commentsData,
   isLoading,
   isError,
@@ -69,8 +69,8 @@ const CommentList = ({
                           </h4>
                         </div>
                       </div>
-                      {userInfo
-                        ? item.userId === userInfo.id && (
+                      {user
+                        ? item.userId === user.id && (
                             <div className="mt-auto">
                               <button
                                 onClick={() => onClickEditingIdSet(item.id!)}
