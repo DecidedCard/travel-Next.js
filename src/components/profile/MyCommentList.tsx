@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/hook/usePostData";
+import useAuthStore from "@/store/authStore";
 import { Post, PostComment } from "@/types/writePage";
 import { supabase } from "@/util/supabase";
 import { Avatar, Button, Card, CardBody, CardHeader } from "@nextui-org/react";
@@ -8,28 +9,23 @@ import { useEffect, useState } from "react";
 const MyCommentList = () => {
   const [userComments, setUserComments] = useState<PostComment[]>([]);
   const [postsTitle, setPostsTitle] = useState<Post[]>([]);
-
-  const fetchUserComments = async (): Promise<PostComment[]> => {
-    const storedUser = localStorage.getItem("user");
-    if (!storedUser) {
-      throw new Error("유저 정보를 불러올 수 없습니다");
-    }
-    const userInfo = JSON.parse(storedUser);
-
-    const { data, error } = await supabase
-      .from("postComment")
-      .select("*")
-      .eq("userId", userInfo.id);
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return data;
-  };
+  const { user } = useAuthStore();
 
   // 댓글, post 데이터 가져오기
   useEffect(() => {
+    const fetchUserComments = async (): Promise<PostComment[]> => {
+      const { data, error } = await supabase
+        .from("postComment")
+        .select("*")
+        .eq("userId", user!.id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    };
+
     const fetchData = async () => {
       try {
         const [userPosts, userComments] = await Promise.all([
@@ -43,8 +39,10 @@ const MyCommentList = () => {
       }
     };
 
-    fetchData();
-  }, []);
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
 
   const router = useRouter();
   const handleCardClick = (id: any) => router.push(`/detail/${id}`);
