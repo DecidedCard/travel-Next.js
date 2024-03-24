@@ -100,18 +100,18 @@ const useComment = (id: string) => {
 
   return {
     comment,
-    onChangeCommentHandler,
-    onSubmitInsertHandler,
     commentsData,
     isError,
     isLoading,
-    onClickDeleteHandler,
     editingId,
-    onClickEditingIdSet,
     editComment,
-    onChangeEditCommentHandler,
-    setEditComment,
     user,
+    setEditComment,
+    onChangeCommentHandler,
+    onChangeEditCommentHandler,
+    onClickDeleteHandler,
+    onClickEditingIdSet,
+    onSubmitInsertHandler,
     onSubmitUpdateHandler,
   };
 };

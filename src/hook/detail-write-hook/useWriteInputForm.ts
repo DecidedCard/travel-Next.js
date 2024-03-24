@@ -134,9 +134,9 @@ const useWriteInputForm = (post?: Post) => {
     isLoading,
     inputValue,
     inputOnChange,
-    onSubmit,
-    onClickUpdateHandler,
     router,
+    onClickUpdateHandler,
+    onSubmit,
   };
 };
 
