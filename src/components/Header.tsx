@@ -42,11 +42,13 @@ const Header = () => {
 
   if (isLoading) {
     return (
-      <Spinner
-        size="lg"
-        color="primary"
-        className="flex justify-center items-center w-screen h-screen"
-      />
+      <div className="absolute top-0 left-0 bg-mainColor z-50">
+        <Spinner
+          size="lg"
+          color="primary"
+          className="flex justify-center items-center w-screen h-screen"
+        />
+      </div>
     );
   }
 
