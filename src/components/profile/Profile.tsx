@@ -14,7 +14,6 @@ const Profile = () => {
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
-  const router = useRouter();
 
   const path = crypto.randomUUID();
   // 이미지파일 spabase에 업로드
