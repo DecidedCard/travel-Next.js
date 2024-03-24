@@ -17,6 +17,7 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import { GrView } from "react-icons/gr";
 import { FaRegCommentDots } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { GrPowerReset } from "react-icons/gr";
 
 const Home = () => {
   const {
@@ -54,6 +55,13 @@ const Home = () => {
     e.preventDefault();
     setFilterStartDate(startDate);
     setFilterEndDate(endDate);
+  };
+
+  const handleResetDates = () => {
+    setStartDate("");
+    setEndDate("");
+    setFilterStartDate("");
+    setFilterEndDate("");
   };
 
   const DatefilteredPosts = filteredPosts.filter(post => {
@@ -112,26 +120,43 @@ const Home = () => {
           </Button>
         </div>
         <div>
-          <form className="date-selector-form flex mr-5" onSubmit={handleFilterByDate}>
-            <label className="flex flex-col mr-4">
-              시작 날짜:
+        <form className="date-selector-form flex items-end justify-between mr-5" onSubmit={handleFilterByDate}>
+          <button
+            type="button"
+            onClick={handleResetDates}
+            className="px-2 py-1 mb-2 font-semibold mr-4"
+            title="날짜 초기화"
+          >
+            <GrPowerReset size={20} />
+          </button>
+          <div className="flex flex-grow items-end">
+            <div className="flex flex-col mr-4">
+              <label className="mb-2 font-medium text-gray-700">여행 시작 날짜:</label>
               <input
                 type="date"
+                className="px-4 py-2 border border-blue-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
-            </label>
-            <label className="flex flex-col mr-4">
-              종료 날짜:
+            </div>
+            <div className="flex flex-col mr-4">
+              <label className="mb-2 font-medium text-gray-700">여행 종료 날짜:</label>
               <input
                 type="date"
+                className="px-4 py-2 border border-blue-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
               />
-            </label>
-            <button type="submit" className="self-end">적용</button>
-          </form> 
-        </div>
+            </div>
+            <button
+              type="submit"
+              className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              적용
+            </button>
+          </div>
+        </form>
+      </div>
       </div>
       <div className="gap-2 grid grid-cols-2 md:grid-cols-4 p-5">
         {DatefilteredPosts.map((post) => (
