@@ -14,28 +14,28 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MyCommentList from "./MyCommentList";
+import useAuthStore from "@/store/authStore";
 
 const MyContentList = () => {
   const [userPosts, setUserPosts] = useState<Post[]>([]);
-
-  const fetchUserPosts = async (): Promise<Post[]> => {
-    const storedUser = localStorage.getItem("user");
-    if (!storedUser) {
-      throw new Error("유저 정보를 불러올 수 없습니다");
-    }
-    const userInfo = JSON.parse(storedUser);
-    const { data, error } = await supabase
-      .from("posts")
-      .select("*")
-      .eq("userId", userInfo.id);
-
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
-  };
+  const { user } = useAuthStore();
 
   useEffect(() => {
+    const fetchUserPosts = async (): Promise<Post[]> => {
+      if (!user) {
+        throw new Error("유저 정보를 불러올 수 없습니다");
+      }
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*")
+        .eq("userId", user.id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    };
+
     const fetchPosts = async () => {
       try {
         const userPosts = await fetchUserPosts();
@@ -46,7 +46,7 @@ const MyContentList = () => {
     };
 
     fetchPosts();
-  }, []);
+  }, [user]);
   const router = useRouter();
   const handleCardClick = (id: any) => router.push(`/detail/${id}`);
 
