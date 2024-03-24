@@ -43,13 +43,13 @@ const useDetailPost = (id: string) => {
     post,
     isLoading,
     isError,
-    onClickDeleteHandler,
     editFormToggle,
-    onClickEditFormToggleHandler,
-    onClickCancelHandler,
-    setEditFormToggle,
     user,
     isLoggedIn,
+    setEditFormToggle,
+    onClickDeleteHandler,
+    onClickEditFormToggleHandler,
+    onClickCancelHandler,
   };
 };
 

@@ -1,14 +1,22 @@
 "use Client";
+import useUserInfo from "@/hook/detail-write-hook/useUserInfo";
 import useAuthStore from "@/store/authStore";
 import { supabase } from "@/util/supabase";
-import { Avatar, Button, CircularProgress, Input } from "@nextui-org/react";
+import {
+  Avatar,
+  Button,
+  CircularProgress,
+  Input,
+  Spinner,
+} from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { userInfo } from "os";
 import React, { useEffect, useState } from "react";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCameraSearch } from "react-icons/tb";
 
 const Profile = () => {
-  const { user, isLoggedIn } = useAuthStore();
+  const { userInfo, isLoading } = useUserInfo();
   const [newNickName, setNewNickName] = useState("");
   const [isEditingNickName, setIsEditingNickName] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -22,7 +30,7 @@ const Profile = () => {
     try {
       const { data } = await supabase.storage
         .from("userProfile")
-        .upload(`avatar/${user?.id}/${path}.jpg`, file, {
+        .upload(`avatar/${userInfo?.id}/${path}.jpg`, file, {
           upsert: true,
         });
       return data;
@@ -37,7 +45,7 @@ const Profile = () => {
   const getUrlImage = () => {
     const { data } = supabase.storage
       .from("userProfile")
-      .getPublicUrl(`avatar/${user?.id}/${path}.jpg`);
+      .getPublicUrl(`avatar/${userInfo?.id}/${path}.jpg`);
     return data?.publicUrl;
   };
 
@@ -78,7 +86,7 @@ const Profile = () => {
             const { data, error } = await supabase
               .from("users")
               .update({ avatar: newImageUrl })
-              .eq("id", user?.id);
+              .eq("id", userInfo?.id);
 
             if (error) {
               console.error("Supabase에서 avatar 업데이트중 에러:", error);
@@ -91,14 +99,14 @@ const Profile = () => {
           const { error: postUpdateError } = await supabase
             .from("posts")
             .update({ userProfile: newImageUrl })
-            .eq("userId", user?.id);
+            .eq("userId", userInfo?.id);
           if (postUpdateError) throw postUpdateError;
 
           // 관련 댓글의 유저이미지 업데이트
           const { error: commentUpdateError } = await supabase
             .from("postComment")
             .update({ userProfile: newImageUrl })
-            .eq("userId", user?.id);
+            .eq("userId", userInfo?.id);
           if (commentUpdateError) throw commentUpdateError;
           location.reload();
         }
@@ -127,7 +135,7 @@ const Profile = () => {
       return;
     }
 
-    if (newNickName === user?.nickname) {
+    if (newNickName === userInfo?.nickname) {
       alert("변경된 내용이 없습니다");
       return;
     }
@@ -135,7 +143,7 @@ const Profile = () => {
       const { data: updateUserData, error: userUpdateError } = await supabase
         .from("users")
         .update({ nickname: newNickName })
-        .eq("id", user?.id);
+        .eq("id", userInfo?.id);
 
       if (userUpdateError) {
         throw userUpdateError.message;
@@ -144,14 +152,14 @@ const Profile = () => {
       const { error: postUpdateError } = await supabase
         .from("posts")
         .update({ userName: newNickName })
-        .eq("userId", user?.id);
+        .eq("userId", userInfo?.id);
       if (postUpdateError) throw postUpdateError;
 
       // 관련 댓글의 닉네임 업데이트
       const { error: commentUpdateError } = await supabase
         .from("postComment")
         .update({ userName: newNickName })
-        .eq("userId", user?.id);
+        .eq("userId", userInfo?.id);
       if (commentUpdateError) throw commentUpdateError;
 
       location.reload();
@@ -163,11 +171,20 @@ const Profile = () => {
     }
   };
 
+  if (isLoading) {
+    return <Spinner size="lg" color="primary" />;
+  }
+
+  if (!userInfo) {
+    alert("로그인 후 이용해주시기 바랍니다.");
+    router.replace("/login");
+  }
+
   return (
     <div className="w-[500px] p-6 flex flex-col items-center border-r border-solid border-gray-300">
-      {user ? (
+      {userInfo ? (
         <p className="font-bold mb-20 text-[25px] leading-normal">
-          안녕하세요<br></br> {user.nickname} 님 :D
+          안녕하세요<br></br> {userInfo.nickname} 님 :D
         </p>
       ) : (
         <p className="font-bold mb-20 text-[25px] leading-normal ">
@@ -175,11 +192,11 @@ const Profile = () => {
         </p>
       )}
 
-      {user ? (
+      {userInfo ? (
         <Avatar
           isBordered
           color="default"
-          src={imageUrl || user.avatar!}
+          src={imageUrl || userInfo.avatar!}
           alt="유저프로필"
           id="profileImage"
           className="w-[200px] h-[200px] rounded-full -z-10"
@@ -244,8 +261,8 @@ const Profile = () => {
         </div>
       ) : (
         <div className="flex mt-[30px]">
-          {user ? (
-            <p className="font-bold text-xl">{user.nickname} 님</p>
+          {userInfo ? (
+            <p className="font-bold text-xl">{userInfo.nickname} 님</p>
           ) : (
             <p>유저 정보를 찾는중...</p>
           )}
@@ -257,8 +274,8 @@ const Profile = () => {
           />
         </div>
       )}
-      {user ? (
-        <p className="mt-[10px] text-gray-500">{user.email}</p>
+      {userInfo ? (
+        <p className="mt-[10px] text-gray-500">{userInfo.email}</p>
       ) : (
         <p>유저 정보를 찾는중...</p>
       )}
