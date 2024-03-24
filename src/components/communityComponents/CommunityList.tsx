@@ -15,7 +15,6 @@ const CommunityList: React.FC = () => {
 
   useEffect(() => {
     fetchCommunity();
-    console.log(userInfo);
   }, []);
 
   const [editId, setEditId] = useState<string | null>(null);
@@ -26,7 +25,12 @@ const CommunityList: React.FC = () => {
   );
 
   useEffect(() => {
-    setCommunityContent(initialCommunityContent);
+    const sortedContent = initialCommunityContent.slice().sort((a, b) => {
+      return (
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    });
+    setCommunityContent(sortedContent);
   }, [initialCommunityContent]);
 
   const handleSearch = (searchTerm: string) => {
