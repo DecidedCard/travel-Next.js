@@ -1,4 +1,3 @@
-import type { UseMutateFunction } from "@tanstack/react-query";
 import type { User } from ".";
 
 export type Post = {
@@ -60,5 +59,5 @@ export type CommentListProps = {
     e: React.FormEvent<HTMLFormElement>,
     id: string
   ) => void;
-  deleteMutate: UseMutateFunction<unknown, Error, any, unknown>;
+  onClickDeleteHandler: (id: string) => void;
 };

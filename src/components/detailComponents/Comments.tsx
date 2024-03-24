@@ -20,7 +20,7 @@ const Comments = ({ id }: { id: string }) => {
     setEditComment,
     onChangeEditCommentHandler,
     onSubmitUpdateHandler,
-    deleteMutate,
+    onClickDeleteHandler,
   } = useComment(id);
   if (isLoading) {
     return <div>로딩중입니다.</div>;
@@ -47,7 +47,7 @@ const Comments = ({ id }: { id: string }) => {
         setEditComment={setEditComment}
         onChangeEditCommentHandler={onChangeEditCommentHandler}
         onSubmitUpdateHandler={onSubmitUpdateHandler}
-        deleteMutate={deleteMutate}
+        onClickDeleteHandler={onClickDeleteHandler}
       />
     </>
   );

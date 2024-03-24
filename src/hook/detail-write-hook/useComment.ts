@@ -91,20 +91,27 @@ const useComment = (id: string) => {
     setEditComment("");
   };
 
+  const onClickDeleteHandler = (id: string) => {
+    const result = window.confirm("삭제하시겠습니까?");
+    if (result) {
+      deleteMutate(id);
+    }
+  };
+
   return {
     comment,
-    onChangeCommentHandler,
-    onSubmitInsertHandler,
     commentsData,
     isError,
     isLoading,
-    deleteMutate,
     editingId,
-    onClickEditingIdSet,
     editComment,
-    onChangeEditCommentHandler,
-    setEditComment,
     user,
+    setEditComment,
+    onChangeCommentHandler,
+    onChangeEditCommentHandler,
+    onClickDeleteHandler,
+    onClickEditingIdSet,
+    onSubmitInsertHandler,
     onSubmitUpdateHandler,
   };
 };
