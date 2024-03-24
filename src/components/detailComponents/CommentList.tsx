@@ -19,6 +19,14 @@ const CommentList = ({
   onSubmitUpdateHandler,
   deleteMutate,
 }: CommentListProps) => {
+  if (isLoading) {
+    return <div>로딩중입니다...</div>;
+  }
+
+  if (isError) {
+    return <div>에러!</div>;
+  }
+
   return (
     <section>
       <h3>Comments</h3>
@@ -73,7 +81,7 @@ const CommentList = ({
                         )
                       : false}
                   </CardHeader>
-                  <CardBody className="p-5 text-small">
+                  <CardBody className="p-5 text-small text-default-400">
                     <p>{item.comment}</p>
                   </CardBody>
                 </Card>
