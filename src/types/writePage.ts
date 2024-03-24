@@ -40,14 +40,14 @@ export type UserInfo = {
 };
 
 export type CommentInputFormProps = {
-  userInfo: User;
+  user: User;
   comment: string;
   onChangeCommentHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmitInsertHandler: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
 export type CommentListProps = {
-  userInfo: User;
+  user: User;
   commentsData: PostComment[];
   isLoading: boolean;
   isError: boolean;

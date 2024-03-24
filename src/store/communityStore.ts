@@ -1,3 +1,4 @@
+import { User } from "@/types";
 import { supabase } from "@/util/supabase";
 import { create } from "zustand";
 
@@ -11,7 +12,7 @@ export interface CommunityContent {
 interface CommunityStore {
   communityContent: CommunityContent[];
   fetchCommunity: () => Promise<void>;
-  addCommunityContent: (content: string) => Promise<void>;
+  addCommunityContent: (content: string, user: User) => Promise<void>;
   deleteCommunityContent: (postId: string) => Promise<void>;
   updateCommunityContent: (postId: string, content: string) => Promise<void>;
 }
@@ -22,14 +23,14 @@ const useCommunityStore = create<CommunityStore>((set) => ({
     const response = await fetchCommunity();
     set({ communityContent: response.data });
   },
-  addCommunityContent: async (content) => {
-    const userInfoString = localStorage.getItem("user");
-    if (!userInfoString) {
-      console.error("유저 정보를 찾을 수 없습니다.");
-      return;
-    }
-    const userInfo = JSON.parse(userInfoString);
-    const { nickname } = userInfo;
+  addCommunityContent: async (content, user) => {
+    // const userInfoString = localStorage.getItem("user");
+    // if (!userInfoString) {
+    //   console.error("유저 정보를 찾을 수 없습니다.");
+    //   return;
+    // }
+    // const userInfo = JSON.parse(userInfoString);
+    const { nickname } = user;
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, "0");

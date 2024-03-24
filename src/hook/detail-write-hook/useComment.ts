@@ -8,14 +8,14 @@ import {
   updateComment,
 } from "@/util/detail-writeSupaBase/detailSupaBase";
 import useSetMutation from "../useSetMutation";
-import useUserInfo from "./useUserInfo";
 import useInput from "../useInput";
 import { useQuery } from "@tanstack/react-query";
 
 import type { PostComment } from "@/types/writePage";
+import useAuthStore from "@/store/authStore";
 
 const useComment = (id: string) => {
-  const { userInfo, isLoading: userInfoLoading } = useUserInfo();
+  const { user } = useAuthStore();
   const [comment, onChangeCommentHandler, setComment] = useInput();
   const [editingId, setEditingId] = useState("");
   const [editComment, onChangeEditCommentHandler, setEditComment] = useInput();
@@ -60,9 +60,9 @@ const useComment = (id: string) => {
 
     const newComment: PostComment = {
       postId: id,
-      userId: userInfo!.id,
-      userProfile: userInfo!.avatar!,
-      userName: userInfo!.nickname,
+      userId: user!.id,
+      userProfile: user!.avatar!,
+      userName: user!.nickname,
       comment,
     };
     insertCommentMutate({ newComment });
@@ -104,8 +104,7 @@ const useComment = (id: string) => {
     editComment,
     onChangeEditCommentHandler,
     setEditComment,
-    userInfo,
-    userInfoLoading,
+    user,
     onSubmitUpdateHandler,
   };
 };

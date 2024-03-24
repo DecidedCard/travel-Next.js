@@ -1,26 +1,27 @@
 "use Client";
-import { UserInfo } from "@/types/writePage";
+import useAuthStore from "@/store/authStore";
 import { supabase } from "@/util/supabase";
 import { Avatar, Button, CircularProgress, Input } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCameraSearch } from "react-icons/tb";
 
 const Profile = () => {
-  const [userInfo, setUserInfo] = useState<UserInfo>();
+  const { user, isLoggedIn } = useAuthStore();
   const [newNickName, setNewNickName] = useState("");
   const [isEditingNickName, setIsEditingNickName] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
+  const router = useRouter();
 
-  //유저 정보가져오기
   useEffect(() => {
-    const User = localStorage.getItem("user");
-    if (User) {
-      setUserInfo(JSON.parse(User));
+    if (!isLoggedIn) {
+      alert("글을 작성 하시려면 로그인을 해주시기 바랍니다.");
+      router.replace("/login");
     }
-  }, []);
+  }, [isLoggedIn, router]);
 
   const path = crypto.randomUUID();
   // 이미지파일 spabase에 업로드
@@ -28,7 +29,7 @@ const Profile = () => {
     try {
       const { data } = await supabase.storage
         .from("userProfile")
-        .upload(`avatar/${userInfo?.id}/${path}.jpg`, file, {
+        .upload(`avatar/${user?.id}/${path}.jpg`, file, {
           upsert: true,
         });
       return data;
@@ -43,7 +44,7 @@ const Profile = () => {
   const getUrlImage = () => {
     const { data } = supabase.storage
       .from("userProfile")
-      .getPublicUrl(`avatar/${userInfo?.id}/${path}.jpg`);
+      .getPublicUrl(`avatar/${user?.id}/${path}.jpg`);
     return data?.publicUrl;
   };
 
@@ -80,16 +81,11 @@ const Profile = () => {
         if (uploadFiles) {
           const newImageUrl = getUrlImage();
           if (newImageUrl) {
-            localStorage.setItem(
-              "user",
-              JSON.stringify({ ...userInfo, avatar: newImageUrl })
-            );
-
             // Supabase 데이터베이스 업데이트
             const { data, error } = await supabase
               .from("users")
               .update({ avatar: newImageUrl })
-              .eq("id", userInfo?.id);
+              .eq("id", user?.id);
 
             if (error) {
               console.error("Supabase에서 avatar 업데이트중 에러:", error);
@@ -102,14 +98,14 @@ const Profile = () => {
           const { error: postUpdateError } = await supabase
             .from("posts")
             .update({ userProfile: newImageUrl })
-            .eq("userId", userInfo?.id);
+            .eq("userId", user?.id);
           if (postUpdateError) throw postUpdateError;
 
           // 관련 댓글의 유저이미지 업데이트
           const { error: commentUpdateError } = await supabase
             .from("postComment")
             .update({ userProfile: newImageUrl })
-            .eq("userId", userInfo?.id);
+            .eq("userId", user?.id);
           if (commentUpdateError) throw commentUpdateError;
           location.reload();
         }
@@ -138,7 +134,7 @@ const Profile = () => {
       return;
     }
 
-    if (newNickName === userInfo?.nickname) {
+    if (newNickName === user?.nickname) {
       alert("변경된 내용이 없습니다");
       return;
     }
@@ -146,28 +142,23 @@ const Profile = () => {
       const { data: updateUserData, error: userUpdateError } = await supabase
         .from("users")
         .update({ nickname: newNickName })
-        .eq("id", userInfo?.id);
+        .eq("id", user?.id);
 
       if (userUpdateError) {
         throw userUpdateError.message;
       }
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ ...userInfo, nickname: newNickName })
-      );
-
       // 관련 게시글의 닉네임 업데이트
       const { error: postUpdateError } = await supabase
         .from("posts")
         .update({ userName: newNickName })
-        .eq("userId", userInfo?.id);
+        .eq("userId", user?.id);
       if (postUpdateError) throw postUpdateError;
 
       // 관련 댓글의 닉네임 업데이트
       const { error: commentUpdateError } = await supabase
         .from("postComment")
         .update({ userName: newNickName })
-        .eq("userId", userInfo?.id);
+        .eq("userId", user?.id);
       if (commentUpdateError) throw commentUpdateError;
 
       location.reload();
@@ -181,9 +172,9 @@ const Profile = () => {
 
   return (
     <div className="w-[500px] p-6 flex flex-col items-center border-r border-solid border-gray-300">
-      {userInfo ? (
+      {user ? (
         <p className="font-bold mb-20 text-[25px] leading-normal">
-          안녕하세요<br></br> {userInfo.nickname} 님 :D
+          안녕하세요<br></br> {user.nickname} 님 :D
         </p>
       ) : (
         <p className="font-bold mb-20 text-[25px] leading-normal ">
@@ -191,14 +182,14 @@ const Profile = () => {
         </p>
       )}
 
-      {userInfo ? (
+      {user ? (
         <Avatar
           isBordered
           color="default"
-          src={imageUrl || userInfo.avatar}
+          src={imageUrl || user.avatar!}
           alt="유저프로필"
           id="profileImage"
-          className="w-[200px] h-[200px] rounded-full "
+          className="w-[200px] h-[200px] rounded-full -z-10"
         />
       ) : (
         <CircularProgress label="Loading..." />
@@ -224,8 +215,8 @@ const Profile = () => {
       ) : (
         <label htmlFor="profileImg">
           <TbCameraSearch
-            size={25}
-            className="cursor-pointer mt-[-10px] ml-[100px] order-1"
+            size={27}
+            className="cursor-pointer ml-28 -mt-7 bg-white rounded-full"
           />
         </label>
       )}
@@ -260,8 +251,8 @@ const Profile = () => {
         </div>
       ) : (
         <div className="flex mt-[30px]">
-          {userInfo ? (
-            <p className="font-bold text-xl">{userInfo.nickname} 님</p>
+          {user ? (
+            <p className="font-bold text-xl">{user.nickname} 님</p>
           ) : (
             <p>유저 정보를 찾는중...</p>
           )}
@@ -273,8 +264,8 @@ const Profile = () => {
           />
         </div>
       )}
-      {userInfo ? (
-        <p className="mt-[10px] text-gray-500">{userInfo.email}</p>
+      {user ? (
+        <p className="mt-[10px] text-gray-500">{user.email}</p>
       ) : (
         <p>유저 정보를 찾는중...</p>
       )}

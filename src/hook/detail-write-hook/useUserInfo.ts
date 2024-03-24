@@ -1,4 +1,3 @@
-import { User } from "@/types";
 import { getUserInfo } from "@/util/detail-writeSupaBase/userInfoSupabase";
 import { useQuery } from "@tanstack/react-query";
 

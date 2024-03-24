@@ -4,14 +4,14 @@ import {
   deleteWrite,
   deleteWriteComments,
 } from "@/util/detail-writeSupaBase/writeSupaBase";
+import { useState } from "react";
 import { postQueryKey, useDetailQuery } from "./useDetailQuery";
 import useSetMutation from "../useSetMutation";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import useUserInfo from "./useUserInfo";
+import useAuthStore from "@/store/authStore";
 
 const useDetailPost = (id: string) => {
-  const { userInfo, isLoading: userInfoLoading } = useUserInfo();
+  const { user, isLoggedIn } = useAuthStore();
   const [editFormToggle, setEditFormToggle] = useState(false);
   const { post, isLoading, isError } = useDetailQuery(id);
   const { mutate: deleteMutate } = useSetMutation(deleteWrite, postQueryKey);
@@ -48,8 +48,8 @@ const useDetailPost = (id: string) => {
     onClickEditFormToggleHandler,
     onClickCancelHandler,
     setEditFormToggle,
-    userInfo,
-    userInfoLoading,
+    user,
+    isLoggedIn,
   };
 };
 

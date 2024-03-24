@@ -1,12 +1,12 @@
 "use client";
-import ContentList from "@/components/profile/ContentList";
+import MyContentList from "@/components/profile/MyContentList";
 import Profile from "@/components/profile/Profile";
 
 const userProfile = () => {
   return (
     <div className="flex min-w-full m-5">
       <Profile />
-      <ContentList />
+      <MyContentList />
     </div>
   );
 };

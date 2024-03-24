@@ -1,6 +1,6 @@
-import Comments from "@/components/detailComponents/Comments";
-import PostDetail from "@/components/detailComponents/PostDetail";
 import React from "react";
+import PostDetail from "@/components/detailComponents/PostDetail";
+import Comments from "@/components/detailComponents/Comments";
 
 const Detail = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
