@@ -2,8 +2,7 @@
 import useAuthStore from "@/store/authStore";
 import { supabase } from "@/util/supabase";
 import { Avatar, Button, CircularProgress, Input } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCameraSearch } from "react-icons/tb";
 
