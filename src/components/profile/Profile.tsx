@@ -155,7 +155,7 @@ const Profile = () => {
         "user",
         JSON.stringify({ ...userInfo, nickname: newNickName })
       );
-
+      //userName
       // 관련 게시글의 닉네임 업데이트
       const { error: postUpdateError } = await supabase
         .from("posts")
