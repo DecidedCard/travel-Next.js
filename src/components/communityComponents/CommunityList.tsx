@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import useCommunityStore, { CommunityContent } from "@/store/communityStore";
 import SearchCommunity from "./SearchCommunity";
-import useUserInfo from "@/hook/detail-write-hook/useUserInfo";
+import useAuthStore from "@/store/authStore";
 
 const CommunityList: React.FC = () => {
   const {
@@ -11,11 +11,11 @@ const CommunityList: React.FC = () => {
     deleteCommunityContent,
     updateCommunityContent,
   } = useCommunityStore();
-  const { userInfo } = useUserInfo();
+  const { user, isLoggedIn } = useAuthStore();
 
   useEffect(() => {
     fetchCommunity();
-  }, []);
+  }, [fetchCommunity]);
 
   const [editId, setEditId] = useState<string | null>(null);
   const [editedContent, setEditedContent] = useState<string>("");
@@ -86,7 +86,7 @@ const CommunityList: React.FC = () => {
             style={{ borderBottom: "1px solid black" }}
             key={post.id}
           >
-            {userInfo!.nickname === post.nickname ? (
+            {user?.nickname === post.nickname ? (
               editId === post.id ? (
                 <>
                   <textarea

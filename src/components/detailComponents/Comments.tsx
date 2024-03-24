@@ -1,14 +1,13 @@
 "use client";
 
 import React from "react";
+import useComment from "@/hook/detail-write-hook/useComment";
 import CommentInputForm from "./CommentInputForm";
 import CommentList from "./CommentList";
-import useComment from "@/hook/detail-write-hook/useComment";
 
 const Comments = ({ id }: { id: string }) => {
   const {
-    userInfo,
-    userInfoLoading,
+    user,
     comment,
     onChangeCommentHandler,
     onSubmitInsertHandler,
@@ -23,7 +22,7 @@ const Comments = ({ id }: { id: string }) => {
     onSubmitUpdateHandler,
     deleteMutate,
   } = useComment(id);
-  if (userInfoLoading || isLoading) {
+  if (isLoading) {
     return <div>로딩중입니다.</div>;
   }
   if (isError) {
@@ -32,13 +31,13 @@ const Comments = ({ id }: { id: string }) => {
   return (
     <>
       <CommentInputForm
-        userInfo={userInfo!}
+        user={user!}
         comment={comment}
         onChangeCommentHandler={onChangeCommentHandler}
         onSubmitInsertHandler={onSubmitInsertHandler}
       />
       <CommentList
-        userInfo={userInfo!}
+        user={user!}
         commentsData={commentsData!}
         isLoading={isLoading}
         isError={isError}

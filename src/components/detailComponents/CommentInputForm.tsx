@@ -6,19 +6,19 @@ import { Avatar, Button, Input } from "@nextui-org/react";
 import type { CommentInputFormProps } from "@/types/writePage";
 
 const CommentInputForm = ({
-  userInfo,
+  user,
   comment,
   onChangeCommentHandler,
   onSubmitInsertHandler,
 }: CommentInputFormProps) => {
-  return userInfo ? (
+  return user ? (
     <form
       onSubmit={onSubmitInsertHandler}
       className="flex justify-evenly items-center my-2 py-2 border-b border-solid border-gray-700"
     >
       <div className="flex gap-6 items-center w-fit">
-        <Avatar src={userInfo.avatar!} alt="유저 프로필" />
-        <p>{userInfo.nickname}</p>
+        <Avatar src={user.avatar!} alt="유저 프로필" />
+        <p>{user.nickname}</p>
       </div>
       <Input
         type="text"
