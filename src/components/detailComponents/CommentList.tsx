@@ -62,8 +62,8 @@ const CommentList = ({
                         </h4>
                       </div>
                     </div>
-                    {userInfo.current
-                      ? item.userId === userInfo.current.id && (
+                    {userInfo
+                      ? item.userId === userInfo.id && (
                           <div className="mt-auto">
                             <button
                               onClick={() => onClickEditingIdSet(item.id!)}

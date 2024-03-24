@@ -82,7 +82,7 @@ const CommunityList: React.FC = () => {
             style={{ borderBottom: "1px solid black" }}
             key={post.id}
           >
-            {userInfo.current?.nickname === post.nickname ? (
+            {userInfo!.nickname === post.nickname ? (
               editId === post.id ? (
                 <>
                   <textarea
