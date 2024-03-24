@@ -8,16 +8,16 @@ import {
   CardBody,
   Image as NextUiImg,
   User,
-  ScrollShadow,
   CardFooter,
 } from "@nextui-org/react";
 import Image from "next/image";
 import { usePostSort } from "@/hook/useSortPosts";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { GrView } from "react-icons/gr";
 import { FaRegCommentDots } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { GrPowerReset } from "react-icons/gr";
 
 const Home = () => {
   const {
@@ -29,6 +29,10 @@ const Home = () => {
   } = usePostSort();
   const router = useRouter();
   const [searchKeyword, setsearchKeyword] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [filterStartDate, setFilterStartDate] = useState("");
+  const [filterEndDate, setFilterEndDate] = useState("");
 
   const filteredPostsByKeyword = (keyword: string) => {
     return getSortedPosts().filter(
@@ -43,11 +47,32 @@ const Home = () => {
 
   const filteredPosts = filteredPostsByKeyword(searchKeyword);
 
-  const handleSearchKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     setsearchKeyword(e.currentTarget.value);
   };
 
+  const handleFilterByDate = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFilterStartDate(startDate);
+    setFilterEndDate(endDate);
+  };
+
+  const handleResetDates = () => {
+    setStartDate("");
+    setEndDate("");
+    setFilterStartDate("");
+    setFilterEndDate("");
+  };
+
+  const DatefilteredPosts = filteredPosts.filter(post => {
+    const postDate = new Date(post.travelDate.split(" ~ ")[0]);
+    const start = filterStartDate ? new Date(filterStartDate) : new Date("1970-01-01");
+    const end = filterEndDate ? new Date(filterEndDate) : new Date("9999-12-31");
+    return postDate >= start && postDate <= end;
+  });
+
   const handleCardClick = (id: string) => router.push(`/detail/${id}`);
+
 
   return (
     <div>
@@ -63,38 +88,78 @@ const Home = () => {
           />
         </div>
       </div>
-      <div className="mt-10 flex">
-        <Button
-          color="primary"
-          className="ml-5 font-semibold mr-2"
-          onClick={sortByLatest}
-        >
-          최신 순
-        </Button>
-        <Button
-          color="warning"
-          className="mr-2 font-semibold"
-          onClick={sortByOldest}
-        >
-          오래된 순
-        </Button>
-        <Button
-          color="danger"
-          className="mr-2 font-semibold"
-          onClick={sortByCommentCount}
-        >
-          댓글 순
-        </Button>
-        <Button
-          color="success"
-          className="font-semibold"
-          onClick={sortByViewCount}
-        >
-          조회 순
-        </Button>
+      <div className="mt-10 flex justify-between w-full">
+        <div>
+          <Button
+            color="primary"
+            className="ml-5 font-semibold mr-2"
+            onClick={sortByLatest}
+          >
+            최신 순
+          </Button>
+          <Button
+            color="warning"
+            className="mr-2 font-semibold"
+            onClick={sortByOldest}
+          >
+            오래된 순
+          </Button>
+          <Button
+            color="danger"
+            className="mr-2 font-semibold"
+            onClick={sortByCommentCount}
+          >
+            댓글 순
+          </Button>
+          <Button
+            color="success"
+            className="font-semibold"
+            onClick={sortByViewCount}
+          >
+            조회 순
+          </Button>
+        </div>
+        <div>
+        <form className="date-selector-form flex items-end justify-between mr-5" onSubmit={handleFilterByDate}>
+          <button
+            type="button"
+            onClick={handleResetDates}
+            className="px-2 py-1 mb-2 font-semibold mr-4"
+            title="날짜 초기화"
+          >
+            <GrPowerReset size={20} />
+          </button>
+          <div className="flex flex-grow items-end">
+            <div className="flex flex-col mr-4">
+              <label className="mb-2 font-medium text-gray-700">여행 시작 날짜:</label>
+              <input
+                type="date"
+                className="px-4 py-2 border border-blue-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col mr-4">
+              <label className="mb-2 font-medium text-gray-700">여행 종료 날짜:</label>
+              <input
+                type="date"
+                className="px-4 py-2 border border-blue-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
+            <button
+              type="submit"
+              className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              적용
+            </button>
+          </div>
+        </form>
+      </div>
       </div>
       <div className="gap-2 grid grid-cols-2 md:grid-cols-4 p-5">
-        {filteredPosts.map((post) => (
+        {DatefilteredPosts.map((post) => (
           <Card key={post.id} className="py-4">
             <CardBody className="overflow-visible py-2">
               <h1 className="text-lg font-bold mb-2">
