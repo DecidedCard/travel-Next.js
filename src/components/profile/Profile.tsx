@@ -198,7 +198,7 @@ const Profile = () => {
           src={imageUrl || userInfo.avatar}
           alt="유저프로필"
           id="profileImage"
-          className="w-[200px] h-[200px] rounded-full "
+          className="w-[200px] h-[200px] rounded-full -z-10"
         />
       ) : (
         <CircularProgress label="Loading..." />
@@ -224,8 +224,8 @@ const Profile = () => {
       ) : (
         <label htmlFor="profileImg">
           <TbCameraSearch
-            size={25}
-            className="cursor-pointer mt-[-10px] ml-[100px] order-1"
+            size={27}
+            className="cursor-pointer ml-28 -mt-7 bg-white rounded-full"
           />
         </label>
       )}
