@@ -16,13 +16,6 @@ const Profile = () => {
   const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      alert("글을 작성 하시려면 로그인을 해주시기 바랍니다.");
-      router.replace("/login");
-    }
-  }, [isLoggedIn, router]);
-
   const path = crypto.randomUUID();
   // 이미지파일 spabase에 업로드
   const uploadFile = async (file: File): Promise<any> => {
