@@ -161,13 +161,13 @@ $ yarn start
 
 ## 💻 화면 구성
 
-|       로그인 페이지        |        메인 페이지         |
-| :------------------------: | :------------------------: |
-|  ![LoginPage](https://github.com/DecidedCard/travel-Next.js/assets/152480392/2aebc16b-511a-432a-bba9-f8435f79183c)   |  ![MainPage](image-6.png)  |
-|        상세 페이지         |      커뮤니티 페이지       |
-| ![DetailPage](image-1.png) | ![ReviewPage](image-7.png) |
-|        마이 페이지         |                            |
-| ![DetailPage](image-4.png) |                            |
+|                  로그인 페이지                  |                      메인 페이지                       |
+| :---------------------------------------------: | :----------------------------------------------------: |
+| ![LoginPage](src/assets/README/로그인화면.png)  |     ![MainPage](src/assets/README/메인페이지.png)      |
+|                   상세 페이지                   |                    커뮤니티 페이지                     |
+| ![DetailPage](src/assets/README/상세페이지.png) | ![ReviewPage](src/assets/README/커뮤니티%20페이지.png) |
+|                   마이 페이지                   |                                                        |
+| ![DetailPage](src/assets/README/마이페이지.png) |                                                        |
 
 ## 📦 주요 기능
 
