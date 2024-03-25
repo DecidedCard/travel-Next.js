@@ -11,10 +11,11 @@ import {
 } from "@/util/detail-writeSupaBase/writeSupaBase";
 import useSetMutation from "../useSetMutation";
 import { postQueryKey } from "./useDetailQuery";
+import useAuthStore from "@/store/authStore";
 import useUserInfo from "./useUserInfo";
 
 const useWriteInputForm = (post?: Post) => {
-  const { userInfo } = useUserInfo();
+  const { userInfo, isLoading } = useUserInfo();
   const { postBasicImage, setPostBasicImage } = usePostBasicImageStore();
   const [title, onChangeTitle, setTitle] = useInput();
   const [startDate, onChangeStartDate, setStartDate] = useInput();
@@ -34,21 +35,14 @@ const useWriteInputForm = (post?: Post) => {
       setTravelPlace(post.travelPlace);
       setPostBasicImage(post.postBasicImage);
     }
-    if (!userInfo.current) {
-      alert("글을 작성 하시려면 로그인을 해주시기 바랍니다.");
-      router.replace("/login");
-    }
   }, [
     post,
     setTitle,
     setStartDate,
     setEndDate,
     setContent,
-    setPostMainContent,
     setTravelPlace,
     setPostBasicImage,
-    userInfo,
-    router,
   ]);
 
   const onChangePostMainContent = (arg: string) => {
@@ -119,9 +113,9 @@ const useWriteInputForm = (post?: Post) => {
       content,
       travelDate: `${startDate} ~ ${endDate}`,
       travelPlace,
-      userId: userInfo.current!.id,
-      userName: userInfo.current!.nickname,
-      userProfile: userInfo.current!.avatar!,
+      userId: userInfo!.id,
+      userName: userInfo!.nickname,
+      userProfile: userInfo!.avatar!,
       postMainContent,
       postBasicImage,
     };
@@ -137,10 +131,12 @@ const useWriteInputForm = (post?: Post) => {
 
   return {
     userInfo,
+    isLoading,
     inputValue,
     inputOnChange,
-    onSubmit,
+    router,
     onClickUpdateHandler,
+    onSubmit,
   };
 };
 

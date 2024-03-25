@@ -108,6 +108,11 @@ body {
   line-height: 1;
   box-sizing: border-box;
 }
+
+body::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
 ol,
 ul {
   list-style: none;

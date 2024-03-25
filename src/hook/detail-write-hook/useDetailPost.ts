@@ -1,14 +1,17 @@
 "use client";
 
-import { deleteWrite } from "@/util/detail-writeSupaBase/writeSupaBase";
+import {
+  deleteWrite,
+  deleteWriteComments,
+} from "@/util/detail-writeSupaBase/writeSupaBase";
+import { useState } from "react";
 import { postQueryKey, useDetailQuery } from "./useDetailQuery";
 import useSetMutation from "../useSetMutation";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import useUserInfo from "./useUserInfo";
+import useAuthStore from "@/store/authStore";
 
 const useDetailPost = (id: string) => {
-  const { userInfo } = useUserInfo();
+  const { user, isLoggedIn } = useAuthStore();
   const [editFormToggle, setEditFormToggle] = useState(false);
   const { post, isLoading, isError } = useDetailQuery(id);
   const { mutate: deleteMutate } = useSetMutation(deleteWrite, postQueryKey);
@@ -30,6 +33,7 @@ const useDetailPost = (id: string) => {
     if (result) {
       router.replace("/");
       deleteMutate(id);
+      deleteWriteComments(id);
     } else {
       return;
     }
@@ -39,12 +43,13 @@ const useDetailPost = (id: string) => {
     post,
     isLoading,
     isError,
-    onClickDeleteHandler,
     editFormToggle,
+    user,
+    isLoggedIn,
+    setEditFormToggle,
+    onClickDeleteHandler,
     onClickEditFormToggleHandler,
     onClickCancelHandler,
-    setEditFormToggle,
-    userInfo,
   };
 };
 

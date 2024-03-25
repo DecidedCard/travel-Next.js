@@ -1,7 +1,7 @@
 "use client";
-import useCommunityStore from "@/store/communityStore";
-import { supabase } from "@/util/supabase";
 import React, { useEffect, useState } from "react";
+import useAuthStore from "@/store/authStore";
+import useCommunityStore from "@/store/communityStore";
 
 interface CommunityContent {
   id: number;
@@ -11,12 +11,13 @@ interface CommunityContent {
 
 const CommunityForm = () => {
   const [inputValue, setInputValue] = useState("");
+  const { user, isLoggedIn } = useAuthStore();
   const { communityContent, fetchCommunity, addCommunityContent } =
     useCommunityStore();
 
   useEffect(() => {
     fetchCommunity();
-  }, []);
+  }, [fetchCommunity]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
@@ -30,7 +31,11 @@ const CommunityForm = () => {
       return;
     }
 
-    await addCommunityContent(inputValue);
+    if (!isLoggedIn) {
+      alert("로그인 후 이용해주시기 바랍니다.");
+      return;
+    }
+    await addCommunityContent(inputValue, user!);
     setInputValue("");
     fetchCommunity();
   };

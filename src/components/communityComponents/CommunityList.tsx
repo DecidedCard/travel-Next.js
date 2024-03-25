@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import useCommunityStore, { CommunityContent } from "@/store/communityStore";
 import SearchCommunity from "./SearchCommunity";
-import useUserInfo from "@/hook/detail-write-hook/useUserInfo";
+import useAuthStore from "@/store/authStore";
 
 const CommunityList: React.FC = () => {
   const {
@@ -11,12 +11,11 @@ const CommunityList: React.FC = () => {
     deleteCommunityContent,
     updateCommunityContent,
   } = useCommunityStore();
-  const { userInfo } = useUserInfo();
+  const { user, isLoggedIn } = useAuthStore();
 
   useEffect(() => {
     fetchCommunity();
-    console.log(userInfo);
-  }, []);
+  }, [fetchCommunity]);
 
   const [editId, setEditId] = useState<string | null>(null);
   const [editedContent, setEditedContent] = useState<string>("");
@@ -26,7 +25,12 @@ const CommunityList: React.FC = () => {
   );
 
   useEffect(() => {
-    setCommunityContent(initialCommunityContent);
+    const sortedContent = initialCommunityContent.slice().sort((a, b) => {
+      return (
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    });
+    setCommunityContent(sortedContent);
   }, [initialCommunityContent]);
 
   const handleSearch = (searchTerm: string) => {
@@ -82,7 +86,7 @@ const CommunityList: React.FC = () => {
             style={{ borderBottom: "1px solid black" }}
             key={post.id}
           >
-            {userInfo.current?.nickname === post.nickname ? (
+            {user?.nickname === post.nickname ? (
               editId === post.id ? (
                 <>
                   <textarea

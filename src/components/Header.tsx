@@ -10,33 +10,26 @@ import {
   Dropdown,
   DropdownMenu,
   Avatar,
+  Spinner,
 } from "@nextui-org/react";
 import { logout } from "@/hook/authService";
-import { User } from "@/types";
+import useUserInfo from "@/hook/detail-write-hook/useUserInfo";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const { isLoggedIn, user, authLogout, authLogin } = useAuthStore();
-
+  const { userInfo, isLoading } = useUserInfo();
+  const router = useRouter();
   useEffect(() => {
-    const getUserFromStorage = (): User | null => {
-      if (typeof window !== "undefined") {
-        // localStorage 액세스를 useEffect 후크 내부로 이동하여 클라이언트 측에서만 실행되도록
-        const userString = localStorage.getItem("user");
-        return userString ? JSON.parse(userString) : null;
-      }
-      return null;
-    };
-    const storedUser = getUserFromStorage();
-    if (storedUser) {
-      authLogin(storedUser);
-    }
-  }, [authLogin]);
+    authLogin(userInfo!);
+  }, [authLogin, userInfo]);
 
   const handleLogout = async () => {
     const confirmed = window.confirm("로그아웃 하시겠습니까?");
     if (confirmed) {
       try {
         await logout();
+        router.replace("/");
         authLogout();
         alert("로그아웃 되었습니다.");
       } catch (error) {
@@ -47,12 +40,24 @@ const Header = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="absolute top-0 left-0 bg-mainColor z-50">
+        <Spinner
+          size="lg"
+          color="primary"
+          className="flex justify-center items-center w-screen h-screen"
+        />
+      </div>
+    );
+  }
+
   return (
     <nav className="bg-blue-500 text-white px-4 py-2 flex justify-between items-center">
       <div className="flex items-center space-x-4">
         <Link href="/">
           <div className="bounce-on-hover">
-          <Image src={logo} alt="Logo" width={40} height={40} />
+            <Image src={logo} alt="Logo" width={40} height={40} />
           </div>
         </Link>
         <div className="flex flex-col">

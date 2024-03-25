@@ -1,7 +1,7 @@
 # 여행한탕 - Good Travel & Good Experience"
 
 <p align="center">
-  <img width = "25%" src="image-5.png" alt="logo">
+  <img width = "25%" src=src/assets/README/logo.png alt="logo">
 </p>
 <p align="center">
 여행을 함께 즐기고 그 경험을 즐겁게 소통하는 커뮤니티
@@ -161,13 +161,13 @@ $ yarn start
 
 ## 💻 화면 구성
 
-|       로그인 페이지        |        메인 페이지         |
-| :------------------------: | :------------------------: |
-|  ![LoginPage](image.png)   |  ![MainPage](image-6.png)  |
-|        상세 페이지         |      커뮤니티 페이지       |
-| ![DetailPage](image-1.png) | ![ReviewPage](image-7.png) |
-|        마이 페이지         |                            |
-| ![DetailPage](image-4.png) |                            |
+|                  로그인 페이지                  |                      메인 페이지                       |
+| :---------------------------------------------: | :----------------------------------------------------: |
+| ![LoginPage](src/assets/README/로그인화면.png)  |     ![MainPage](src/assets/README/메인페이지.png)      |
+|                   상세 페이지                   |                    커뮤니티 페이지                     |
+| ![DetailPage](src/assets/README/상세페이지.png) | ![ReviewPage](src/assets/README/커뮤니티%20페이지.png) |
+|                   마이 페이지                   |                                                        |
+| ![DetailPage](src/assets/README/마이페이지.png) |                                                        |
 
 ## 📦 주요 기능
 
@@ -280,8 +280,17 @@ $ yarn start
 </div>
 </details>
 <details>
-<summary> 추가 </summary>
+<summary> 이미지 핸들러 </summary>
 <div>
-여기에 내용
+
+1.  문제 상황 <br />
+    작성 페이지를 만드면서 react-quill 라이브러리를 활용하였는데 이미지 핸들러를 만들어서 원하는 방식으로 변경하는 것이 생각보다 어려웠습니다.
+    <br />
+
+2.  시도 <br />
+    게시글의 메인 사진을 처음 선택한 사진으로 설정하는 과정에서 에러가 발생했습니다. zustand로 만든 store를 활용해서 작성을 했지만 react-quill 자체에 다시 렌더링이 되지 않게 useMemo를 사용했는데 store를 사용하니 렌더링이 되어 발생한 에러였습니다.
+
+3.  해결방안 <br />
+url을 ref에 값을 저장한 다음에 react-quill 밖에서 스토어를 활용하여 url을 저장하고 그걸 게시글의 메인 이미지로 들어가게 하였습니다.이번 프로젝트를 하면서 제일 오랜시간동안 다뤘던 부분인거 같습니다.
 </div>
 </details>

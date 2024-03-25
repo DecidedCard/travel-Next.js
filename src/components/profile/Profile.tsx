@@ -1,26 +1,28 @@
 "use Client";
-import { UserInfo } from "@/types/writePage";
+import useUserInfo from "@/hook/detail-write-hook/useUserInfo";
+import useAuthStore from "@/store/authStore";
 import { supabase } from "@/util/supabase";
-import { Avatar, Button, CircularProgress, Input } from "@nextui-org/react";
+import {
+  Avatar,
+  Button,
+  CircularProgress,
+  Input,
+  Spinner,
+} from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { userInfo } from "os";
 import React, { useEffect, useState } from "react";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCameraSearch } from "react-icons/tb";
 
 const Profile = () => {
-  const [userInfo, setUserInfo] = useState<UserInfo>();
+  const { userInfo, isLoading } = useUserInfo();
   const [newNickName, setNewNickName] = useState("");
   const [isEditingNickName, setIsEditingNickName] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [isEditingImageUrl, setIsEditingImageUrl] = useState(false);
-
-  //유저 정보가져오기
-  useEffect(() => {
-    const User = localStorage.getItem("user");
-    if (User) {
-      setUserInfo(JSON.parse(User));
-    }
-  }, []);
+  const router = useRouter();
 
   const path = crypto.randomUUID();
   // 이미지파일 spabase에 업로드
@@ -80,11 +82,6 @@ const Profile = () => {
         if (uploadFiles) {
           const newImageUrl = getUrlImage();
           if (newImageUrl) {
-            localStorage.setItem(
-              "user",
-              JSON.stringify({ ...userInfo, avatar: newImageUrl })
-            );
-
             // Supabase 데이터베이스 업데이트
             const { data, error } = await supabase
               .from("users")
@@ -151,11 +148,6 @@ const Profile = () => {
       if (userUpdateError) {
         throw userUpdateError.message;
       }
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ ...userInfo, nickname: newNickName })
-      );
-
       // 관련 게시글의 닉네임 업데이트
       const { error: postUpdateError } = await supabase
         .from("posts")
@@ -179,6 +171,15 @@ const Profile = () => {
     }
   };
 
+  if (isLoading) {
+    return <Spinner size="lg" color="primary" />;
+  }
+
+  if (!userInfo) {
+    alert("로그인 후 이용해주시기 바랍니다.");
+    router.replace("/login");
+  }
+
   return (
     <div className="w-[500px] p-6 flex flex-col items-center border-r border-solid border-gray-300">
       {userInfo ? (
@@ -195,10 +196,10 @@ const Profile = () => {
         <Avatar
           isBordered
           color="default"
-          src={imageUrl || userInfo.avatar}
+          src={imageUrl || userInfo.avatar!}
           alt="유저프로필"
           id="profileImage"
-          className="w-[200px] h-[200px] rounded-full "
+          className="w-[200px] h-[200px] rounded-full -z-10"
         />
       ) : (
         <CircularProgress label="Loading..." />
@@ -224,8 +225,8 @@ const Profile = () => {
       ) : (
         <label htmlFor="profileImg">
           <TbCameraSearch
-            size={25}
-            className="cursor-pointer mt-[-10px] ml-[100px] order-1"
+            size={27}
+            className="cursor-pointer ml-28 -mt-7 bg-white rounded-full"
           />
         </label>
       )}
