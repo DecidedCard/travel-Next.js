@@ -1,6 +1,5 @@
 "use Client";
 import useUserInfo from "@/hook/detail-write-hook/useUserInfo";
-import useAuthStore from "@/store/authStore";
 import { supabase } from "@/util/supabase";
 import {
   Avatar,
@@ -10,8 +9,7 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { userInfo } from "os";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCameraSearch } from "react-icons/tb";
 
