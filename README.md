@@ -163,7 +163,7 @@ $ yarn start
 
 |       로그인 페이지        |        메인 페이지         |
 | :------------------------: | :------------------------: |
-|  ![LoginPage](image.png)   |  ![MainPage](image-6.png)  |
+|  ![LoginPage](https://github.com/DecidedCard/travel-Next.js/assets/152480392/2aebc16b-511a-432a-bba9-f8435f79183c)   |  ![MainPage](image-6.png)  |
 |        상세 페이지         |      커뮤니티 페이지       |
 | ![DetailPage](image-1.png) | ![ReviewPage](image-7.png) |
 |        마이 페이지         |                            |
