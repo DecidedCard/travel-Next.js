@@ -1,7 +1,7 @@
 # 여행한탕 - Good Travel & Good Experience"
 
 <p align="center">
-  <img width = "25%" src="image-5.png" alt="logo">
+  <img width = "25%" src="public/logo.png" alt="logo">
 </p>
 <p align="center">
 여행을 함께 즐기고 그 경험을 즐겁게 소통하는 커뮤니티
